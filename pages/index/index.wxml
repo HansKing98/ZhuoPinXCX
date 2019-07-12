@@ -1,0 +1,140 @@
+<!--background-->
+<image class='img-bg' src="../../image/bg.png" mode="aspectFill"></image>
+<!--business-->
+    <view class=" title row">
+      <view class="column"> 
+        <view class="business fonts">立方石油</view>
+        <view class="business fonts_little">2019千人招聘会</view>
+      </view>
+      <image class="logo" src="https://ss0.baidu.com/73t1bjeh1BF3odCf/it/u=2557391960,3928063984&fm=85" />
+    </view>
+
+<!--公司福利-->
+    <view class="fuli">
+      <view class="column">
+        <view class="row">
+          <view class="fonts_fuli grace-icons icon-time2">上午9:00-下午6:00</view>
+          <view class="fonts_fuli grace-icons icon-scancode"> 双休</view>
+          <view class="fonts_fuli grace-icons icon-position"> 偶尔加班</view>
+        </view>
+        <!-- 滑动 -->
+        <view class="huadong">
+          <view class="grace-padding weizhi">
+            <movable-area>
+              <movable-view direction="horizontal">
+                <view class="row">
+                  <view class="fuli_box ">
+                    <view class="juzhong fonts_fuli2 grace-icons icon-face"> 餐补</view>
+                  </view>
+                  <view class="fuli_box">
+                    <view class="juzhong fonts_fuli2 grace-icons icon-face"> 交通补助</view>
+                  </view>
+                  <view class="fuli_box">
+                    <view class="juzhong fonts_fuli2 grace-icons icon-face"> 住房补贴</view>
+                  </view>
+                  <view class="fuli_box">
+                    <view class="juzhong fonts_fuli2 grace-icons icon-face"> 零食下午茶</view>
+                  </view>
+                </view>
+              </movable-view>
+            </movable-area>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!--公司介绍-->
+    <view class="jieshao">
+      <view class="fonts_jieshao">公司介绍</view>
+      <view class="fonts_jieshao2">公司主要经营石油技术人员产出，大专以上学历均可应聘，欢迎参加本次面试</view>
+    </view>
+
+    <!-- 公司照片 -->
+    <view class="zhaopian">
+      <view class="fonts_jieshao">公司图片</view>
+      <view class="huadong">
+        <view class="grace-padding weizhi">
+          <movable-area>
+            <movable-view direction="horizontal">
+              <view class="row">
+                <view class="zhaopian_box ">
+                  <image class="zhaop" src="http://img4.imgtn.bdimg.com/it/u=584014825,1082729409&fm=26&gp=0.jpg"></image>
+                </view>
+                <view class="zhaopian_box">
+                  <image class="zhaop" src="http://img2.imgtn.bdimg.com/it/u=2585530007,3350353081&fm=26&gp=0.jpg"></image>
+                </view>
+                <view class="zhaopian_box">
+                  <image class="zhaop" src="http://img1.imgtn.bdimg.com/it/u=2193264712,516354033&fm=26&gp=0.jpg"></image>
+                </view>
+                <view class="zhaopian_box">
+                  <image class="zhaop" src="http://img4.imgtn.bdimg.com/it/u=3279288964,2219070232&fm=26&gp=0.jpg"></image>
+                </view>
+              </view>
+            </movable-view>
+          </movable-area>
+        </view>
+      </view>
+    </view>
+
+<!--button-->
+<view class="btn grace-gtbg-blue" bindtap="powerDrawer" data-statu="open">{{anniu}}</view>
+<!--mask-->
+<view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view>
+<!--content-->
+<!--使用animation属性指定需要执行的动画-->
+<view animation="{{animationData}}" class="drawer_attr_box" wx:if="{{showModalStatus}}">
+  <!--drawer content-->
+  <view class="drawer_content">
+          <view class="grace-margin">
+            <form bindsubmit="formSubmit" class="grace-form" style="margin-top:20px;">
+              <view class="grace-items">
+                <view class="grace-label">姓名</view>
+                <input type="text" class="input" name="nickname" value="{{nickname}}" />
+              </view>
+              <view class="grace-items">
+                <view class="grace-label">性别</view>
+                <view class="other">
+                  <picker bindchange="bindPickerChangegender" value="{{gender[genderIndex]}}" range="{{gender}}" name="gender">
+                    <text>{{gender[genderIndex]}}</text>
+                  </picker>
+                </view>
+              </view>
+              <view class="grace-items">
+                <view class="grace-label">最高学历</view>
+                <view class="other">
+                  <picker bindchange="bindPickerChangeEducation" value="{{Education[EducationIndex]}}" range="{{Education}}" name="Education">
+                    <text>{{Education[EducationIndex]}}</text>
+                  </picker>
+                </view>
+              </view>
+              <view class="grace-items">
+                <view class="grace-label">专业</view>
+                <input type="text" class="input" name="major" value="{{major}}" />
+              </view>
+              <view class="grace-items">
+                <view class="grace-label">出生年月</view>
+                <view class="other">
+                  <picker bindchange="bindDateChange" value="{{dateValue}}" mode="date" name="bd" start="1960-01-01" end="2019-12-31">
+                    <text>{{dateValue}}</text>
+                  </picker>
+                </view>
+              </view>
+              <view class="grace-items">
+                <view class="grace-label">介绍</view>
+                <input type="text" class="input" name="intro" value="{{intro}}"/>
+              </view>
+              <view class="grace-items grace-noborder">
+                <view class="grace-label">电子邮箱</view>
+                <input type="text" class="input" name="email" value="{{email}}" />
+              </view>
+              <view class="grace-items grace-noborder">
+                <view class="grace-label">手机号</view>
+                <input type="text" class="input" name="phone" value="{{phone}}" />
+              </view>
+              <view style="padding:22rpx 0;">
+                <button formType="submit" type="primary" style="width:100%;">{{tijiaoanniu}}</button>
+              </view>
+            </form>
+          </view>
+  </view>
+</view> 
