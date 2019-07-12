@@ -104,43 +104,96 @@ Page({
       wx.showToast({ title: graceChecker.error, icon: "none" });
     }
 
-    wx.request({
-      url: 'http://hr.biuwk.com/index.php/Superadmin/personadd.html',
-      data: {
-        // 'name': '王昊',
-        // 'sex': '男',
-        // 'education': e.detail.value.Education,
-        // 'major': e.detail.value.major,
-        // 'age': 19,
-        // 'intro': e.detail.value.intro,
-        // 'email': 'email',
-        // 'phone': e.detail.value.phone,
-        // 'addTime':1561633108,
+    // wx.request({
+    //   url: 'http://hr.test.getkin.cn/Wx/ResumeAdd',
+    //   data: {
+    //     'name': e.detail.value.nickname,
+    //     'sex': '男',
+    //     'education': e.detail.value.Education,
+    //     'major': e.detail.value.major,
+    //     'age': 19,
+    //     'intro': e.detail.value.intro,
+    //     'email': 'email',
+    //     'phone': e.detail.value.phone,
+    //     'addTime':1561633108,
 
-        // 'name':'王昊',
-        // 'email':'66',
-        // 'age':'19',
-        // 'phone':'66',
-        // "qq":"",
-        // "wechat":"",
-        // 'dingding' :"",
-        // 'intro':'',
-        // 'addTime' : '1561633108',
-        // 'pic':'/Uploads/images /',
-        // 'sex':'男',
-        // 'education' :'去',
-        // 'major':'a'
-      },
-      method: 'POST',
-      header: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'cookie': 'PHPSESSID=9kvc5uc515j5u5kmnln8cbgi21'
-      },
-      success: function (res) {
-        // console.log(formData);
-        // console.log(res.data)
-      }
-    })
+    //     // 'name':'王昊',
+    //     // 'email':'66',
+    //     // 'age':'19',
+    //     // 'phone':'66',
+    //     // "qq":"",
+    //     // "wechat":"",
+    //     // 'dingding' :"",
+    //     // 'intro':'',
+    //     // 'addTime' : '1561633108',
+    //     // 'pic':'/Uploads/images /',
+    //     // 'sex':'男',
+    //     // 'education' :'去',
+    //     // 'major':'a'
+    //   },
+      
+    //   method: 'POST',
+    //   header: {
+    //     'Content-Type': 'application/x-www-form-urlencoded',
+    //     'cookie': 'PHPSESSID=9kvc5uc515j5u5kmnln8cbgi21'
+    //   },
+    //   success: function (res) {
+    //     // console.log(formData);
+    //     // console.log(res.data)
+    //     console.log(data);
+    //   }
+    // }),
 
+
+      wx.request({
+
+        url: 'http://hr.test.getkin.cn/Wx/ResumeAdd', //  数据传到的地址
+
+        data: {
+          'name': e.detail.value.nickname,
+          'sex': e.detail.value.gender,
+          'education': e.detail.value.Education,
+          'major': e.detail.value.major,
+          'age': 19,
+          'intro': e.detail.value.intro,
+          'email': e.detail.value.email,
+          'phone': e.detail.value.phone,
+        },//传入的数据
+
+        method: 'POST',
+
+        header: {// 设置请求的 header
+
+          'content-type': 'application/x-www-form-urlencoded'   //这是传输方式为post的写法 ； 如果是get 则是'Content-Type': 'application/json'
+
+        },
+
+        success: function (res) {
+
+          console.log(JSON.stringify(res.data))
+
+          wx.showModal({      //提交成功 ，弹框
+
+            content: '提交成功',
+
+            success: function (res) {
+              console.log(res)
+
+              if (res.confirm) {   //如果点击弹框的确认则进行下面的操作
+
+                // wx.navigateTo({
+
+                //   url: '../orderlist/orderlist',
+
+                // })
+
+              }
+
+            }
+
+          })
+
+        }
+      })
   }
 })
