@@ -1,4 +1,0 @@
-<view class="grace-header" style="top:{{topVal}}; background:{{background}}; height:{{height}};">
-  <slot></slot>
-</view>
-<view style="height:{{height}}; margin-top:{{topVal}};"></view>

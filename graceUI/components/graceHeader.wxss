@@ -1,2 +1,0 @@
-/* graceUI/components/graceHeader.wxss */
-.grace-header{width:100%; position:fixed; left:0; z-index:99; height:44px;}
