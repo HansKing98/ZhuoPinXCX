@@ -1,12 +1,13 @@
 <template>
   <swiper
-    class="swiper-box"
+    class = 'swiper-box' :class="[classC]"
     :indicator-dots="indicatorDots"
     :indicatorColor="indicatorColor"
     :indicatorActiveColor="indicatorActiveColor"
     :autoplay="autoplay"
     :interval="interval"
     :duration="duration"
+    :style='{height: height}'
   >
     <block v-for="(item, index) in images" :key="index" >
       <swiper-item>
@@ -17,7 +18,7 @@
 </template>
 
 <script>
-let theModuleName = "components/swiper";
+// let theModuleName = 'components/swiper'
 export default {
   props: {
     images: Array,
@@ -25,28 +26,38 @@ export default {
       type: String,
       default: '400rpx'
     },
+    classC: {
+      type: String,
+      default: 'swiper-box'
+    }
   },
-  data() {
+  data () {
     return {
-      indicatorColor: "rgba(255,255,255,0.5)",
-      indicatorActiveColor: "rgba(255,255,255,1)",
+      indicatorColor: 'rgba(255,255,255,0.5)',
+      indicatorActiveColor: 'rgba(255,255,255,1)',
       indicatorDots: true,
       autoplay: true,
       interval: 3000,
       duration: 500
-    };
+    }
   }
-};
+}
 </script>
 
 <style>
 .swiper-box {
   background: #eee;
-  height: 400rpx !important;
 }
 /*wx隐藏类*/
 .swiper-box .wx-swiper-dots.wx-swiper-dots-horizontal {
   margin-bottom: 30rpx;
+  /*background: #000;*/
+}
+/*.swiper-box-goods-detail{
+  height: 600rpx ;
+}*/
+.swiper-box-goods-detail .wx-swiper-dots.wx-swiper-dots-horizontal {
+  margin-bottom: -10rpx;
   /*background: #000;*/
 }
 /*点样式*/

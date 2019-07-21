@@ -1,15 +1,26 @@
 {
 	"description": "项目配置文件。",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": false,
 		"postcss": true,
 		"minified": true,
-		"newFeature": true
+		"newFeature": true,
+		"coverView": true,
+		"autoAudits": true,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"uglifyFileName": true
 	},
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
-	"appid": "touristappid",
+	"appid": "wx9217cccd75825cff",
 	"projectname": "%E5%8D%93%E8%81%98%E7%BD%91%E7%BB%9C%E7%A7%91%E6%8A%80-%E6%8B%9B%E8%81%98%E5%B9%B3%E5%8F%B0",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
