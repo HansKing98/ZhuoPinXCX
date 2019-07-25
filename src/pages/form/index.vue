@@ -189,9 +189,10 @@ page{
 <style scoped>
 .card {
   width: 690rpx;
-  height: 100vh;
+  height: 100%;
   margin: 50rpx 30rpx;
   background-color: white;
+  border-radius: 30rpx;
 }
 .section{
   display: flex;
