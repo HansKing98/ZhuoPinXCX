@@ -1,20 +1,34 @@
 <template>
   <div>
-    <navbar title='展示'></navbar>
+    <navbar title='推荐人' :btL=false></navbar>
     <div class="page">
       <div class="card">
         <div class="top">
           <div>您的职位推荐人</div>
-          <div>
-            <img src="http://pic41.nipic.com/20140508/18609517_112216473140_2.jpg" alt="">
+          <div>猎头</div>
+          <div class="head">
+            <img src="/static/images/user.png" alt="">
           </div>
+          <div class="vip">专属猎头</div>
           <div class="name">
-            余尚坤
+            {{invDatahans.name}}
           </div>
         </div>
         <div class="bottom">
-          <button>确认</button>
-          <button>信息有误</button>
+          <bt
+            text="确认"
+            type="primary"
+            width="400rpx"
+            height="80rpx"
+            margin="0 0 0 0"
+          ></bt>
+           <bt
+            text="信息有误"
+            type="white"
+            width="400rpx"
+            height="80rpx"
+            margin="0 0 0 0"
+          ></bt>
         </div>
       </div>
     </div>
@@ -23,38 +37,41 @@
 
 <script>
 import navbar from '@/components/navbar'
-import bt from "@/components/bt";
+import bt from '@/components/bt'
 
 export default {
   data () {
     return {
-      name :'邀请人'
+      invDatahans: [{
+        name: '未获取',
+        statu: '获取失败'
+      }],
     }
   },
   components: {
-    navbar
+    navbar, bt
   },
   methods: {
 
   },
   onLoad () {
-    mpvue.request({
-      url: 'http://hr.test.getkin.cn/Wx/GetName', //仅为示例，并非真实的接口地址
-      method: "POST",
-      data: {
-        owner: '34'
-      },
-      dataType:JSON,
-      header: {
-        'content-type': "application/x-www-form-urlencoded" // 默认值
-      },
-      success (res) {
-        console.log('原始', res)
-        // console.log(array);
-        
-        // JSON.parse(res.data)
-      }
-    })
+    getInvite: {
+      this.$httpWX.post({
+        url: '/GetName',
+        header: {
+          'content-type': "application/x-www-form-urlencoded" // 默认值
+        },
+        data: {
+          owner: '1'
+        }
+      }).then(res => {
+        let detail = res
+        let detailMatch = detail.match(/\{[^\}]+\}/)[0]
+        let detailMatchJSON = JSON.parse(detailMatch)
+        this.invDatahans = detailMatchJSON
+        console.log(this.invDatahans)
+      })
+    }
   },
   created () {
     // let app = getApp()
@@ -64,7 +81,8 @@ export default {
 
 <style lang="wxss">
 page{
-  background-color: #ecf9f7;
+  background-color: white;
+  font-size: 18px;
 }
 </style>
 
@@ -84,6 +102,7 @@ page{
   border-radius: 30rpx;
   margin: 20rpx 0;
   padding: 30rpx;
+  /* box-shadow: 3rpx 3rpx 10rpx rgba(75, 207, 250, 0.3); */
 }
 .top{
   display: flex;
@@ -92,22 +111,26 @@ page{
   justify-content: center;
   height: 400rpx
 }
+.vip{
+  font-size: 12px;
+  color: #ee5253;
+}
 .bottom{
   display: flex;
   flex-direction: column;
+  justify-content:space-around;
   align-items: center;
-  height: 500rpx
+  height: 200rpx;
 }
-img{
+.head{
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;;
+  border:1px solid #d2dae2;
+}
+.head img{
   width: 120rpx;
   height: 120rpx;
   border-radius: 50%;
-}
-button{
-  width: 300rpx;
-  height: 70rpx;
-  border-radius: 35rpx;
-  margin-bottom: 20rpx;
-  background-color: rgb(255, 255, 255);
 }
 </style>

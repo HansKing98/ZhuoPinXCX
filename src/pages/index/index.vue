@@ -1,21 +1,21 @@
 <template>
   <div>
-    <navbar title='首页'></navbar>
+    <navbar title='首页' :btL=false></navbar>
     <swiper :images='images'></swiper>
     <!-- 金刚区 -->
     <div class="show">
       <div class="jobs">
-        <div class="job" v-for="(item, index) in jobs" :key="index">
-          <img :src="item.image" alt="">
+        <div class="job" v-for="(item, index) in positions" :key="index" @click="goNav_job($event)">
+          <img src="http://img4.imgtn.bdimg.com/it/u=1884062997,2204223769&fm=26&gp=0.jpg" alt="">
           <div class="detail">
-            <div class="company">{{item.name}}</div>
-            <div class="position">{{item.position}}</div>
+            <div class="company">{{item.customername}}</div>
+            <div class="position">{{item.positionname}}</div>
             <div class="salary_people">
               <div class="salary">
-                薪资:<text>{{item.salary}}</text> 
+                薪资:<text>12k-17k</text> 
               </div>
               <div class="people">
-                人数:<text>{{item.people}}</text>
+                人数:<text>5</text>
               </div>
             </div>
           </div>
@@ -29,52 +29,16 @@
 <script>
 import navbar from '@/components/navbar'
 import swiper from '@/components/swiper'
-import bt from "@/components/bt";
+import bt from '@/components/bt'
 
 export default {
   data () {
     return {
       images: [
         { url: 'https://ww3.sinaimg.cn/bmiddle/836923c4gy1g57fnjjlxwj22c0340hdt.jpg' },
-        { url: 'https://ww4.sinaimg.cn/bmiddle/87b1226cly1g57fmojxpxj24mo334b2n.jpg' },
+        { url: 'https://ww4.sinaimg.cn/bmiddle/87b1226cly1g57fmojxpxj24mo334b2n.jpg' }
       ],
-      jobs:[{
-      image:'http://img4.imgtn.bdimg.com/it/u=1884062997,2204223769&fm=26&gp=0.jpg',
-      name:'立方石油有限公司',
-      position:'长期从事石油相关工作，就职于海上石油平台，年薪10w',
-      salary:'12k-17k',
-      people:5
-    },{
-      image:'http://img4.imgtn.bdimg.com/it/u=1884062997,2204223769&fm=26&gp=0.jpg',
-      name:'立方石油有限公司',
-      position:'长期从事石油相关工作，就职于海上石油平台，年薪10w',
-      salary:'12k-17k',
-      people:15
-    },{
-      image:'http://img4.imgtn.bdimg.com/it/u=1884062997,2204223769&fm=26&gp=0.jpg',
-      name:'立方石油有限公司',
-      position:'长期从事石油相关工作，就职于海上石油平台，年薪10w',
-      salary:'12k-17k',
-      people:13
-    },{
-      image:'http://img4.imgtn.bdimg.com/it/u=1884062997,2204223769&fm=26&gp=0.jpg',
-      name:'立方石油有限公司',
-      position:'长期从事石油相关工作，就职于海上石油平台，年薪10w',
-      salary:'12k-17k',
-      people:15
-    },{
-      image:'http://img4.imgtn.bdimg.com/it/u=1884062997,2204223769&fm=26&gp=0.jpg',
-      name:'立方石油有限公司',
-      position:'长期从事石油相关工作，就职于海上石油平台，年薪10w',
-      salary:'12k-17k',
-      people:15
-    },{
-      image:'http://img4.imgtn.bdimg.com/it/u=1884062997,2204223769&fm=26&gp=0.jpg',
-      name:'立方石油有限公司',
-      position:'长期从事石油相关工作，就职于海上石油平台，年薪10w',
-      salary:'12k-17k',
-      people:15
-    }]
+      positions:{}
     }
   },
   props: {
@@ -84,9 +48,32 @@ export default {
     navbar, swiper, bt
   },
   methods: {
-
+    goNav_job (i) {
+      mpvue.navigateTo({ url: '/pages/form/main' })
+    }
   },
+  onLoad () {
+    getInvite: {
+      this.$httpWX.get({
+        url: '/GetPosition',
+        header: {
+          'Content-type': 'application/json' // 默认值
+        },
+      }).then(res => {
+        let detail = res
+        // console.log(res)
 
+        // var regex1 = /\((.+?)\)/g;  // () 小括号
+        // var regex2 = /\[(.+?)\]/g;  // [] 中括号
+        // var regex3 = /\{(.+?)\}/g; // {} 花括号，大括号
+
+        let detailMatch = detail.match(/\[(.+?)\]/g)[0]
+        let detailMatchJSON = JSON.parse(detailMatch)
+        this.positions =  detailMatchJSON
+        console.log('职位列表', this.positions)
+      })
+    }
+  },
   created () {
     // let app = getApp()
   }
@@ -125,7 +112,7 @@ page{
   margin: 10rpx 0;
   border-radius: 30rpx;
   padding: 0 10rpx;
-  box-shadow: 3rpx 3rpx 10rpx #81ecec;
+  box-shadow: 3rpx 3rpx 10rpx rgba(75, 207, 250, 0.5);
 }
 img{
   width: 250rpx;
@@ -141,13 +128,13 @@ img{
   height: 230rpx;
   padding: 10rpx;
 }
-.company{
+/* .company{
   color: #02d5b7;
-  /* background-color: #d7ffff; */
+  background-color: #d7ffff;
 }
 .position{
-  /* background-color: #75ffff; */
-}
+  background-color: #75ffff;
+} */
 .salary_people{
   /* background-color: #d9ffff; */
   display:flex;

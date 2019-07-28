@@ -108,7 +108,7 @@
 
 <script>
 import navbar from '@/components/navbar'
-import bt from "@/components/bt";
+import bt from '@/components/bt'
 
 export default {
   data () {
@@ -117,7 +117,7 @@ export default {
         {name: '男', value: '男'},
         {name: '女', value: '女'}
       ],
-      sexChoose:''
+      sexChoose: ''
     }
   },
   components: {
@@ -125,53 +125,52 @@ export default {
   },
   methods: {
     formSubmit: function (e) {
-        wx.request({
-          url: 'http://hr.test.getkin.cn/Wx/ResumeAdd', //  数据传到的地址
-          data: {
-            'name': e.mp.detail.value.name,
-            'sex': e.mp.detail.value.sex,
-            'nation': e.mp.detail.value.nation,
-            'idcard':  e.mp.detail.value.idcard,
-            'school': e.mp.detail.value.school,
-            'education': e.mp.detail.value.education,
-            'major': e.mp.detail.value.major,
-            'graduationtime': e.mp.detail.value.graduationtime,
-            'englishlevel': e.mp.detail.value.englishlevel,
-            'liveplace': e.mp.detail.value.liveplace,
-            'birthplace': e.mp.detail.value.birthplace,
-            'email': e.mp.detail.value.email,
-            'phone': e.mp.detail.value.phone,
-            'wechat': e.mp.detail.value.wechat,
-            'qq': e.mp.detail.value.qq,
-            'intro': e.mp.detail.value.intro,
-          },//传入的数据
-          method: 'POST',
-          header: {// 设置请求的 header
-            'content-type': 'application/x-www-form-urlencoded'   //这是传输方式为post的写法 ； 如果是get 则是'Content-Type': 'application/json'
-          },
-          success: function (res) {
-            console.log('e',e)
+      wx.request({
+        url: 'http://hr.test.getkin.cn/Wx/ResumeAdd', //  数据传到的地址
+        data: {
+          'name': e.mp.detail.value.name,
+          'sex': e.mp.detail.value.sex,
+          'nation': e.mp.detail.value.nation,
+          'idcard': e.mp.detail.value.idcard,
+          'school': e.mp.detail.value.school,
+          'education': e.mp.detail.value.education,
+          'major': e.mp.detail.value.major,
+          'graduationtime': e.mp.detail.value.graduationtime,
+          'englishlevel': e.mp.detail.value.englishlevel,
+          'liveplace': e.mp.detail.value.liveplace,
+          'birthplace': e.mp.detail.value.birthplace,
+          'email': e.mp.detail.value.email,
+          'phone': e.mp.detail.value.phone,
+          'wechat': e.mp.detail.value.wechat,
+          'qq': e.mp.detail.value.qq,
+          'intro': e.mp.detail.value.intro
+        }, // 传入的数据
+        method: 'POST',
+        header: {// 设置请求的 header
+          'content-type': 'application/x-www-form-urlencoded'   // 这是传输方式为post的写法 ； 如果是get 则是'Content-Type': 'application/json'
+        },
+        success: function (res) {
+          console.log('e', e)
 
-            console.log(JSON.stringify(res.data))
-            wx.showModal({      //提交成功 ，弹框
-              content: '提交成功',
-              success: function (res) {
-                console.log('res',res)
-                if (res.confirm) {   //如果点击弹框的确认则进行下面的操作
-                  // wx.navigateTo({
-                  //   url: '../orderlist/orderlist',
-                  // })
-                }
+          console.log(JSON.stringify(res.data))
+          wx.showModal({      // 提交成功 ，弹框
+            content: '提交成功',
+            success: function (res) {
+              console.log('res', res)
+              if (res.confirm) {   // 如果点击弹框的确认则进行下面的操作
+                // wx.navigateTo({
+                //   url: '../orderlist/orderlist',
+                // })
               }
-            })
-
-          }
-        })
+            }
+          })
+        }
+      })
     },
     radioChange: function (e) {
-      console.log('e',e);
-      this.sexChoose = e.mp.detail.value ;
-    },
+      console.log('e', e)
+      this.sexChoose = e.mp.detail.value
+    }
   },
 
   created () {
@@ -182,7 +181,7 @@ export default {
 
 <style lang="wxss">
 page{
-  background-color: #ecf9f7;
+  background-color: white;
 }
 </style>
 
@@ -193,6 +192,7 @@ page{
   margin: 50rpx 30rpx;
   background-color: white;
   border-radius: 30rpx;
+  box-shadow: 3rpx 3rpx 10rpx rgba(75, 207, 250, 0.3);
 }
 .section{
   display: flex;

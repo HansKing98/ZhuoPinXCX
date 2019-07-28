@@ -11,23 +11,23 @@
 </template>
 
 <script>
-import common from "@/utils/common";
-let theModuleName = "components/bt";
+// import common from '@/utils/common'
+// let theModuleName = 'components/bt'
 export default {
   props: {
     text: {
       type: String,
-      default: "确定"
+      default: '确定'
     },
     id: String,
     type: String,
     width: {
       type: String,
-      default: "120rpx"
+      default: '120rpx'
     },
     height: {
       type: String,
-      default: "50rpx"
+      default: '50rpx'
     },
     formType: String,
     openType: String,
@@ -38,12 +38,12 @@ export default {
     },
     fontSize: {
       type: String,
-      default: "13px"
+      default: '13px'
     },
     margin: String
   },
   methods: {}
-};
+}
 </script>
 
 <style>
@@ -57,15 +57,16 @@ button {
   letter-spacing: 0;
   text-align: center;
   padding: 0;
+  flex-shrink: 0;
 }
-.button-hover {
-}
+/* .button-hover {
+} */
 button::after {
   border: 0;
 }
 button.primary {
   color: #fff;
-  background: #ff4666;
+  background: #2e86de;
 }
 button.white {
   color: #ff4666;
@@ -74,6 +75,21 @@ button.white {
 }
 button.cart {
   color:  #FFFFFF;
-  background: #01D5B6;
+  background: rgb(235, 167, 206);
+}
+button.radio {
+  color: #202020;
+  width: 150rpx;
+  height: 50rpx;
+  background: #EEFAF8;
+  border-radius: 25rpx;
+}
+button.radio_act {
+  color: #202020;
+  width: 150rpx;
+  height: 50rpx;
+  background: #FFEDF0 ;
+  border: #FF4666 solid 2rpx;
+  border-radius: 25rpx;
 }
 </style>

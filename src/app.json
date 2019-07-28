@@ -2,7 +2,8 @@
   "pages": [
     "pages/index/main",
     "pages/form/main",
-    "pages/show/main"
+    "pages/show/main",
+    "pages/my/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -12,8 +13,8 @@
     "navigationStyle": "custom"
   },
   "tabBar": {
-    "color": "#666666",
-    "selectedColor": "#02d5b7",
+    "color": "#b2bec3",
+    "selectedColor": "#0fbcf9",
     "list": [{
       "pagePath": "pages/index/main",
       "text": "首页",
@@ -25,8 +26,8 @@
       "iconPath": "/static/icon/show.png",
       "selectedIconPath": "/static/icon/show_a.png"
     }, {
-      "pagePath": "pages/form/main",
-      "text": "表单",
+      "pagePath": "pages/my/main",
+      "text": "我的",
       "iconPath": "/static/icon/edit.png",
       "selectedIconPath": "/static/icon/edit_a.png"
     }]
