@@ -1,19 +1,21 @@
 <template>
   <div>
     <navbar title='我的' :btL=false></navbar>
-      <div class="top">
-              <div class="user">
-                  <button class="avatar"  @tap='tapEvent' id="icon">
-                    <open-data type="userAvatarUrl" ></open-data>
-                  </button>
-                 <div class="name">
-                  <open-data type="userNickName" ></open-data>
-                  <button>经验：0</button>
-                 </div>
-              </div>
-      </div>
+
+    <div class="top">
+            <div class="user">
+                <button class="avatar"  @tap='tapEvent' id="icon">
+                  <open-data type="userAvatarUrl" ></open-data>
+                </button>
+                <div class="name">
+                <open-data type="userNickName" ></open-data>
+                <button>经验：0</button>
+                </div>
+            </div>
+    </div>
+
     <div class="orders">
-      <div class="Titel">电商订单</div>
+      <div class="Titel">所有进程</div>
       <div class="Line"></div>
       <div class="Btns">
         <div class="Btn" v-for="(item, index) in orders" :key="index" @click="tap(item)">
@@ -22,6 +24,18 @@
         </div>
       </div>
     </div>
+
+    <div class="orders">
+      <div class="Titel">所有进程</div>
+      <div class="Line"></div>
+      <div class="Btns">
+        <div class="Btn" v-for="(item, index) in mores" :key="index" @click="tap(item)">
+          <img :src="item.url" alt="">
+          <text>{{item.text}}</text>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -36,11 +50,15 @@ export default {
       USERavatarUrl: 'http://pic41.nipic.com/20140508/18609517_112216473140_2.jpg',
       USERnickName: '授权登录',
       orders: [
-        { text: '待付款', url: '/static/images/my/daifukuan.png' },
-        { text: '待发货', url: '/static/images/my/daifahuo.png' },
-        { text: '待收货', url: '/static/images/my/daishouhuo.png' },
-        { text: '全部订单', url: '/static/images/my/quanbu.png' }
-      ]
+        { text: '已投递', url: '/static/images/my/ytd.png' },
+        { text: '已查阅', url: '/static/images/my/ycy.png' },
+        { text: '待面试', url: '/static/images/my/dms.png' },
+        { text: '面试完成', url: '/static/images/my/mswc.png' }
+      ],
+      mores: [
+        { text: '更多', url: '/static/images/my/ytd_act.png' },
+        { text: '客服', url: '/static/images/my/mswcact.png' },
+        ]
     }
   },
 

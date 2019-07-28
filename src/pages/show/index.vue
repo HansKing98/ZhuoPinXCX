@@ -62,7 +62,7 @@ export default {
           'content-type': "application/x-www-form-urlencoded" // 默认值
         },
         data: {
-          owner: '1'
+          owner: '43'
         }
       }).then(res => {
         let detail = res

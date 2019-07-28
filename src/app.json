@@ -18,8 +18,8 @@
     "list": [{
       "pagePath": "pages/index/main",
       "text": "首页",
-      "iconPath": "/static/icon/edit.png",
-      "selectedIconPath": "/static/icon/edit_a.png"
+      "iconPath": "/static/tabs/yun.png",
+      "selectedIconPath": "/static/tabs/yun_act.png"
     }, {
       "pagePath": "pages/show/main",
       "text": "展示",
@@ -28,8 +28,8 @@
     }, {
       "pagePath": "pages/my/main",
       "text": "我的",
-      "iconPath": "/static/icon/edit.png",
-      "selectedIconPath": "/static/icon/edit_a.png"
+      "iconPath": "/static/tabs/my.png",
+      "selectedIconPath": "/static/tabs/my_act.png"
     }]
   }
 }

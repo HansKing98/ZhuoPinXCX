@@ -66,7 +66,7 @@ button::after {
 }
 button.primary {
   color: #fff;
-  background: #2e86de;
+  background: #0fbcf9;
 }
 button.white {
   color: #ff4666;
