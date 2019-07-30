@@ -3,7 +3,8 @@
     "pages/index/main",
     "pages/form/main",
     "pages/show/main",
-    "pages/my/main"
+    "pages/my/main",
+    "pages/news/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -21,8 +22,8 @@
       "iconPath": "/static/tabs/yun.png",
       "selectedIconPath": "/static/tabs/yun_act.png"
     }, {
-      "pagePath": "pages/show/main",
-      "text": "展示",
+      "pagePath": "pages/news/main",
+      "text": "资讯",
       "iconPath": "/static/icon/show.png",
       "selectedIconPath": "/static/icon/show_a.png"
     }, {

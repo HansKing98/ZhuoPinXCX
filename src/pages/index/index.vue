@@ -1,21 +1,21 @@
 <template>
   <div>
-    <navbar title='首页' :btL=false></navbar>
+    <navbar title='畅校园' :btL=false></navbar>
     <swiper :images='images'></swiper>
     <!-- 金刚区 -->
     <div class="show">
       <div class="jobs">
         <div class="job" v-for="(item, index) in positions" :key="index" @click="goNav_job($event)">
-          <img src="http://img4.imgtn.bdimg.com/it/u=1884062997,2204223769&fm=26&gp=0.jpg" alt="">
+          <img :src="item.url" alt="" mode='aspectFill'>
           <div class="detail">
             <div class="company">{{item.customername}}</div>
             <div class="position">{{item.positionname}}</div>
             <div class="salary_people">
               <div class="salary">
-                薪资:<text>12k-17k</text> 
+                薪资:<text>{{item.salary}}</text> 
               </div>
               <div class="people">
-                人数:<text>5</text>
+                人数:<text>{{item.people}}</text>
               </div>
             </div>
           </div>
@@ -35,8 +35,8 @@ export default {
   data () {
     return {
       images: [
-        { url: 'https://ww3.sinaimg.cn/bmiddle/836923c4gy1g57fnjjlxwj22c0340hdt.jpg' },
-        { url: 'https://ww4.sinaimg.cn/bmiddle/87b1226cly1g57fmojxpxj24mo334b2n.jpg' }
+        { url: '/static/images/banner/banner1.jpg' },
+        { url: '/static/images/banner/banner2.jpg' }
       ],
       positions:{}
     }
@@ -112,6 +112,7 @@ page{
   margin: 10rpx 0;
   border-radius: 30rpx;
   padding: 0 10rpx;
+  border: 1px solid #74b9ff;
   box-shadow: 3rpx 3rpx 10rpx rgba(75, 207, 250, 0.5);
 }
 img{
@@ -128,11 +129,13 @@ img{
   height: 230rpx;
   padding: 10rpx;
 }
-/* .company{
-  color: #02d5b7;
-  background-color: #d7ffff;
+.company{
+  width: 50%;
+  color: #0984e3;
+  border-bottom: 2px solid #74b9ff;
+  /* background-color: #d7ffff; */
 }
-.position{
+/* .position{
   background-color: #75ffff;
 } */
 .salary_people{
