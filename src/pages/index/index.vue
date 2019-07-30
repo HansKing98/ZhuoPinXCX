@@ -5,7 +5,7 @@
     <!-- 金刚区 -->
     <div class="show">
       <div class="jobs">
-        <div class="job" v-for="(item, index) in positions" :key="index" @click="goNav_job($event)">
+        <div class="job" v-for="(item, index) in positions" :key="index" @click="goNav_intojob($event)" @tap='tap(item)'>
           <img :src="item.url" alt="" mode='aspectFill'>
           <div class="detail">
             <div class="company">{{item.customername}}</div>
@@ -48,8 +48,15 @@ export default {
     navbar, swiper, bt
   },
   methods: {
-    goNav_job (i) {
-      mpvue.navigateTo({ url: '/pages/form/main' })
+    goNav_intojob (e) {
+      mpvue.navigateTo({ url: '/pages/index/intoJob/main' })
+    },
+    tap (e) {
+      // 收到 e 为选中的职位
+      // 改变全局变量' jpbSelected '
+      // console.log('eee', e);
+      
+      this.$store.commit('jobChange', e)
     }
   },
   onLoad () {

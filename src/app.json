@@ -4,7 +4,8 @@
     "pages/form/main",
     "pages/show/main",
     "pages/my/main",
-    "pages/news/main"
+    "pages/news/main",
+    "pages/index/intoJob/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -25,7 +25,17 @@ export default new Vuex.Store({
     carts: [],
     cartAllChecked: false,
     selectedGoods: null,
-    selectedType: null
+    selectedType: null,
+    selectedJob:{
+      customername: "渤海石油平台",
+      id: "62",
+      owner: "1",
+      people: "3",
+      positionname: "泥浆工程师",
+      salary: "12k-17k",
+      state: "0",
+      url: "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2327677210,43854317&fm=26&gp=0.jpg"
+    }
   },
   mutations: {
     tabChange (state, idx) {
@@ -43,6 +53,11 @@ export default new Vuex.Store({
     typeChange (state, type) {
       common.log([theModuleName, 'selectType', state, 'type:', type])
       state.selectedType = type
+    },
+    // n e w 。。。
+    jobChange (state, type) {
+      common.log([theModuleName, 'selectJob', state, 'type:', type])
+      state.selectedJob = type
     },
     // 收藏
     star (state, star) {

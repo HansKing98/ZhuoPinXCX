@@ -1,7 +1,18 @@
 <template>
   <div>
-    <navbar title='表单提交'></navbar>
+    <navbar title='简历投递'></navbar>
     <div class="card">
+
+      <div class="pos_detail">
+        <div class="position">{{position.positionname}}</div>
+        <div class="salary">{{position.salary}}</div>
+        <div class="place_time">
+          <div class="place">天津市/滨海新区/东疆湾</div>
+          <div class="sendtime">5分钟前</div>
+        </div>
+        <div></div>
+      </div>
+
       <form @submit.prevent="formSubmit">
       <!-- <form bindsubmit="formSubmit">  -->
 
@@ -90,14 +101,7 @@
         </div>
 
         <div class="btn-area">
-          <bt
-            formType="submit"
-            text="提交"
-            type="cart"
-            width="400rpx"
-            height="80rpx"
-            margin="0 0 0 0"
-          ></bt>
+          <button formType="submit" class="send">提交</button>
           <!-- <button formType="reset">重置</button> -->
         </div>
       </form>
@@ -117,16 +121,22 @@ export default {
         {name: '男', value: '男'},
         {name: '女', value: '女'}
       ],
-      sexChoose: ''
+      sexChoose: '',
+      position:{}
     }
   },
   components: {
     navbar, bt
   },
+  onLoad () {
+    // console.log('121', this.$store.state.selectedJob); // ok
+    this.position = this.$store.state.selectedJob
+    // console.log(this.position);
+  },
   methods: {
     formSubmit: function (e) {
-      wx.request({
-        url: 'http://hr.test.getkin.cn/Wx/ResumeAdd', //  数据传到的地址
+      mpvue.request({
+        url: 'https://hr.test.getkin.cn/Wx/ResumeAdd', //  数据传到的地址
         data: {
           'name': e.mp.detail.value.name,
           'sex': e.mp.detail.value.sex,
@@ -150,17 +160,20 @@ export default {
           'content-type': 'application/x-www-form-urlencoded'   // 这是传输方式为post的写法 ； 如果是get 则是'Content-Type': 'application/json'
         },
         success: function (res) {
-          console.log('e', e)
+          // console.log('e', e)
 
-          console.log(JSON.stringify(res.data))
-          wx.showModal({      // 提交成功 ，弹框
-            content: '提交成功',
+          // console.log(JSON.stringify(res.data))
+          mpvue.showModal({      // 提交成功 ，弹框
+            title: '提示',
+            content: '提交成功，确认返回',
             success: function (res) {
-              console.log('res', res)
+              // console.log('res', res)
               if (res.confirm) {   // 如果点击弹框的确认则进行下面的操作
-                // wx.navigateTo({
-                //   url: '../orderlist/orderlist',
-                // })
+                console.log('用户点击确定')
+                // 返回
+                mpvue.navigateBack({delta: 1})
+              } else if (res.cancel) {
+                console.log('用户点击取消')
               }
             }
           })
@@ -170,7 +183,11 @@ export default {
     radioChange: function (e) {
       console.log('e', e)
       this.sexChoose = e.mp.detail.value
-    }
+    },
+    goNav_back () {
+      mpvue.navigateBack({delta: 1})
+      console.log(ok)
+    },
   },
 
   created () {
@@ -182,10 +199,34 @@ export default {
 <style lang="wxss">
 page{
   background-color: white;
+  font-size: 14px;
 }
 </style>
 
-<style scoped>
+<style>
+.pos_detail{
+  background-color: white;
+  padding: 30rpx;
+  margin-bottom: 10rpx;
+}
+.pos_detail .position{
+  font-weight:bold;
+  font-size: 20px;
+}
+.salary{
+  font-weight: 500;
+  color: #ff7675;
+  font-size: 14px;
+  line-height: 3em;
+}
+.place_time{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #74b9ff;
+  font-size: 14px;
+  line-height: 2em;
+}
+
 .card {
   width: 690rpx;
   height: 100%;
@@ -217,5 +258,16 @@ page{
   display: flex;
   justify-content: center;
   margin: 50rpx
+}
+.send{
+ background-color: #d63031;
+ width: 400rpx;
+ height: 80rpx;
+ color: white;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 40rpx;
+ box-shadow: rgba(214, 48, 48, 0.418) 10rpx 10rpx 50rpx 1rpx ;
 }
 </style>

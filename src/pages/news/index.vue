@@ -1,34 +1,10 @@
 <template>
   <div>
-    <navbar title='推荐人' :btL=false></navbar>
+    <navbar title='畅热点' :btL=false></navbar>
     <div class="page">
       <div class="card">
         <div class="top">
-          <div>您的职位推荐人</div>
-          <div>猎头</div>
-          <div class="head">
-            <img src="/static/images/user.png" alt="">
-          </div>
-          <div class="vip">专属猎头</div>
-          <div class="name">
-            {{invDatahans.name}}
-          </div>
-        </div>
-        <div class="bottom">
-          <bt
-            text="确认"
-            type="primary"
-            width="400rpx"
-            height="80rpx"
-            margin="0 0 0 0"
-          ></bt>
-           <bt
-            text="信息有误"
-            type="white"
-            width="400rpx"
-            height="80rpx"
-            margin="0 0 0 0"
-          ></bt>
+          <div>畅热点-校企新闻资讯</div>
         </div>
       </div>
     </div>
