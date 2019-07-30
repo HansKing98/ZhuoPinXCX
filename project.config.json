@@ -42,33 +42,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": 3,
 			"list": [
-				{
-					"id": -1,
-					"name": "pages/form/main",
-					"pathName": "pages/form/main",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/show/main",
-					"pathName": "pages/show/main",
-					"query": "",
-					"scene": null
-				},
 				{
 					"id": -1,
 					"name": "pages/my/main",
 					"pathName": "pages/my/main",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "热点新闻",
-					"pathName": "pages/news/main",
 					"query": "",
 					"scene": null
 				},
@@ -83,6 +62,14 @@
 					"id": -1,
 					"name": "投递",
 					"pathName": "pages/form/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 3,
+					"name": "邀请人",
+					"pathName": "pages/invite/main",
+					"query": "",
 					"scene": null
 				}
 			]

@@ -3,9 +3,9 @@
     <navbar title='推荐人' :btL=false></navbar>
     <div class="page">
       <div class="card">
+
         <div class="top">
           <div>您的职位推荐人</div>
-          <div>猎头</div>
           <div class="head">
             <img src="/static/images/user.png" alt="">
           </div>
@@ -14,21 +14,10 @@
             {{invDatahans.name}}
           </div>
         </div>
+
         <div class="bottom">
-          <bt
-            text="确认"
-            type="primary"
-            width="400rpx"
-            height="80rpx"
-            margin="0 0 0 0"
-          ></bt>
-           <bt
-            text="信息有误"
-            type="white"
-            width="400rpx"
-            height="80rpx"
-            margin="0 0 0 0"
-          ></bt>
+          <button class="queren" @tap="goNav_Home($event)">确认</button>
+          <button class="youwu">信息有误</button>
         </div>
       </div>
     </div>
@@ -52,7 +41,12 @@ export default {
     navbar, bt
   },
   methods: {
+    goNav_Home($event){
+      mpvue.switchTab({ url: '/pages/index/main' })
+    },
+    inviteErr(){
 
+    }
   },
   onLoad () {
     getInvite: {
@@ -66,10 +60,13 @@ export default {
         }
       }).then(res => {
         let detail = res
-        let detailMatch = detail.match(/\{[^\}]+\}/)[0]
-        let detailMatchJSON = JSON.parse(detailMatch)
-        this.invDatahans = detailMatchJSON
-        console.log(this.invDatahans)
+        
+        // let detailMatch = detail.match(/\{[^\}]+\}/)[0]
+        // let detailMatchJSON = JSON.parse(detailMatch)
+        // this.invDatahans = detailMatchJSON
+
+        this.invDatahans = res
+        console.log('123', this.invDatahans)
       })
     }
   },
@@ -109,7 +106,11 @@ page{
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 400rpx
+  width: 96%;
+  height: 400rpx;
+  border-radius: 20rpx;
+  box-shadow: rgba(77, 178, 255, 0.575) 20rpx 10rpx 50rpx 10rpx ;
+  margin-bottom: 50rpx;
 }
 .vip{
   font-size: 12px;
@@ -121,6 +122,8 @@ page{
   justify-content:space-around;
   align-items: center;
   height: 200rpx;
+  
+  font-weight: 400;
 }
 .head{
   width: 120rpx;
@@ -132,5 +135,25 @@ page{
   width: 120rpx;
   height: 120rpx;
   border-radius: 50%;
+}
+.bottom .queren{
+  width: 300rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  background-color: #0fbcf9;
+  color: white;
+  font-size: 16px;
+  box-shadow: rgba(77, 178, 255, 0.527) 20rpx 10rpx 30rpx 1rpx ;
+  text-align: center;
+}
+.bottom .youwu{
+  width: 300rpx;
+  height: 80rpx;
+  border-radius: 40rpx;
+  border: 1px solid #ff6e66;
+  color: #ff6e66;
+  font-size: 16px;
+  box-shadow: rgba(255, 77, 77, 0.301) 20rpx 10rpx 30rpx 1rpx ;
+  text-align: center;
 }
 </style>

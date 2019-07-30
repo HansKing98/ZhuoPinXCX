@@ -68,15 +68,19 @@ export default {
         },
       }).then(res => {
         let detail = res
+        console.log('列表res', res)
         // console.log(res)
 
         // var regex1 = /\((.+?)\)/g;  // () 小括号
         // var regex2 = /\[(.+?)\]/g;  // [] 中括号
         // var regex3 = /\{(.+?)\}/g; // {} 花括号，大括号
 
-        let detailMatch = detail.match(/\[(.+?)\]/g)[0]
-        let detailMatchJSON = JSON.parse(detailMatch)
-        this.positions =  detailMatchJSON
+        // // 切片
+        // let detailMatch = detail.match(/\[(.+?)\]/g)[0]
+        // let detailMatchJSON = JSON.parse(detailMatch)
+        // this.positions =  detailMatchJSON
+
+        this.positions =  res
         console.log('职位列表', this.positions)
       })
     }
@@ -119,8 +123,10 @@ page{
   margin: 10rpx 0;
   border-radius: 30rpx;
   padding: 0 10rpx;
-  border: 1px solid #74b9ff;
-  box-shadow: 3rpx 3rpx 10rpx rgba(75, 207, 250, 0.5);
+  /* border: 1px solid #74b9ff; */
+  /* box-shadow: 3rpx 3rpx 10rpx rgba(75, 207, 250, 0.5); */
+ box-shadow: rgba(77, 178, 255, 0.301) 20rpx 10rpx 30rpx 1rpx ;
+
 }
 img{
   width: 250rpx;

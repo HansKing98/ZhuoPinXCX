@@ -2,7 +2,7 @@
   "pages": [
     "pages/index/main",
     "pages/form/main",
-    "pages/show/main",
+    "pages/invite/main",
     "pages/my/main",
     "pages/news/main",
     "pages/index/intoJob/main"
@@ -22,11 +22,6 @@
       "text": "首页",
       "iconPath": "/static/tabs/yun.png",
       "selectedIconPath": "/static/tabs/yun_act.png"
-    }, {
-      "pagePath": "pages/news/main",
-      "text": "资讯",
-      "iconPath": "/static/icon/show.png",
-      "selectedIconPath": "/static/icon/show_a.png"
     }, {
       "pagePath": "pages/my/main",
       "text": "我的",

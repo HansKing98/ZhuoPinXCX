@@ -9,33 +9,33 @@
                 </button>
                 <div class="name">
                 <open-data type="userNickName" ></open-data>
-                <button>经验：0</button>
                 </div>
             </div>
+            <div class="top_bo"></div>
     </div>
+    <div class="middle">
+      <div class="orders">
+        <div class="Titel">所有进程</div>
+        <div class="Line"></div>
+        <div class="Btns">
+          <div class="Btn" v-for="(item, index) in orders" :key="index" @click="tap(item)">
+            <img :src="item.url" alt="">
+            <text>{{item.text}}</text>
+          </div>
+        </div>
+      </div>
 
-    <div class="orders">
-      <div class="Titel">所有进程</div>
-      <div class="Line"></div>
-      <div class="Btns">
-        <div class="Btn" v-for="(item, index) in orders" :key="index" @click="tap(item)">
-          <img :src="item.url" alt="">
-          <text>{{item.text}}</text>
+      <div class="orders">
+        <div class="Titel">更多</div>
+        <div class="Line"></div>
+        <div class="Btns">
+          <div class="Btn" v-for="(item, index) in mores" :key="index" @click="tap(item)">
+            <img class="more" :src="item.url" alt="">
+            <text>{{item.text}}</text>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="orders">
-      <div class="Titel">所有进程</div>
-      <div class="Line"></div>
-      <div class="Btns">
-        <div class="Btn" v-for="(item, index) in mores" :key="index" @click="tap(item)">
-          <img :src="item.url" alt="">
-          <text>{{item.text}}</text>
-        </div>
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -56,7 +56,8 @@ export default {
         { text: '面试完成', url: '/static/images/my/mswc.png' }
       ],
       mores: [
-        { text: '更多', url: '/static/images/my/ytd_act.png' },
+        { text: '线上简历', url: '/static/images/my/upload.png' },
+        { text: '简历附件', url: '/static/images/my/resume.png' },
         { text: '客服', url: '/static/images/my/mswcact.png' },
         ]
     }
@@ -149,16 +150,21 @@ text {
 }
 .top{
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: flex-end;
   align-items:center;
-  height: 200rpx;
-  background-color: #0fbcf9;
+  height: 360rpx;
+  background: linear-gradient(#0fbcf9, #7cdcff);
+  box-shadow: rgba(9, 133, 227, 0.459) 30rpx 10rpx 50rpx 1rpx ;
+  margin-top: -1rpx;
+  border-radius:0 0 200rpx 200rpx;
 }
 .user {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-around;
   align-items:center;
-  height: 200rpx;
+  height: 220rpx;
   /* background-color: rgb(215, 255, 249); */
 }
 
@@ -175,7 +181,6 @@ text {
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  height: 110rpx;
   color: #FFFFFF;
 }
 .name open-data{
@@ -206,28 +211,17 @@ text {
   background-color:rgba(0,0,0,0.3);
 
 }
-.share{
-  display: flex;
-  justify-content:space-between;
-  align-items: center;
-  width: 200rpx;
-  height: 100rpx;
-  border-radius: 50rpx 0 0 50rpx;
-  background-color: #ffffff;
-  margin: 0;
-}
-.share img{
-  width: 50rpx;
+.top_bo{
   height: 50rpx;
-  margin-left: 10rpx;
+  width: 100%;
+
 }
-.share .wenzi{
-  display: flex;
-  flex-direction: column;
-  font-size: 11px;
-  color: #01D5B6;
-  margin-right: 30rpx;
-  line-height: 1.5;
+
+
+.middle {
+  height: 100%;
+  padding: 10rpx 0;
+  /* background-color: #0fbcf9; */
 }
 
 /* 电商订单 我的工具 */
@@ -235,6 +229,10 @@ text {
   height: 300rpx;
   margin: 20rpx 10rpx;
   border-radius: 30rpx;
+  /* border: 1px solid #74b9ff; */
+ box-shadow: rgba(77, 178, 255, 0.301) 20rpx 10rpx 30rpx 1rpx ;
+  /* box-shadow: 3rpx 3rpx 10rpx rgba(75, 207, 250, 0.5); */
+
   background-color: white;
 }
 
