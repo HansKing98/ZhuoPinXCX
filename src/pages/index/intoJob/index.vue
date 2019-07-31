@@ -84,10 +84,10 @@ export default {
   onLoad () {
     // console.log('121', this.$store.state.selectedJob); // ok
     this.position = this.$store.state.selectedJob
-    console.log(this.position)
+    // console.log(this.position)
   },
   created () {
-    // let app = getApp()
+
   }
 }
 </script>

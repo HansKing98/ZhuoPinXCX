@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "mpvue": "^2.0.0",
+    "vue-qr": "^2.1.0",
+    "vue-qriously": "^1.1.1",
     "vuex": "^3.0.1"
   },
   "devDependencies": {

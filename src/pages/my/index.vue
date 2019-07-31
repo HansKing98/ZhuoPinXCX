@@ -18,7 +18,7 @@
         <div class="Titel">所有进程</div>
         <div class="Line"></div>
         <div class="Btns">
-          <div class="Btn" v-for="(item, index) in orders" :key="index" @click="tap(item)">
+          <div class="Btn" v-for="(item, index) in orders" :key="index" @click="nav_to(item)">
             <img :src="item.url" alt="">
             <text>{{item.text}}</text>
           </div>
@@ -29,12 +29,28 @@
         <div class="Titel">更多</div>
         <div class="Line"></div>
         <div class="Btns">
-          <div class="Btn" v-for="(item, index) in mores" :key="index" @click="tap(item)">
+          <div class="Btn" v-for="(item, index) in mores" :key="index" @click="nav_to(item)" open-type="contact">
+            <img class="more" :src="item.url" alt="">
+            <text>{{item.text}}</text>
+          </div>
+          <button class="zaixainkefu" open-type="contact">
+            <img src="/static/images/my/kefu.png" alt="">
+            <div>客服</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="orders">
+        <div class="Titel">辅助功能</div>
+        <div class="Line"></div>
+        <div class="Btns">
+          <div class="Btn" v-for="(item, index) in assist" :key="index" @click="nav_to(item)">
             <img class="more" :src="item.url" alt="">
             <text>{{item.text}}</text>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -56,10 +72,15 @@ export default {
         { text: '面试完成', url: '/static/images/my/mswc.png' }
       ],
       mores: [
-        { text: '线上简历', url: '/static/images/my/upload.png' },
-        { text: '简历附件', url: '/static/images/my/resume.png' },
-        { text: '客服', url: '/static/images/my/mswcact.png' }
-      ]
+        { text: '线上简历', url: '/static/images/my/xianshang.png' },
+        { text: '简历附件', url: '/static/images/my/fujian.png' },
+        // { text: '客服', url: '/static/images/my/kefu.png' },
+        { text: '邀请人', url: '/static/images/my/yaoqingren.png', nav: '/pages/invite/main?owner=43'}
+      ],
+      assist: [
+        { text: '邀请码', url: '/static/images/my/creQR.png', nav: '/pages/createdQR/main'}
+      ],
+      
     }
   },
 
@@ -68,6 +89,25 @@ export default {
   },
   onShow () {
 
+  },
+  onLoad: function () {
+      // 查看是否授权
+      mpvue.getSetting({
+        success (res) {
+          console.log('res', res)
+          if (res.authSetting['scope.userInfo']) {
+            // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+            mpvue.getUserInfo({
+              success: function (res) {
+                console.log(res.userInfo)
+              },
+              fail: function (res) {
+                console.log('fail', res.userInfo)
+              }
+            })
+          }
+        }
+      })
   },
   methods: {
     onLoad: function () {
@@ -94,6 +134,13 @@ export default {
       let userInfo = e.mp.detail.userInfo
       this.USERavatarUrl = userInfo.avatarUrl
       this.USERnickName = userInfo.nickName
+    },
+    nav_to (item) {
+      if (item.text === '邀请人' || item.text === '邀请码') {
+        mpvue.navigateTo({ url: item.nav })
+      } else {
+        com.tos('相关功能暂时不可用') // showToast
+      }
     },
     tap (i) {
       let url = '/pages/order/main'
@@ -266,4 +313,16 @@ text {
   color: #202020;
 }
 
+
+.zaixainkefu{
+  border-radius: 0;
+  margin: 0;
+  width: 80rpx;
+  height: 120rpx;
+  line-height: 1.3em;
+}
+.zaixainkefu img{
+  width: 80rpx;
+  height: 80rpx;
+}
 </style>

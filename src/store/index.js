@@ -35,7 +35,9 @@ export default new Vuex.Store({
       salary: '12k-17k',
       state: '0',
       url: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2327677210,43854317&fm=26&gp=0.jpg'
-    }
+    },
+    selectedOwnerId:1,
+    selectedPosId:0,
   },
   mutations: {
     // tabChange (state, idx) {
@@ -58,6 +60,14 @@ export default new Vuex.Store({
     jobChange (state, type) {
       common.log([theModuleName, 'selectJob', state, 'type:', type])
       state.selectedJob = type
+    },
+    ownerIdChange (state, type) {
+      common.log([theModuleName, 'selectownerId', state, 'type:', type])
+      state.selectedOwnerId = type
+    },
+    posIdChange (state, type) {
+      common.log([theModuleName, 'selectposId', state, 'type:', type])
+      state.selectedPosId = type
     },
     // 收藏
     star (state, star) {

@@ -5,7 +5,8 @@
     "pages/invite/main",
     "pages/my/main",
     "pages/news/main",
-    "pages/index/intoJob/main"
+    "pages/index/intoJob/main",
+    "pages/createdQR/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

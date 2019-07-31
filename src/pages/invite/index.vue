@@ -34,7 +34,8 @@ export default {
       invDatahans: [{
         name: '未获取',
         statu: '获取失败'
-      }]
+      }],
+      owner : 0
     }
   },
   components: {
@@ -48,24 +49,28 @@ export default {
 
     }
   },
-  onLoad () {
+  onLoad (e) {
+    console.log('e', e);
+    this.owner = e.owner
     this.$httpWX.post({
       url: '/GetName',
       header: {
         'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
       data: {
-        owner: '43'
+        owner: this.owner
       }
     }).then(res => {
       // let detail = res
       // let detailMatch = detail.match(/\{[^\}]+\}/)[0]
       // let detailMatchJSON = JSON.parse(detailMatch)
       // this.invDatahans = detailMatchJSON
-
+      // console.log('rea', res)
       this.invDatahans = res
-      console.log('123', this.invDatahans)
-    })
+      console.log('invDatahans', this.invDatahans)
+    }),
+    // 储存 owner
+    this.$store.commit('ownerIdChange', this.owner)
   },
   created () {
     // let app = getApp()

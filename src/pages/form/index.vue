@@ -37,7 +37,7 @@
 
         <div class="section"> 
           <div class="section__title">身份证号码</div>
-          <input name="idcard" placeholder="身份证" />
+          <input name="idcard" placeholder="身份证" type="idcard" />
         </div>
 
         <div class="section"> 
@@ -82,7 +82,7 @@
 
         <div class="section"> 
           <div class="section__title">手机号码</div>
-          <input name="phone" placeholder="手机号码" />
+          <input name="phone" placeholder="手机号码" type="number"/>
         </div>
 
         <div class="section"> 
