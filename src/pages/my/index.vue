@@ -58,8 +58,8 @@ export default {
       mores: [
         { text: '线上简历', url: '/static/images/my/upload.png' },
         { text: '简历附件', url: '/static/images/my/resume.png' },
-        { text: '客服', url: '/static/images/my/mswcact.png' },
-        ]
+        { text: '客服', url: '/static/images/my/mswcact.png' }
+      ]
     }
   },
 

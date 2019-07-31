@@ -2,7 +2,7 @@
   <div>
     <navbar title='畅校园' :btL=false></navbar>
     <swiper :images='images'></swiper>
-    <!-- 金刚区 -->
+
     <div class="show">
       <div class="jobs">
         <div class="job" v-for="(item, index) in positions" :key="index" @click="goNav_intojob($event)" @tap='tap(item)'>
@@ -38,7 +38,7 @@ export default {
         { url: '/static/images/banner/banner1.jpg' },
         { url: '/static/images/banner/banner2.jpg' }
       ],
-      positions:{}
+      positions: {}
     }
   },
   props: {
@@ -55,38 +55,33 @@ export default {
       // 收到 e 为选中的职位
       // 改变全局变量' jpbSelected '
       // console.log('eee', e);
-      
+
       this.$store.commit('jobChange', e)
     }
   },
   onLoad () {
-    getInvite: {
-      this.$httpWX.get({
-        url: '/GetPosition',
-        header: {
-          'Content-type': 'application/json' // 默认值
-        },
-      }).then(res => {
-        let detail = res
-        console.log('列表res', res)
-        // console.log(res)
+    this.$httpWX.get({
+      url: '/GetPosition',
+      header: {
+        'Content-type': 'application/json' // 默认值
+      }
+    }).then(res => {
+      // let detail = res
+      // var regex1 = /\((.+?)\)/g;  // () 小括号
+      // var regex2 = /\[(.+?)\]/g;  // [] 中括号
+      // var regex3 = /\{(.+?)\}/g; // {} 花括号，大括号
 
-        // var regex1 = /\((.+?)\)/g;  // () 小括号
-        // var regex2 = /\[(.+?)\]/g;  // [] 中括号
-        // var regex3 = /\{(.+?)\}/g; // {} 花括号，大括号
+      // // 切片
+      // let detailMatch = detail.match(/\[(.+?)\]/g)[0]
+      // let detailMatchJSON = JSON.parse(detailMatch)
+      // this.positions =  detailMatchJSON
 
-        // // 切片
-        // let detailMatch = detail.match(/\[(.+?)\]/g)[0]
-        // let detailMatchJSON = JSON.parse(detailMatch)
-        // this.positions =  detailMatchJSON
-
-        this.positions =  res
-        console.log('职位列表', this.positions)
-      })
-    }
+      this.positions = res
+      console.log('职位列表', this.positions)
+    })
   },
   created () {
-    // let app = getApp()
+
   }
 }
 </script>

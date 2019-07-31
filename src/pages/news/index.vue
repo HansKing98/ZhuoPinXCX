@@ -21,7 +21,7 @@ export default {
       invDatahans: [{
         name: '未获取',
         statu: '获取失败'
-      }],
+      }]
     }
   },
   components: {
@@ -31,23 +31,21 @@ export default {
 
   },
   onLoad () {
-    getInvite: {
-      this.$httpWX.post({
-        url: '/GetName',
-        header: {
-          'content-type': "application/x-www-form-urlencoded" // 默认值
-        },
-        data: {
-          owner: '43'
-        }
-      }).then(res => {
-        let detail = res
-        let detailMatch = detail.match(/\{[^\}]+\}/)[0]
-        let detailMatchJSON = JSON.parse(detailMatch)
-        this.invDatahans = detailMatchJSON
-        console.log(this.invDatahans)
-      })
-    }
+    this.$httpWX.post({
+      url: '/GetName',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      data: {
+        owner: '43'
+      }
+    }).then(res => {
+      let detail = res
+      let detailMatch = detail.match(/\{[^ }]+\}/)[0]
+      let detailMatchJSON = JSON.parse(detailMatch)
+      this.invDatahans = detailMatchJSON
+      console.log(this.invDatahans)
+    })
   },
   created () {
     // let app = getApp()

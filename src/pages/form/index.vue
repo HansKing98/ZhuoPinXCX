@@ -112,7 +112,7 @@
 
 <script>
 import navbar from '@/components/navbar'
-import bt from '@/components/bt'
+// import bt from '@/components/bt'
 
 export default {
   data () {
@@ -122,11 +122,11 @@ export default {
         {name: '女', value: '女'}
       ],
       sexChoose: '',
-      position:{}
+      position: {}
     }
   },
   components: {
-    navbar, bt
+    navbar
   },
   onLoad () {
     // console.log('121', this.$store.state.selectedJob); // ok
@@ -136,7 +136,7 @@ export default {
   methods: {
     formSubmit: function (e) {
       mpvue.request({
-        url: 'https://hr.test.getkin.cn/Wx/ResumeAdd', //  数据传到的地址
+        url: 'https://hr.test.getkin.cn/Wx/ResumeAdd', // 数据传到的地址
         data: {
           'name': e.mp.detail.value.name,
           'sex': e.mp.detail.value.sex,
@@ -157,18 +157,18 @@ export default {
         }, // 传入的数据
         method: 'POST',
         header: {// 设置请求的 header
-          'content-type': 'application/x-www-form-urlencoded'   // 这是传输方式为post的写法 ； 如果是get 则是'Content-Type': 'application/json'
+          'content-type': 'application/x-www-form-urlencoded' // 这是传输方式为post的写法 ； 如果是get 则是'Content-Type': 'application/json'
         },
         success: function (res) {
           // console.log('e', e)
 
           // console.log(JSON.stringify(res.data))
-          mpvue.showModal({      // 提交成功 ，弹框
+          mpvue.showModal({ // 提交成功 ，弹框
             title: '提示',
             content: '提交成功，确认返回',
             success: function (res) {
               // console.log('res', res)
-              if (res.confirm) {   // 如果点击弹框的确认则进行下面的操作
+              if (res.confirm) { // 如果点击弹框的确认则进行下面的操作
                 console.log('用户点击确定')
                 // 返回
                 mpvue.navigateBack({delta: 1})
@@ -183,11 +183,7 @@ export default {
     radioChange: function (e) {
       console.log('e', e)
       this.sexChoose = e.mp.detail.value
-    },
-    goNav_back () {
-      mpvue.navigateBack({delta: 1})
-      console.log(ok)
-    },
+    }
   },
 
   created () {

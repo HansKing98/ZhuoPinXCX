@@ -34,41 +34,38 @@ export default {
       invDatahans: [{
         name: '未获取',
         statu: '获取失败'
-      }],
+      }]
     }
   },
   components: {
     navbar, bt
   },
   methods: {
-    goNav_Home($event){
+    goNav_Home ($event) {
       mpvue.switchTab({ url: '/pages/index/main' })
     },
-    inviteErr(){
+    inviteErr () {
 
     }
   },
   onLoad () {
-    getInvite: {
-      this.$httpWX.post({
-        url: '/GetName',
-        header: {
-          'content-type': "application/x-www-form-urlencoded" // 默认值
-        },
-        data: {
-          owner: '43'
-        }
-      }).then(res => {
-        let detail = res
-        
-        // let detailMatch = detail.match(/\{[^\}]+\}/)[0]
-        // let detailMatchJSON = JSON.parse(detailMatch)
-        // this.invDatahans = detailMatchJSON
+    this.$httpWX.post({
+      url: '/GetName',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      data: {
+        owner: '43'
+      }
+    }).then(res => {
+      // let detail = res
+      // let detailMatch = detail.match(/\{[^\}]+\}/)[0]
+      // let detailMatchJSON = JSON.parse(detailMatch)
+      // this.invDatahans = detailMatchJSON
 
-        this.invDatahans = res
-        console.log('123', this.invDatahans)
-      })
-    }
+      this.invDatahans = res
+      console.log('123', this.invDatahans)
+    })
   },
   created () {
     // let app = getApp()

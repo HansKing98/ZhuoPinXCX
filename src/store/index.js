@@ -19,29 +19,29 @@ export default new Vuex.Store({
     agencyId: 2,
     agency: null,
     orderType: 0,
-    tabSelected: 0,
+    // tabSelected: 0,
     stars: [],
     starAllChecked: false,
     carts: [],
     cartAllChecked: false,
     selectedGoods: null,
     selectedType: null,
-    selectedJob:{
-      customername: "渤海石油平台",
-      id: "62",
-      owner: "1",
-      people: "3",
-      positionname: "泥浆工程师",
-      salary: "12k-17k",
-      state: "0",
-      url: "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2327677210,43854317&fm=26&gp=0.jpg"
+    selectedJob: {
+      customername: '渤海石油平台',
+      id: '62',
+      owner: '1',
+      people: '3',
+      positionname: '泥浆工程师',
+      salary: '12k-17k',
+      state: '0',
+      url: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2327677210,43854317&fm=26&gp=0.jpg'
     }
   },
   mutations: {
-    tabChange (state, idx) {
-      common.log([theModuleName, 'tabChange', state, 'idx', idx])
-      state.tabSelected = parseInt(idx)
-    },
+    // tabChange (state, idx) {
+    //   common.log([theModuleName, 'tabChange', state, 'idx', idx])
+    //   state.tabSelected = parseInt(idx)
+    // },
     orderTypeChange (state, idx) {
       common.log([theModuleName, 'orderTypeChange', state, 'idx', idx])
       state.orderType = parseInt(idx)
