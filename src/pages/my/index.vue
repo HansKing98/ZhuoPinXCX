@@ -18,10 +18,10 @@
     </div>
     <div class="middle">
       <div class="orders">
-        <div class="Titel">所有进程</div>
+        <div class="Titel" @click="nav_to_process()"><p>所有进程</p> <img src="/static/icon/you.png" alt=""> </div>
         <div class="Line"></div>
         <div class="Btns">
-          <div class="Btn" v-for="(item, index) in orders" :key="index" @click="nav_to(item)">
+          <div class="Btn" v-for="(item, index) in orders" :key="index" @click="tap(item)">
             <img :src="item.url" alt="">
             <text>{{item.text}}</text>
           </div>
@@ -76,9 +76,8 @@ export default {
       USERnickName: '授权登录',
       orders: [
         { text: '已投递', url: '/static/images/my/ytd.png' },
-        { text: '已查阅', url: '/static/images/my/ycy.png' },
         { text: '待面试', url: '/static/images/my/dms.png' },
-        { text: '面试完成', url: '/static/images/my/mswc.png' }
+        { text: 'offer', url: '/static/images/my/mswc.png' }
       ],
       mores: [
         { text: '线上简历', url: '/static/images/my/xianshang.png' },
@@ -207,39 +206,29 @@ export default {
       if (item.text === '邀请人' || item.text === '邀请码') {
         mpvue.navigateTo({ url: item.nav })
       } else {
+        // mpvue.navigateTo({ url: item.nav })
         com.tos('相关功能暂时不可用') // showToast
       }
     },
+    nav_to_process(){
+      console.log('跳转到进程');
+      this.$store.commit('processTypeChange', 0)
+      mpvue.navigateTo({ url: '/pages/process/main'  })
+    },
     tap (i) {
-      let url = '/pages/order/main'
+      let url = '/pages/process/main'
       switch (i.text) {
-        case '待付款':
-          this.$store.commit('orderTypeChange', 1)
+        case '已投递':
+          this.$store.commit('processTypeChange', 1)
           mpvue.navigateTo({ url })
           break
-        case '待发货':
-          this.$store.commit('orderTypeChange', 2)
+        case '待面试':
+          this.$store.commit('processTypeChange', 2)
           mpvue.navigateTo({ url })
           break
-        case '待收货':
-          this.$store.commit('orderTypeChange', 3)
+        case 'offer':
+          this.$store.commit('processTypeChange', 3)
           mpvue.navigateTo({ url })
-          break
-        case '全部订单':
-          this.$store.commit('orderTypeChange', 0)
-          mpvue.navigateTo({ url })
-          break
-        case '收货地':
-          com.addr()
-          break
-        case '收藏夹':
-          url = '/pages/my/star/main'
-          mpvue.navigateTo({ url })
-          break
-        case '找客服':
-          mpvue.makePhoneCall({
-            phoneNumber: '18522133769'
-          })
           break
       }
     }
@@ -353,8 +342,16 @@ text {
 }
 
 .Titel{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 15px;
-  padding: 30rpx;
+  height: 100rpx;
+  padding: 0 30rpx;
+}
+.Titel img{
+  width: 46rpx;
+  height: 46rpx;
 }
 .Line{
   width:100%;

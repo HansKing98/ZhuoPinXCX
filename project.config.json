@@ -43,7 +43,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": 6,
 			"list": [
 				{
 					"id": -1,
@@ -84,6 +84,13 @@
 					"id": -1,
 					"name": "createdQR",
 					"pathName": "pages/createdQR/main",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/process/main",
+					"pathName": "pages/process/main",
 					"scene": null
 				}
 			]

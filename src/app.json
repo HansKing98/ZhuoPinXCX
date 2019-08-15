@@ -6,7 +6,8 @@
     "pages/my/main",
     "pages/news/main",
     "pages/index/intoJob/main",
-    "pages/createdQR/main"
+    "pages/createdQR/main",
+    "pages/process/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

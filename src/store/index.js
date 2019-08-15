@@ -18,7 +18,7 @@ export default new Vuex.Store({
     openId: null,
     agencyId: 2,
     agency: null,
-    orderType: 0,
+    processType: 0,
     // tabSelected: 0,
     stars: [],
     starAllChecked: false,
@@ -44,9 +44,9 @@ export default new Vuex.Store({
     //   common.log([theModuleName, 'tabChange', state, 'idx', idx])
     //   state.tabSelected = parseInt(idx)
     // },
-    orderTypeChange (state, idx) {
-      common.log([theModuleName, 'orderTypeChange', state, 'idx', idx])
-      state.orderType = parseInt(idx)
+    processTypeChange (state, idx) {
+      common.log([theModuleName, 'processTypeChange', state, 'idx', idx])
+      state.processType = parseInt(idx)
     },
     goodsChange (state, goods) {
       common.log([theModuleName, 'selectGoods', state, 'goods:', goods])
