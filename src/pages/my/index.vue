@@ -104,10 +104,14 @@ export default {
   components: {
     navbar
   },
- async onShow () {
+  async onShow () {
+
+  },
+  async onLoad () {
     // console.log('userInfo', this.userInfo)
     // 查看用户信息 缓存
     let user = mpvue.getStorageSync('userInfo')
+    console.log('openid:',mpvue.getStorageSync('openid'))
     this.userInfo = user
 
     if (!user) {
@@ -118,7 +122,7 @@ export default {
       this.code = login.code
       // 获取 setting
       const setting = await wx.getSetting()
-      console.log(login.code);
+      console.log('code:', login.code);
       // 是否 授权
       if (setting.authSetting['scope.userInfo']) {        
         const getUserInfo = await wx.getUserInfo()
@@ -173,9 +177,6 @@ export default {
       console.log('已登录')
     }
   },
-  onLoad: function () {
-
-  },
   methods: {
     getUserInfo1 () {
       console.log('click事件首先触发')
@@ -195,7 +196,8 @@ export default {
         // console.log(getCurrentPages()) 
         
         let page = getCurrentPages().pop()
-        page.onShow()
+        // page.onShow()
+        page.onLoad()
       } else {
         // 用户按了拒绝按钮
         console.log('用户按了拒绝按钮')

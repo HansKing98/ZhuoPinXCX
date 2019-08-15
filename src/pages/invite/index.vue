@@ -7,7 +7,7 @@
         <div class="top">
           <div>您的职位推荐人</div>
           <div class="head">
-            <img src="/static/images/user.png" alt="">
+            <img :src="randomHead" alt="">
           </div>
           <div class="vip">专属猎头</div>
           <div class="name">
@@ -35,7 +35,9 @@ export default {
         name: '未获取',
         statu: '获取失败'
       }],
-      owner : 0
+      owner : 0,
+      randomNumber:'0',
+      randomHead:'/static/images/head/head-'+ 0 +'.png'
     }
   },
   components: {
@@ -78,9 +80,28 @@ export default {
     })
     // // 储存 owner
     // this.$store.commit('ownerIdChange', this.owner)
+
+    // var hanskkk = this.ownerId
+    // console.log('hanskkk', typeof(hanskkk))
+    
+      switch ( String( parseInt(this.ownerId) % 4 ) ) {
+        case '0':
+          this.randomNumber = '0'
+          break
+        case '1':
+          this.randomNumber = '1'
+          break
+        case '2':
+          this.randomNumber = '2'
+          break
+        case '3':
+          this.randomNumber = '3'
+          break
+      }
+      this.randomHead =  '/static/images/head/head-'+ this.randomNumber +'.png'
   },
   created () {
-    // let app = getApp()
+
   }
 }
 </script>
