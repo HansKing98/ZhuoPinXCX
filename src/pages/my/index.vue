@@ -103,16 +103,33 @@ export default {
   components: {
     navbar
   },
-  async onShow () {
+  // async onShow () {
 
-  },
+  // },
   async onLoad () {
     // console.log('userInfo', this.userInfo)
     // 查看用户信息 缓存
     let user = mpvue.getStorageSync('userInfo')
     console.log('openid:',mpvue.getStorageSync('openid'))
     this.userInfo = user
-
+    // 外部获取 openid 多余了
+        const login = await wx.login()
+        // console.log('1',login.code);
+        this.code = login.code
+        const code2session = await wx.request({
+          url: config.host + '/Wx/Code2session',
+          data: {
+            'appid': this.appid,
+            'secret': this.secret,
+            'code': this.code,
+            'grant_type': this.grant_type
+          },
+          method: 'get'
+        })
+        console.log('2', code2session.openid);
+        this.openid = code2session.openid
+        mpvue.setStorageSync('openid', code2session.openid)
+        // 外部获取 openid 多余了
     if (!user) {
     // if (1) {
       // 获取 code
@@ -123,7 +140,7 @@ export default {
       const setting = await wx.getSetting()
       console.log('code:', login.code);
       // 是否 授权
-      if (setting.authSetting['scope.userInfo']) {        
+      if (setting.authSetting['scope.userInfo']) {
         const getUserInfo = await wx.getUserInfo()
         console.log(getUserInfo.userInfo)
         // console.log('2.5',this.$store.state.code)
