@@ -103,70 +103,45 @@ export default {
   components: {
     navbar
   },
-  // async onShow () {
 
-  // },
   async onLoad () {
-    // console.log('userInfo', this.userInfo)
+    // 检查 openid
+    this.openid = mpvue.getStorageSync('openid')
+    console.log('openid:',this.openid)
+    if ( !this.openid ) {
+      const login = await wx.login()
+      this.code = login.code
+      const code2session = await wx.request({
+        url: config.host + '/Wx/Code2session',
+        data: {
+          'appid': this.appid,
+          'secret': this.secret,
+          'code': this.code,
+          'grant_type': this.grant_type
+        },
+        method: 'get'
+      })
+      console.log('openid2', code2session.openid);
+      this.openid = code2session.openid
+      mpvue.setStorageSync('openid', code2session.openid)
+      this.session_key = code2session.session_key
+    }
     // 查看用户信息 缓存
     let user = mpvue.getStorageSync('userInfo')
-    console.log('openid:',mpvue.getStorageSync('openid'))
     this.userInfo = user
-    // 外部获取 openid 多余了
-        const login = await wx.login()
-        // console.log('1',login.code);
-        this.code = login.code
-        const code2session = await wx.request({
-          url: config.host + '/Wx/Code2session',
-          data: {
-            'appid': this.appid,
-            'secret': this.secret,
-            'code': this.code,
-            'grant_type': this.grant_type
-          },
-          method: 'get'
-        })
-        console.log('2', code2session.openid);
-        this.openid = code2session.openid
-        mpvue.setStorageSync('openid', code2session.openid)
-        // 外部获取 openid 多余了
+    console.log('this.userInfo:',this.userInfo)
     if (!user) {
-    // if (1) {
-      // 获取 code
-      const login = await wx.login()
-      // console.log('1',login.code);
-      this.code = login.code
       // 获取 setting
       const setting = await wx.getSetting()
-      console.log('code:', login.code);
       // 是否 授权
       if (setting.authSetting['scope.userInfo']) {
         const getUserInfo = await wx.getUserInfo()
         console.log(getUserInfo.userInfo)
-        // console.log('2.5',this.$store.state.code)
         // 缓存 userInfo     
         mpvue.setStorageSync('userInfo', getUserInfo.userInfo)
         this.userInfo = getUserInfo.userInfo
         console.log('用户已经授权过')
         showLoading('正在登录。。。')
-        // 获取 openid
-        console.log('appid', this.appid);
-        
-        const code2session = await wx.request({
-          url: config.host + '/Wx/Code2session',
-          data: {
-            'appid': this.appid,
-            'secret': this.secret,
-            'code': this.code,
-            'grant_type': this.grant_type
-          },
-          method: 'get'
-        })
-        console.log('2', code2session.openid);
-        this.openid = code2session.openid
-        mpvue.setStorageSync('openid', code2session.openid)
-        this.session_key = code2session.session_key
-        // 存储 用户信息 到服务器
         const loginState = await wx.request({
           url: config.host + '/Wx/Savelogin',
           data: {
@@ -190,7 +165,17 @@ export default {
         showLoading('未授权登录')
       }
     } else {
+      // 获取 setting
+      const setting = await wx.getSetting()
+      // 是否 授权
+      if (setting.authSetting['scope.userInfo']) {
       console.log('已登录')
+      }else{
+        mpvue.setStorageSync('userInfo', '')
+        console.log('已清除授权')
+        let page = getCurrentPages().pop()
+        page.onLoad()
+      }
     }
   },
   methods: {
