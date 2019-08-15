@@ -211,7 +211,7 @@ export default {
             'wechat': e.mp.detail.value.wechat,
             'qq': e.mp.detail.value.qq,
             'intro': e.mp.detail.value.intro,
-            'wxuser': 'this.openid',
+            'wxuser': this.openid,
             'owner': this.owner
           }, // 传入的数据
           method: 'POST',
