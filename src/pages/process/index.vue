@@ -16,14 +16,11 @@
 				<swiper-item >
           <Allorder :orders ='list0' emptyText='亲，您还没有投递简历哦。。。'></Allorder>
 				</swiper-item>
-				<swiper-item >
-					<Allorder :orders ='list1' emptyText='简历投递后马上会有客服查阅哦。'></Allorder>
-				</swiper-item>
 				<swiper-item>
-					<Allorder :orders ='list2' emptyText='耐心等待，面试通知马上来到。'></Allorder>
+					<Allorder :orders ='list1' emptyText='耐心等待，面试通知马上来到。'></Allorder>
 				</swiper-item>
 				<swiper-item >
-					<Allorder :orders ='list3' emptyText='面试过程怎么样，我和你一样期待这份offer呢。'></Allorder>
+					<Allorder :orders ='list2' emptyText='面试过程怎么样，我和你一样期待这份offer呢。'></Allorder>
 				</swiper-item>
 			</swiper>
   </div>
@@ -33,6 +30,8 @@
 import navbar from '@/components/navbar'
 import bt from '@/components/bt'
 import Allorder from './allprogress'
+import config from '@/config'
+import wx from '@/utils/wx'
 
 export default {
   data () {
@@ -40,9 +39,8 @@ export default {
       typeIdx: 0,
       types: [
         { name: '全部', id: 'guanzhu', where: {} },
-        { name: '已投递', id: 'tuijian', where: {payed: false} },
-        { name: '待面试', id: 'tiyu', where: {payed: true, logistics: 0} },
-        { name: 'offer', id: 'redian', where: {payed: true, logistics: 1} }
+        { name: '待面试', id: 'tiyu', where: {payed: true, logistics: 1} },
+        { name: 'offer', id: 'redian', where: {payed: true, logistics: 2} }
       ],
       list0: [],
       list1: [],
@@ -56,6 +54,8 @@ export default {
   methods: {
     tabChange: function (e) {
       this.typeIdx = e.target.id
+      console.log(this.typeIdx);
+      
     },
     swiperChange: function (e) {
       e.target.current === this.typeIdx || (this.typeIdx = e.target.current)
@@ -64,10 +64,34 @@ export default {
   onShow (e) {
     this.swiperChange({target: {current: this.$store.state.processType}})
   },
-  onLoad () {
-    // console.log('121', this.$store.state.selectedJob); // ok
-    this.position = this.$store.state.selectedJob
-    // console.log(this.position)
+  async onLoad () {
+    this.openid = mpvue.getStorageSync('openid')
+    // this.ProStatus = '' 
+    for (let i = 0; i < this.types.length; i++) {
+      switch (i) {
+        case 1:
+          this.ProStatus = 5
+          break;
+        case 2:
+          this.ProStatus = 7
+          break;
+        default:
+          this.ProStatus = 0
+          break;
+      }
+      const process = await wx.request({
+        url: config.host + '/Wx/GetProcess',
+        data: {
+          'openid': this.openid,
+          'status': this.ProStatus
+        },
+        method: 'get'
+      })
+      console.log('process' + i, process);
+      this['list' + i] = process
+      console.log('list' + i,  this['list' + i]);
+    }
+
   },
   created () {
 
@@ -91,6 +115,7 @@ page{
   height: 120rpx;
   border-radius: 0 0 30rpx 30rpx;
   background-color: #0fbcf9;
+  margin-top: -1rpx;
 }
 .Line{
   width: 78rpx;

@@ -9,9 +9,17 @@
     </div>
     <div v-else class="orders">
       <div class="order" v-for="(i, idx) in orders" :key="idx">
-        <div class="ordernum">档案编号：{{i.bianhao}}</div>
+        <div class="ordernum">档案时间：{{i.addtime}}</div>
         <div class="detail">
-          <p>{{i.zhuangtai}}</p>
+          <div class="intro">
+            <h1>{{i.name}}</h1>
+            <p>{{i.intro}}</p>
+          </div>
+          <div class="status">
+            <div v-if="i.status<5"><div class="statu bt1">已投递</div></div>
+            <div v-else-if="i.status<7"><div class="statu bt5">待面试</div></div>
+            <div v-else><div class="statu bt7">offer</div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -25,8 +33,8 @@ import net from '@/utils/request'
 import com from '@/utils/common'
 export default {
   props: {
-    // orders: Array,
-    // emptyText: String
+    orders: Array,
+    emptyText: String
   },
   data () {
     return {
@@ -94,39 +102,53 @@ export default {
   font-size: 15px;
   /* background-color: rgb(170, 215, 255); */
 }
-.order .detail{
-  position:relative;
+.detail{
   display: flex;
-  align-items:center;
-  justify-content: center;
-  height: 220rpx;
-  /* background-color: rgb(255, 164, 164); */
+  align-items: center;
+  height: 240rpx;
+  /* background-color: #8deaff; */
+  margin-left: 50rpx;
 }
-.detail-img{
-  /* position:absolute;
-  left: 0; */
-  width: 100%;
+.detail .intro{
+  height: 190rpx;
+  width: 80%;
+  font-size: 14px;
+  color: #666666;
+  /* background-color: #0abde3; */
+}
+.intro h1{
+  font-size: 16px;
+  color: #3a3a3a;
+  font-weight: bold;
+  margin: 10rpx 20rpx;
+}
+.intro p{
+  margin-left: 40rpx;
+}
+.detail .status{
+  width: 20%;
+}
+.statu{
+display: flex;
+justify-content: center;
+height: 80rpx;
+line-height: 80rpx;
+border-radius: 10rpx;
+color: white;
+}
+.bt1{
+  background-color: #0abde3;
+  box-shadow: rgba(60, 202, 245, 0.418) 8rpx 8rpx 30rpx 1rpx ;
+}
+.bt5{
+  background-color: #686de0;
+  box-shadow: rgba(182, 93, 255, 0.418) 8rpx 8rpx 30rpx 1rpx ;
+}
+.bt7{
+  background-color: #ee5253;
+  box-shadow: rgba(214, 48, 48, 0.418) 8rpx 8rpx 30rpx 1rpx ;
+}
 
-  display: flex;
-}
-.detail-img img{
-  width: 160rpx;
-  height: 160rpx;
-  border-radius: 10rpx;
-  margin-right: 10rpx;
-}
-.detail-price-num{
-  position:absolute;
-  right: 0;
-  box-shadow: -3rpx 0 16rpx -13rpx rgba(0,0,0);
-  display: flex;
-  flex-direction: column;
-  justify-content:center;
-  align-items:flex-end;
-  width: 170rpx;
-  height: 218rpx;
-  /* background-color: rgb(255, 201, 201); */
-}
 .price{
   color: #202020;
   margin: 10rpx;
