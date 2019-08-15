@@ -37,16 +37,17 @@ import Allorder from './allprogress'
 export default {
   data () {
     return {
+      typeIdx: 0,
       types: [
         { name: '全部', id: 'guanzhu', where: {} },
         { name: '已投递', id: 'tuijian', where: {payed: false} },
         { name: '待面试', id: 'tiyu', where: {payed: true, logistics: 0} },
         { name: 'offer', id: 'redian', where: {payed: true, logistics: 1} }
       ],
-      typeIdx: 0,
-      list0:{
-        _id:'1'
-      }
+      list0: [],
+      list1: [],
+      list2: [],
+
     }
   },
   components: {

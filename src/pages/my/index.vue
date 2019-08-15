@@ -162,7 +162,7 @@ export default {
 
       } else {
         console.log('用户还未授权过')
-        showLoading('未授权登录')
+        showLoading('未授权登录', 500)
       }
     } else {
       // 获取 setting
@@ -221,15 +221,15 @@ export default {
       let url = '/pages/process/main'
       switch (i.text) {
         case '已投递':
-          this.$store.commit('processTypeChange', 1)
+          this.$store.commit('processTypeChange', 0)
           mpvue.navigateTo({ url })
           break
         case '待面试':
-          this.$store.commit('processTypeChange', 2)
+          this.$store.commit('processTypeChange', 1)
           mpvue.navigateTo({ url })
           break
         case 'offer':
-          this.$store.commit('processTypeChange', 3)
+          this.$store.commit('processTypeChange', 2)
           mpvue.navigateTo({ url })
           break
       }

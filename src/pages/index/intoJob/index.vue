@@ -38,26 +38,6 @@
         <p></p> 
         <p>暂未填写其他详细信息</p> 
         <p>详情请电话联系</p> 
-        <!-- <div>1.{{position.positionname}}：（初级/中级550/高级850）要求有工作经验大专学历。初级泥浆工程师要求本科学历 石油工程专业应届毕业生均可。</div>
-        <div>2.固井操作手：要求中专以上学历，35岁以下身体健康</div>
-        <div>3.测井工程师（初级）：要求本科学历 石油工程专业应届毕业生均可。</div>
-        <div>4.定向井工程师（初级）：要求本科学历 石油工程专业应届毕业生均可。 </div>
-        <div>报名电话：13072293163，13072291062</div>
-        <div>简历投递：1444987229@.qq.com</div>
-        <div>面试地点：天津塘沽</div>
-        <div>工作地点：渤海石油平台。</div>
-        <div>待遇：六险一金，一年3000防暑降温费，从平台下来后回家的来回路费报销，食宿全包（吃的非常好，住宿有空调；海上石油平台上有免费的洗衣房，健身房、台球室等娱乐设施）。</div>
-        <div>————————————</div>
-        <div>1. {{position.positionname}}：（初级/中级550/高级850）要求有工作经验大专学历。初级泥浆工程师要求本科学历 石油工程专业应届毕业生均可。</div>
-        <div>2.固井操作手：要求中专以上学历，35岁以下身体健康</div>
-        <div>3.测井工程师（初级）：要求本科学历 石油工程专业应届毕业生均可。</div>
-        <div>4.定向井工程师（初级）：要求本科学历 石油工程专业应届毕业生均可。 </div>
-        <div>报名电话：13072293163，13072291062</div>
-        <div>简历投递：1444987229@.qq.com</div>
-        <div>面试地点：天津塘沽</div>
-        <div>工作地点：渤海石油平台。</div>
-        <div>待遇：六险一金，一年3000防暑降温费，从平台下来后回家的来回路费报销，食宿全包（吃的非常好，住宿有空调；海上石油平台上有免费的洗衣房，健身房、台球室等娱乐设施）。</div>
-        <div>————————————</div> -->
       </div>
     </div>
 
@@ -72,6 +52,9 @@
 <script>
 import navbar from '@/components/navbar'
 import bt from '@/components/bt'
+import com from '@/utils/common'
+import wx from '@/utils/wx'
+import { delay } from 'q';
 
 export default {
   data () {
@@ -83,14 +66,31 @@ export default {
     navbar, bt
   },
   methods: {
-    goNav_job (e) {
-      mpvue.navigateTo({ url: '/pages/form/main' })
+    async goNav_job (e) {
+      // 获取 setting
+      const setting = await wx.getSetting()
+        console.log(setting);
+      // 是否 授权
+      if (setting.authSetting['scope.userInfo']) {
+        mpvue.navigateTo({ url: '/pages/form/main' })
+      }else{
+        com.tos('您还没有登录，跳转到 我的 页面进行授权')
+        
+        setTimeout(() => {
+          console.log('停留了1s')
+          mpvue.switchTab({
+            url: '/pages/my/main',   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+          })
+        }, 1500)
+
+      }
     }
   },
-  onLoad () {
+  async onLoad () {
     // console.log('121', this.$store.state.selectedJob); // ok
     this.position = this.$store.state.selectedJob
     // console.log(this.position)
+
   },
   created () {
 
