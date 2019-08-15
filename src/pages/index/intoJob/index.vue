@@ -6,7 +6,7 @@
       <div class="position">{{position.positionname}}</div>
       <div class="salary">{{position.salary}}</div>
       <div class="place_time">
-        <div class="place">天津市/滨海新区/东疆湾</div>
+        <div class="place">天津市/滨海新区/天河科技园</div>
         <div class="sendtime">5分钟前</div>
       </div>
       <div></div>
@@ -32,7 +32,13 @@
         <div>职位描述</div>
       </div>
       <div class="pos_xiangqing"> 
-        <div>1.{{position.positionname}}：（初级/中级550/高级850）要求有工作经验大专学历。初级泥浆工程师要求本科学历 石油工程专业应届毕业生均可。</div>
+        <p>职位：{{position.positionname}}</p>
+        <p>薪资：{{position.salary}}</p>
+        <p>需要人数：{{position.people}}</p>
+        <p></p> 
+        <p>暂未填写其他详细信息</p> 
+        <p>详情请电话联系</p> 
+        <!-- <div>1.{{position.positionname}}：（初级/中级550/高级850）要求有工作经验大专学历。初级泥浆工程师要求本科学历 石油工程专业应届毕业生均可。</div>
         <div>2.固井操作手：要求中专以上学历，35岁以下身体健康</div>
         <div>3.测井工程师（初级）：要求本科学历 石油工程专业应届毕业生均可。</div>
         <div>4.定向井工程师（初级）：要求本科学历 石油工程专业应届毕业生均可。 </div>
@@ -51,7 +57,7 @@
         <div>面试地点：天津塘沽</div>
         <div>工作地点：渤海石油平台。</div>
         <div>待遇：六险一金，一年3000防暑降温费，从平台下来后回家的来回路费报销，食宿全包（吃的非常好，住宿有空调；海上石油平台上有免费的洗衣房，健身房、台球室等娱乐设施）。</div>
-        <div>————————————</div>
+        <div>————————————</div> -->
       </div>
     </div>
 

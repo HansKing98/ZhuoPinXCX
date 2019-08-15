@@ -84,7 +84,7 @@ export default {
         { text: '线上简历', url: '/static/images/my/xianshang.png' },
         { text: '简历附件', url: '/static/images/my/fujian.png' },
         // { text: '客服', url: '/static/images/my/kefu.png' },
-        { text: '邀请人', url: '/static/images/my/yaoqingren.png', nav: '/pages/invite/main?owner=43'}
+        { text: '邀请人', url: '/static/images/my/yaoqingren.png', nav: '/pages/invite/main'}
       ],
       assist: [
         { text: '邀请码', url: '/static/images/my/creQR.png', nav: '/pages/createdQR/main'}
@@ -144,6 +144,7 @@ export default {
         })
         console.log('2', code2session.openid);
         this.openid = code2session.openid
+        mpvue.setStorageSync('openid', code2session.openid)
         this.session_key = code2session.session_key
         // 存储 用户信息 到服务器
         const loginState = await wx.request({
@@ -166,30 +167,14 @@ export default {
 
       } else {
         console.log('用户还未授权过')
-        showLoading('未获取授权')
+        showLoading('未授权登录')
       }
     } else {
       console.log('已登录')
     }
   },
   onLoad: function () {
-      // 查看是否授权
-      // mpvue.getSetting({
-      //   success (res) {
-      //     console.log('res', res)
-      //     if (res.authSetting['scope.userInfo']) {
-      //       // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-      //       mpvue.getUserInfo({
-      //         success: function (res) {
-      //           console.log(res.userInfo)
-      //         },
-      //         fail: function (res) {
-      //           console.log('fail', res.userInfo)
-      //         }
-      //       })
-      //     }
-      //   }
-      // })
+
   },
   methods: {
     getUserInfo1 () {

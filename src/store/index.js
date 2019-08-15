@@ -61,10 +61,10 @@ export default new Vuex.Store({
       common.log([theModuleName, 'selectJob', state, 'type:', type])
       state.selectedJob = type
     },
-    ownerIdChange (state, type) {
-      common.log([theModuleName, 'selectownerId', state, 'type:', type])
-      state.selectedOwnerId = type
-    },
+    // ownerIdChange (state, type) {
+    //   common.log([theModuleName, 'selectownerId', state, 'type:', type])
+    //   state.selectedOwnerId = type
+    // },
     posIdChange (state, type) {
       common.log([theModuleName, 'selectposId', state, 'type:', type])
       state.selectedPosId = type

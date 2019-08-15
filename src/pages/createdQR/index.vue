@@ -3,7 +3,7 @@
     <navbar title='邀请码'></navbar>
 
     <div class="top">
-      <div class="inviteNumber">8z9a12o</div>
+      <div class="inviteNumber">{{ownerId}}</div>
       <div class="inviteDetail">
         <div>邀请人：{{owner}}</div>
         <!-- <div>职位：{{posId}}</div> -->
@@ -19,6 +19,11 @@
           <div class="red">4. 截屏并将邀请码发送到朋友圈</div>
           <div class="red">5. 点击二维码编辑邀请信息</div>
         </div>
+        <p>下方进行邀请人id修改</p>
+        <div class="changhOwner">
+          <input class="ownerInput" type="123" :value="ownerId" @input="ownerChangeTem($event)">
+          <button class="ownerbt" @click="ownerChange">确定</button>
+        </div>
       </div>
     </div>
 
@@ -33,11 +38,11 @@ export default {
   data () {
     return {
       id: 1,
-      url: 'http://qr.topscan.com/api.php?text=https://open.weixin.qq.com/sns/getexpappinfo?appid=wx9217cccd75825cff%26path=pages%2Finvite%2Fmain.html%3Fowner%3D'+ 43 +'#wechat-redirect',
+      url: 'http://qr.topscan.com/api.php?text=https://open.weixin.qq.com/sns/getexpappinfo?appid=wx9217cccd75825cff%26path=pages%2Finvite%2Fmain.html%3Fowner%3D'+ 1 +'#wechat-redirect',
       posId: null,
       ownerId: null,
       position: {},
-      owner:{}
+      owner:''
     }
   },
   components: {
@@ -55,14 +60,26 @@ export default {
               console.log(res);
             }
           })
+    },
+    ownerChangeTem(e){
+      console.log(e.mp.detail.value);
+      this.temownerId = e.mp.detail.value
+    },
+    ownerChange(){
+      this.ownerId = this.temownerId
+      mpvue.setStorageSync('ownerId', this.temownerId)
+      let page = getCurrentPages().pop()
+      page.onLoad()
     }
   },
   onLoad (e) {
-    this.posId = this.$store.state.selectedPosId
-    this.ownerId = this.$store.state.selectedOwnerId
-    this.posId = 63
-    this.ownerId = 43
-    
+    // this.posId = this.$store.state.selectedPosId
+    // this.ownerId = this.$store.state.selectedOwnerId
+    // this.posId = 63
+    // this.ownerId = 43
+    this.ownerId = mpvue.getStorageSync('ownerId')
+    console.log('1owner:', this.ownerId);
+  
     this.url = 'http://qr.topscan.com/api.php?text=https://open.weixin.qq.com/sns/getexpappinfo?appid=wx9217cccd75825cff%26path=pages%2Finvite%2Fmain.html%3Fowner%3D'+ this.ownerId +'#wechat-redirect'
     console.log(this.url);
 
@@ -89,7 +106,11 @@ export default {
         owner: this.ownerId
       }
     }).then(res => {
-      this.owner = res.name
+      if (res.name) {
+        this.owner = res.name
+      } else {
+        this.owner = '无'
+      }
       console.log('owner', this.owner)
     })
 
@@ -160,5 +181,29 @@ img{
 }
 .red{
   color: #ff4757;
+}
+.changhOwner{
+  display: flex;
+  margin:20rpx;
+}
+.ownerInput{
+  width: 100rpx;
+  height: 50rpx;
+  border-radius: 10rpx;
+  background-color: #eaf9ff;
+  padding-left: 30rpx;
+}
+.ownerbt{
+ background-color: #d63031;
+ width: 80rpx;
+ height: 50rpx;
+ line-height: 50rpx;
+ color: white;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ border-radius: 40rpx;
+ margin-left: 20rpx;
+ box-shadow: rgba(214, 48, 48, 0.418) 10rpx 10rpx 50rpx 1rpx ;
 }
 </style>

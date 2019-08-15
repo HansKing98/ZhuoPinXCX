@@ -7,7 +7,7 @@
         <div class="position">{{position.positionname}}</div>
         <div class="salary">{{position.salary}}</div>
         <div class="place_time">
-          <div class="place">天津市/滨海新区/东疆湾</div>
+          <div class="place">天津市/滨海新区/国家超级计算中心</div>
           <div class="sendtime">5分钟前</div>
         </div>
         <div></div>
@@ -22,7 +22,7 @@
         </div>
 
         <div class="section" >
-          <radio-group class="radio-group" @submit.prevent="radioChange" >
+          <radio-group class="radio-group" @change="radioChange" >
               <div class="section__title">性别</div>
               <label class="radio" v-for="(item, index) in sex" :key="index">
                   <radio :value="item.name"/>{{item.value}}
@@ -36,8 +36,18 @@
         </div>
 
         <div class="section"> 
+          <div class="section__title">出生日期</div>
+          <picker class="auth-pick-tip" mode="date" :value="birthdate" @change="birthPick">
+            <div v-if="!birthdate.length">请选择生日</div>
+            <view>
+              {{birthdate}}
+            </view>
+          </picker>
+        </div>
+
+        <div class="section"> 
           <div class="section__title">身份证号码</div>
-          <input name="idcard" placeholder="身份证" type="idcard" />
+          <input name="idcard" placeholder="身份证号" type="idcard" />
         </div>
 
         <div class="section"> 
@@ -57,7 +67,12 @@
 
         <div class="section"> 
           <div class="section__title">毕业时间</div>
-          <input name="graduationtime" placeholder="毕业时间" />
+          <picker class="auth-pick-tip" mode="date" :value="graduationtime" @change="graTimePick">
+            <div v-if="!graduationtime.length">请选择毕业时间</div>
+            <view>
+              {{graduationtime}}
+            </view>
+          </picker>
         </div>
 
         <div class="section"> 
@@ -66,23 +81,33 @@
         </div>
 
         <div class="section"> 
-          <div class="section__title">居住地</div>
-          <input name="liveplace" placeholder="居住地" />
+              <div class="section__title">居住地</div>
+              <picker class="auth-pick-tip" mode="region" :value="region1" :custom-item="customItem" @change="region1Pick">
+                <div v-if="!region1.length">请选择区域</div>
+                <view>
+                  {{region1[0]}}，{{region1[1]}}，{{region1[2]}}
+                </view>
+              </picker>
         </div>
 
         <div class="section"> 
-          <div class="section__title">户籍所在地</div>
-          <input name="birthplace" placeholder="户籍" />
-        </div>
-
-        <div class="section"> 
-          <div class="section__title">邮箱</div>
-          <input name="email" placeholder="邮箱" />
+              <div class="section__title">户籍所在地</div>
+              <picker class="auth-pick-tip" mode="region" :value="region2" :custom-item="customItem" @change="region2Pick">
+                <div v-if="!region2.length">请选择区域</div>
+                <view v-else>
+                  {{region2[0]}}，{{region2[1]}}，{{region2[2]}}
+                </view>
+              </picker>
         </div>
 
         <div class="section"> 
           <div class="section__title">手机号码</div>
           <input name="phone" placeholder="手机号码" type="number"/>
+        </div>
+
+        <div class="section"> 
+          <div class="section__title">邮箱</div>
+          <input name="email" placeholder="邮箱" />
         </div>
 
         <div class="section"> 
@@ -122,7 +147,12 @@ export default {
         {name: '女', value: '女'}
       ],
       sexChoose: '',
-      position: {}
+      position: {},
+      birthdate: '',
+      graduationtime:'',
+      region1: ["天津市", "天津市", "全部"],
+      region2: [],
+      customItem: '全部'
     }
   },
   components: {
@@ -131,54 +161,89 @@ export default {
   onLoad () {
     // console.log('121', this.$store.state.selectedJob); // ok
     this.position = this.$store.state.selectedJob
+    this.openid = mpvue.getStorageSync('openid')
+    console.log('openid', this.openid);
+    this.owner = mpvue.getStorageSync('ownerId')
+    console.log('owner', this.owner);
+    
     // console.log(this.position);
   },
   methods: {
+    // itemPick: function (e, value) {
+    //   console.log( region2+ 'd选择改变，携带值为', e.mp.detail.value)
+    //   this.value = e.mp.detail.value
+    // },   
+    graTimePick: function (e) {
+      console.log('birthPick发送选择改变，携带值为', e.mp.detail.value)
+      this.graduationtime = e.mp.detail.value
+    },   
+    birthPick: function (e) {
+      console.log('birthPick发送选择改变，携带值为', e.mp.detail.value)
+      this.birthdate = e.mp.detail.value
+    },   
+    region1Pick: function (e) {
+      console.log('picker1发送选择改变，携带值为', e.mp.detail.value)
+      this.region1 = e.mp.detail.value
+    },    
+    region2Pick: function (e) {
+      console.log('picker2发送选择改变，携带值为', e.mp.detail.value)
+      this.region2 = e.mp.detail.value
+    },
     formSubmit: function (e) {
-      mpvue.request({
-        url: 'https://hr.test.getkin.cn/Wx/ResumeAdd', // 数据传到的地址
-        data: {
-          'name': e.mp.detail.value.name,
-          'sex': e.mp.detail.value.sex,
-          'nation': e.mp.detail.value.nation,
-          'idcard': e.mp.detail.value.idcard,
-          'school': e.mp.detail.value.school,
-          'education': e.mp.detail.value.education,
-          'major': e.mp.detail.value.major,
-          'graduationtime': e.mp.detail.value.graduationtime,
-          'englishlevel': e.mp.detail.value.englishlevel,
-          'liveplace': e.mp.detail.value.liveplace,
-          'birthplace': e.mp.detail.value.birthplace,
-          'email': e.mp.detail.value.email,
-          'phone': e.mp.detail.value.phone,
-          'wechat': e.mp.detail.value.wechat,
-          'qq': e.mp.detail.value.qq,
-          'intro': e.mp.detail.value.intro
-        }, // 传入的数据
-        method: 'POST',
-        header: {// 设置请求的 header
-          'content-type': 'application/x-www-form-urlencoded' // 这是传输方式为post的写法 ； 如果是get 则是'Content-Type': 'application/json'
-        },
-        success: function (res) {
-          // console.log('e', e)
+      if (e.mp.detail.value.idcard.length==18) {
+        mpvue.request({
+          url: 'https://hr.test.getkin.cn/Wx/ResumeAdd', // 数据传到的地址
+          data: {
+            'name': e.mp.detail.value.name,
+            'sex': this.sexChoose,
+            'birthdate': this.birthdate,
+            'nation': e.mp.detail.value.nation,
+            'idcard': e.mp.detail.value.idcard,
+            'school': e.mp.detail.value.school,
+            'education': e.mp.detail.value.education,
+            'major': e.mp.detail.value.major,
+            'graduationtime': this.graduationtime,
+            'englishlevel': e.mp.detail.value.englishlevel,
+            'liveplace': this.region1,
+            'birthplace': this.region2,
+            'email': e.mp.detail.value.email,
+            'phone': e.mp.detail.value.phone,
+            'wechat': e.mp.detail.value.wechat,
+            'qq': e.mp.detail.value.qq,
+            'intro': e.mp.detail.value.intro,
+            'wxuser': 'this.openid',
+            'owner': this.owner
+          }, // 传入的数据
+          method: 'POST',
+          header: {// 设置请求的 header
+            'content-type': 'application/x-www-form-urlencoded' // 这是传输方式为post的写法 ； 如果是get 则是'Content-Type': 'application/json'
+          },
+          success: function (res) {
+            // console.log('e', e)
 
-          // console.log(JSON.stringify(res.data))
-          mpvue.showModal({ // 提交成功 ，弹框
-            title: '提示',
-            content: '提交成功，确认返回',
-            success: function (res) {
-              // console.log('res', res)
-              if (res.confirm) { // 如果点击弹框的确认则进行下面的操作
-                console.log('用户点击确定')
-                // 返回
-                mpvue.navigateBack({delta: 1})
-              } else if (res.cancel) {
-                console.log('用户点击取消')
+            // console.log(JSON.stringify(res.data))
+            mpvue.showModal({ // 提交成功 ，弹框
+              title: '提示',
+              content: '提交成功，确认返回',
+              success: function (res) {
+                // console.log('res', res)
+                if (res.confirm) { // 如果点击弹框的确认则进行下面的操作
+                  console.log('用户点击确定')
+                  // 返回
+                  mpvue.navigateBack({delta: 1})
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
               }
-            }
+            })
+          }
+        })
+      } else {
+          mpvue.showToast({
+            title: '请输入完整身份证好吗',
+            icon: 'loading'
           })
-        }
-      })
+      }
     },
     radioChange: function (e) {
       console.log('e', e)

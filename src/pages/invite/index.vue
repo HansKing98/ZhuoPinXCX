@@ -17,7 +17,7 @@
 
         <div class="bottom">
           <button class="queren" @tap="goNav_Home($event)">确认</button>
-          <button class="youwu">信息有误</button>
+          <!-- <button class="youwu">信息有误</button> -->
         </div>
       </div>
     </div>
@@ -44,21 +44,28 @@ export default {
   methods: {
     goNav_Home ($event) {
       mpvue.switchTab({ url: '/pages/index/main' })
-    },
-    inviteErr () {
+    // },
+    // inviteErr () {
 
     }
   },
   onLoad (e) {
     console.log('e', e);
-    this.owner = e.owner
+    if (e.ownerId) {
+      console.log('传进来owner值了');
+      this.ownerId = e.owner
+    }else{
+      console.log('没传owner');
+       this.ownerId = mpvue.getStorageSync('ownerId')
+    }
+
     this.$httpWX.post({
       url: '/GetName',
       header: {
         'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
       data: {
-        owner: this.owner
+        owner: this.ownerId
       }
     }).then(res => {
       // let detail = res
@@ -68,9 +75,9 @@ export default {
       // console.log('rea', res)
       this.invDatahans = res
       console.log('invDatahans', this.invDatahans)
-    }),
-    // 储存 owner
-    this.$store.commit('ownerIdChange', this.owner)
+    })
+    // // 储存 owner
+    // this.$store.commit('ownerIdChange', this.owner)
   },
   created () {
     // let app = getApp()
