@@ -33,6 +33,8 @@
 <script>
 import navbar from '@/components/navbar'
 import bt from '@/components/bt'
+import config from '@/config'
+import wx from '@/utils/wx'
 
 export default {
   data () {
@@ -42,7 +44,12 @@ export default {
       posId: null,
       ownerId: null,
       position: {},
-      owner:''
+      owner:'',
+
+
+      appid: config.appid,
+      secret: config.secret,
+      access_token:''
     }
   },
   components: {
@@ -72,7 +79,31 @@ export default {
       page.onLoad()
     }
   },
-  onLoad (e) {
+  async onLoad (e) {
+    // get access_token
+    const getAccessToken = await wx.request({
+      url: config.host + '/Wx/getAccessToken',
+      data: {
+        'appid': this.appid,
+        'secret': this.secret,
+      },
+      method: 'get'
+    })
+    this.access_token = getAccessToken.access_token
+    console.log('TOKEN : ', this.access_token);
+    //get QRcode
+    const getQRcode = await wx.request({
+      url: config.host + '/Wx/getUnlimitedT',  
+      data: { 
+        'access_token': getAccessToken.access_token,
+        'scene': '78',
+        'page': 'pages/invite/main',
+      },
+      method: 'get'
+    })
+    console.log('QRcode : ', getQRcode);
+
+
     // this.posId = this.$store.state.selectedPosId
     // this.ownerId = this.$store.state.selectedOwnerId
     // this.posId = 63

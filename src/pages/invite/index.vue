@@ -53,9 +53,13 @@ export default {
   },
   onLoad (e) {
     console.log('e', e);
-    if (e.ownerId) {
+    if (e.owner||e.scene) {
       console.log('传进来owner值了');
-      this.ownerId = e.owner
+      if (e.owner) {
+        this.ownerId = e.owner
+      } else {
+        this.ownerId = e.scene
+      }
     }else{
       console.log('没传owner');
        this.ownerId = mpvue.getStorageSync('ownerId')
