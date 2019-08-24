@@ -16,8 +16,20 @@
             </div>
             <div class="top_bo"></div>
     </div>
-    <div class="middle">
-      <div class="orders" v-show="webState!=250">
+    <div class="middle" v-if="webState==250">
+      <div class="orders">
+        <div class="Titel">辅助功能</div>
+        <div class="Line"></div>
+        <div class="Btns">
+          <div class="Btn" v-for="(item, index) in assist" :key="index" @click="nav_to(item)">
+            <img class="more" :src="item.url" alt="">
+            <text>{{item.text}}</text>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="middle" v-else>
+      <div class="orders">
         <div class="Titel" @click="nav_to_process()"><p>所有进程</p> <img src="/static/icon/you.png" alt=""> </div>
         <div class="Line"></div>
         <div class="Btns">
@@ -28,7 +40,7 @@
         </div>
       </div>
 
-      <div class="orders" v-show="webState!=250">
+      <div class="orders">
         <div class="Titel">更多</div>
         <div class="Line"></div>
         <div class="Btns">
@@ -104,14 +116,14 @@ export default {
   components: {
     navbar
   },
-
-  async onLoad () {
+  async created () {
     const webState = await wx.request({
       url: config.host + '/Wx/GetWebState?hans=9527',  
     })
     this.webState = webState
     console.log('webState', this.webState);
-
+  },
+  async onLoad () {
     // 检查 openid
     this.openid = mpvue.getStorageSync('openid')
     console.log('openid:',this.openid)
