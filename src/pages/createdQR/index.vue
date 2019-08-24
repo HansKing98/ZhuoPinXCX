@@ -3,7 +3,7 @@
     <navbar title='邀请码'></navbar>
 
     <div class="top">
-      <div class="inviteNumber">{{ownerId}}</div>
+      <div class="inviteNumber">inviter {{ownerId}}</div>
       <div class="inviteDetail">
         <div>邀请人：{{owner}}</div>
         <!-- <div>职位：{{posId}}</div> -->
@@ -40,7 +40,7 @@ export default {
   data () {
     return {
       id: 1,
-      url: 'http://qr.topscan.com/api.php?text=https://open.weixin.qq.com/sns/getexpappinfo?appid=wx9217cccd75825cff%26path=pages%2Finvite%2Fmain.html%3Fowner%3D'+ 1 +'#wechat-redirect',
+      url: '',
       posId: null,
       ownerId: null,
       position: {},
@@ -79,41 +79,50 @@ export default {
       page.onLoad()
     }
   },
-  async onLoad (e) {
-    // get access_token
-    const getAccessToken = await wx.request({
-      url: config.host + '/Wx/getAccessToken',
-      data: {
-        'appid': this.appid,
-        'secret': this.secret,
-      },
-      method: 'get'
-    })
-    this.access_token = getAccessToken.access_token
-    console.log('TOKEN : ', this.access_token);
-    //get QRcode
-    const getQRcode = await wx.request({
-      url: config.host + '/Wx/getUnlimitedT',  
-      data: { 
-        'access_token': getAccessToken.access_token,
-        'scene': '78',
-        'page': 'pages/invite/main',
-      },
-      method: 'get'
-    })
-    console.log('QRcode : ', getQRcode);
-
-
-    // this.posId = this.$store.state.selectedPosId
-    // this.ownerId = this.$store.state.selectedOwnerId
-    // this.posId = 63
-    // this.ownerId = 43
+  async created () {
     this.ownerId = mpvue.getStorageSync('ownerId')
-    console.log('1owner:', this.ownerId);
+    this.url= config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
+  },
+  async onLoad (e) {
+    this.ownerId = mpvue.getStorageSync('ownerId')
+    // 查看图片是否存在
+    const QRcode = await wx.request({
+      url: config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png',  
+    })
+    // QRcode.length < 300 返回的不是小程序码
+    if (QRcode.length < 300) {
+      // 服务器无此小程序码 下面生成
+      // get access_token
+      const getAccessToken = await wx.request({
+        url: config.host + '/Wx/getAccessToken',
+        data: {
+          'appid': this.appid,
+          'secret': this.secret,
+        },
+        method: 'get'
+      })
+      this.access_token = getAccessToken.access_token
+      console.log('TOKEN : ', this.access_token);
+      //get QRcode
+      const getQRcode = await wx.request({
+        url: config.host + '/Wx/getUnlimitedT',  
+        data: { 
+          'access_token': getAccessToken.access_token,
+          'scene': this.ownerId,
+          'page': 'pages/invite/main',
+        },
+        method: 'get'
+      })
+      console.log('QRcode : ', getQRcode);
+      console.log('小程序码储存成功');
+      this.url= config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
+      console.log('小程序码调用成功');
+    }else{
+      // 小程序码已存在 下面调用
+      this.url= config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
+      console.log('小程序码调取成功');
+    }
   
-    this.url = 'http://qr.topscan.com/api.php?text=https://open.weixin.qq.com/sns/getexpappinfo?appid=wx9217cccd75825cff%26path=pages%2Finvite%2Fmain.html%3Fowner%3D'+ this.ownerId +'#wechat-redirect'
-    console.log(this.url);
-
     this.$httpWX.post({
       url: '/GetPosById',
       header: {
@@ -145,9 +154,6 @@ export default {
       console.log('owner', this.owner)
     })
 
-  },
-  created () {
-    // let app = getApp()
   }
 }
 </script>
@@ -163,6 +169,7 @@ page{
 img{
   width: 300rpx;
   height: 300rpx;
+  border-radius: 10%;
 }
 
 .top{
