@@ -12,7 +12,14 @@
     </div>
     <div class="bottom">
       <div class="card">
-        <div class="cardin">
+        <div class="cardin" v-if="webState==250">
+          <div>1. 以上为生成的邀请码，请核查信息 </div>
+          <div>2. 邀请同学加入畅校园</div>
+          <div>3. 课程表功能稍后更新</div>
+          <div class="red">4. 截屏并将邀请码发送到朋友圈</div>
+          <div class="red">5. 赶快邀请同学加入畅校园小程序吧</div>
+        </div>
+        <div class="cardin" v-else>
           <div>1. 以上为生成的邀请码，请核查信息 </div>
           <div>2. 邀请码职位信息可为空</div>
           <div>3. 邀请码职位公司信息可为空</div>
@@ -49,7 +56,8 @@ export default {
 
       appid: config.appid,
       secret: config.secret,
-      access_token:''
+      access_token:'',
+      webState:''
     }
   },
   components: {
@@ -84,6 +92,12 @@ export default {
     this.url= config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
   },
   async onLoad (e) {
+    const webState = await wx.request({
+      url: config.host + '/Wx/GetWebState?hans=9527',  
+    })
+    this.webState = webState
+    console.log('webState', this.webState);
+
     this.ownerId = mpvue.getStorageSync('ownerId')
     // 查看图片是否存在
     const QRcode = await wx.request({

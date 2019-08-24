@@ -1,9 +1,15 @@
 <template>
   <div>
-    <navbar title='畅校园' :btL=false></navbar>
-    <swiper :images='images'></swiper>
-
-    <div class="show">
+    <div v-if="webState==250">
+      <navbar title='畅校园校历' :btL=false></navbar>
+      <swiper :images='images'></swiper>
+      <div class="xiaoli">
+        <img src="http://hr.test.getkin.cn/Uploads/images/xl/xiaoli2018-1-0.jpg" alt="">
+      </div>
+    </div>
+    <div v-else class="show">
+      <navbar title='畅校园' :btL=false></navbar>
+      <swiper :images='images'></swiper>
       <div class="jobs">
         <div class="job" v-for="(item, index) in positions" :key="index" @click="goNav_intojob($event)" @tap='tap(item)'>
           <img :src="item.url" alt="" mode='aspectFill'>
@@ -30,10 +36,13 @@
 import navbar from '@/components/navbar'
 import swiper from '@/components/swiper'
 import bt from '@/components/bt'
+import wx from '@/utils/wx'
+import config from '@/config'
 
 export default {
   data () {
     return {
+      webState : '',
       images: [
         { url: '/static/images/banner/banner1.jpg' },
         { url: '/static/images/banner/banner2.jpg' }
@@ -59,6 +68,13 @@ export default {
       this.$store.commit('jobChange', e)
     }
   },
+  async created () {
+    const webState = await wx.request({
+      url: config.host + '/Wx/GetWebState?hans=9527',  
+    })
+    this.webState = webState
+    console.log('webState', this.webState);
+  },
   onLoad () {
     this.$httpWX.get({
       url: '/GetPosition',
@@ -79,9 +95,6 @@ export default {
       this.positions = res
       console.log('职位列表', this.positions)
     })
-  },
-  created () {
-
   }
 }
 </script>
@@ -93,6 +106,10 @@ page{
 </style>
 
 <style>
+.xiaoli img{
+  width: 100%;
+  height: 1200rpx;
+}
 /* 金刚区 */
 .show{
   height: 220rpx;

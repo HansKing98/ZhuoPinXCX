@@ -17,7 +17,7 @@
             <div class="top_bo"></div>
     </div>
     <div class="middle">
-      <div class="orders">
+      <div class="orders" v-show="webState!=250">
         <div class="Titel" @click="nav_to_process()"><p>所有进程</p> <img src="/static/icon/you.png" alt=""> </div>
         <div class="Line"></div>
         <div class="Btns">
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div class="orders">
+      <div class="orders" v-show="webState!=250">
         <div class="Titel">更多</div>
         <div class="Line"></div>
         <div class="Btns">
@@ -96,7 +96,8 @@ export default {
       // 使用以上参数 调用api接口获取 openid
       openid: '',
       session_key: '',
-      userInfo: {}
+      userInfo: {},
+      webState:''
     }
   },
 
@@ -105,6 +106,12 @@ export default {
   },
 
   async onLoad () {
+    const webState = await wx.request({
+      url: config.host + '/Wx/GetWebState?hans=9527',  
+    })
+    this.webState = webState
+    console.log('webState', this.webState);
+
     // 检查 openid
     this.openid = mpvue.getStorageSync('openid')
     console.log('openid:',this.openid)
@@ -234,10 +241,6 @@ export default {
           break
       }
     }
-  },
-
-  created () {
-    // let app = getApp()
   }
 }
 </script>
