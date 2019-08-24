@@ -75,7 +75,10 @@ export default {
     this.webState = webState
     console.log('webState', this.webState);
   },
-  onLoad () {
+  async onLoad () {
+    //
+
+    //
     this.$httpWX.get({
       url: '/GetPosition',
       header: {

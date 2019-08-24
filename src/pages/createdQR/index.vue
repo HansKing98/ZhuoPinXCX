@@ -89,9 +89,11 @@ export default {
   },
   async created () {
     this.ownerId = mpvue.getStorageSync('ownerId')
+    console.log('ownerId',ownerId);
     this.url= config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
   },
   async onLoad (e) {
+    this.url= config.host + '/Uploads/images/QR/owner1.png'
     const webState = await wx.request({
       url: config.host + '/Wx/GetWebState?hans=9527',  
     })

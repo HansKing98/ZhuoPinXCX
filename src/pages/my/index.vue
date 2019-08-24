@@ -109,21 +109,21 @@ export default {
       openid: '',
       session_key: '',
       userInfo: {},
-      webState:''
+      webState:'250'
     }
   },
 
   components: {
     navbar
   },
-  async created () {
+  async onLoad () {
+    //
     const webState = await wx.request({
       url: config.host + '/Wx/GetWebState?hans=9527',  
     })
     this.webState = webState
     console.log('webState', this.webState);
-  },
-  async onLoad () {
+    //
     // 检查 openid
     this.openid = mpvue.getStorageSync('openid')
     console.log('openid:',this.openid)
