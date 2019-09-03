@@ -64,6 +64,7 @@ export default {
       console.log('没传owner');
        this.ownerId = mpvue.getStorageSync('ownerId')
     }
+    mpvue.setStorageSync('ownerId', this.ownerId)
 
     this.$httpWX.post({
       url: '/GetName',

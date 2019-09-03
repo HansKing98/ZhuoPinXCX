@@ -36,6 +36,18 @@ export const getSetting = () => new Promise((resolve, reject) => {
   })
 })
 
+export const chooseMessageFile = (count = 1, type = ['file']) => new Promise((resolve, reject) => {
+  wx.chooseMessageFile({
+    count,
+    type,
+    success (res) {
+      resolve(res)
+    },
+    fail (e) {
+      reject(e)
+    }
+  })
+})
 // hansking·hansking·hansking·hansking·hansking
 
 export const getLocation = () => new Promise((resolve) => {

@@ -3,9 +3,10 @@ import App from './App'
 import store from './store/index'
 
 import VueQriously from 'vue-qriously'
+import WXrequest from './utils/wx-request'
+
 Vue.use(VueQriously)
 
-import WXrequest from './utils/wx-request'
 Vue.prototype.$httpWX = WXrequest
 
 Vue.config.productionTip = false

@@ -231,27 +231,44 @@ export default {
         com.tos('相关功能暂时不可用') // showToast
       }
     },
-    nav_to_process(){
-      console.log('跳转到进程');
-      this.$store.commit('processTypeChange', 0)
-      mpvue.navigateTo({ url: '/pages/process/main'  })
-    },
-    tap (i) {
-      let url = '/pages/process/main'
-      switch (i.text) {
-        case '已投递':
-          this.$store.commit('processTypeChange', 0)
-          mpvue.navigateTo({ url })
-          break
-        case '待面试':
-          this.$store.commit('processTypeChange', 1)
-          mpvue.navigateTo({ url })
-          break
-        case 'offer':
-          this.$store.commit('processTypeChange', 2)
-          mpvue.navigateTo({ url })
-          break
+    async nav_to_process(){
+      // 获取 setting
+      const setting = await wx.getSetting()
+      console.log(setting);
+      // 是否 授权
+      if (setting.authSetting['scope.userInfo']) {
+        this.$store.commit('processTypeChange', 0)
+        mpvue.navigateTo({ url: '/pages/process/main'  })
+      }else{
+        com.tos('您还没有登录，点击上方按钮进行授权')
       }
+      console.log('跳转到进程');
+    },
+    async tap (i) {
+      // 获取 setting
+      const setting = await wx.getSetting()
+      console.log(setting);
+      // 是否 授权
+      if (setting.authSetting['scope.userInfo']) {
+        let url = '/pages/process/main'
+        switch (i.text) {
+          case '已投递':
+            this.$store.commit('processTypeChange', 0)
+            mpvue.navigateTo({ url })
+            break
+          case '待面试':
+            this.$store.commit('processTypeChange', 1)
+            mpvue.navigateTo({ url })
+            break
+          case 'offer':
+            this.$store.commit('processTypeChange', 2)
+            mpvue.navigateTo({ url })
+            break
+        }
+      }else{
+        com.tos('您还没有登录，点击上方按钮进行授权')
+      }
+
     }
   }
 }

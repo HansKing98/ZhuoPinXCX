@@ -17,13 +17,13 @@
       <!-- <form bindsubmit="formSubmit">  -->
 
         <div class="section"> 
-          <div class="section__title">姓名</div>
-          <input name="name" placeholder="姓名" />
+          <div class="section__title"> <a style="color:red">*</a> 姓名</div>
+          <input :class="focusType=='name'?'inpfocus':'inp'" @focus='changeFocus("name")' @blur='npFocus' name="name" />
         </div>
 
         <div class="section" >
+          <div class="section__title"> <a style="color:red">*</a> 性别</div>
           <radio-group class="radio-group" @change="radioChange" >
-              <div class="section__title">性别</div>
               <label class="radio" v-for="(item, index) in sex" :key="index">
                   <radio :value="item.name"/>{{item.value}}
               </label>
@@ -31,8 +31,8 @@
         </div>
 
         <div class="section"> 
-          <div class="section__title">民族</div>
-          <input name="nation" placeholder="民族" />
+          <div class="section__title"> <a style="color:red">*</a> 民族</div>
+          <input :class="focusType=='nation'?'inpfocus':'inp'" @focus='changeFocus("nation")' @blur='npFocus' name="nation" />
         </div>
 
         <div class="section"> 
@@ -46,27 +46,27 @@
         </div>
 
         <div class="section"> 
-          <div class="section__title">身份证号码</div>
-          <input name="idcard" placeholder="身份证号" type="idcard" />
+          <div class="section__title"><a style="color:red">*</a>身份证号码</div>
+          <input :class="focusType=='idcard'?'inpfocus':'inp'" @focus='changeFocus("idcard")' @blur='npFocus' name="idcard" type="idcard" />
         </div>
 
         <div class="section"> 
-          <div class="section__title">毕业院校</div>
-          <input name="school" placeholder="学校名称" />
+          <div class="section__title"><a style="color:red">*</a>毕业院校</div>
+          <input :class="focusType=='school'?'inpfocus':'inp'" @focus='changeFocus("school")' @blur='npFocus' name="school" />
         </div>
 
         <div class="section"> 
-          <div class="section__title">最高学历</div>
-          <input name="education" placeholder="最高学历" />
+          <div class="section__title"><a style="color:red">*</a>最高学历</div>
+          <input :class="focusType=='education'?'inpfocus':'inp'" @focus='changeFocus("education")' @blur='npFocus' name="education" />
         </div>
 
         <div class="section"> 
-          <div class="section__title">专业</div>
-          <input name="major" placeholder="专业" />
+          <div class="section__title"><a style="color:red">*</a>专业</div>
+          <input :class="focusType=='major'?'inpfocus':'inp'" @focus='changeFocus("major")' @blur='npFocus' name="major" />
         </div>
 
         <div class="section"> 
-          <div class="section__title">毕业时间</div>
+          <div class="section__title"><a style="color:red">*</a>毕业时间</div>
           <picker class="auth-pick-tip" mode="date" :value="graduationtime" @change="graTimePick">
             <div v-if="!graduationtime.length">请选择毕业时间</div>
             <view>
@@ -76,15 +76,15 @@
         </div>
 
         <div class="section"> 
-          <div class="section__title">英语水平</div>
-          <input name="englishlevel" placeholder="英语水平" />
+          <div class="section__title"><a style="color:red">*</a>英语水平</div>
+          <input :class="focusType=='englishlevel'?'inpfocus':'inp'" @focus='changeFocus("englishlevel")' @blur='npFocus' name="englishlevel" />
         </div>
 
         <div class="section"> 
               <div class="section__title">居住地</div>
               <picker class="auth-pick-tip" mode="region" :value="region1" :custom-item="customItem" @change="region1Pick">
                 <div v-if="!region1.length">请选择区域</div>
-                <view>
+                <view v-else>
                   {{region1[0]}}，{{region1[1]}}，{{region1[2]}}
                 </view>
               </picker>
@@ -101,28 +101,50 @@
         </div>
 
         <div class="section"> 
-          <div class="section__title">手机号码</div>
-          <input name="phone" placeholder="手机号码" type="number"/>
+          <div class="section__title"><a style="color:red">*</a>手机号码</div>
+          <input :class="focusType=='phone'?'inpfocus':'inp'" @focus='changeFocus("phone")' @blur='npFocus' name="phone" type="number" />
         </div>
 
         <div class="section"> 
           <div class="section__title">邮箱</div>
-          <input name="email" placeholder="邮箱" />
+          <input :class="focusType=='email'?'inpfocus':'inp'" @focus='changeFocus("email")' @blur='npFocus' name="email" />
         </div>
 
-        <div class="section"> 
+        <!-- <div class="section"> 
           <div class="section__title">微信号</div>
-          <input name="wechat" placeholder="微信号" />
-        </div>
+          <input :class="focusType=='wechat'?'inpfocus':'inp'" @focus='changeFocus("wechat")' @blur='npFocus' name="wechat" />
+        </div> -->
 
         <div class="section"> 
           <div class="section__title">QQ号</div>
-          <input name="qq" placeholder="QQ号" />
+          <input :class="focusType=='qq'?'inpfocus':'inp'" @focus='changeFocus("qq")' @blur='npFocus' name="qq" />
         </div>
 
-        <div class="section"> 
-          <div class="section__title">个人介绍</div>
-          <input name="intro" placeholder="个人介绍" />
+        <div class="secintor"> 
+            <div class="section__title">上传简历附件</div>
+            <div class="wenjian" @click="chooseFile">
+              <div v-if="fileType === 'upload'">
+                <img :src="uploadsrc" alt="">
+              </div>
+              <div v-else-if="fileType === 'doc'">
+                <img :src="docsrc" alt="">
+              </div>
+              <div v-else>
+                <img :src="pdfsrc" alt="">
+              </div>
+              <div class="uploadremind">
+                <div v-if="fileType === 'upload'">请先到微信将要上传的附件</div>
+                <div v-if="fileType === 'upload'">分享到文件传输助手</div>
+                <div style="color:#ff7675">{{fileName}}</div>
+              </div>
+            </div>
+            <div class="remindmsg">*重复上传将进行附件覆盖</div>
+            <button @click="uploadFile" class="uplaoadbt">上传按钮</button> 
+        </div>
+
+        <div class="secintor"> 
+          <div class="section__title"><a style="color:red">*</a>个人介绍</div>
+          <textarea class="intro" :class="focusType=='intro'?'inpfocus':'inp'" @focus='changeFocus("intro")' @blur='npFocus' name="intro" maxlength=-1 />
         </div>
 
         <div class="btn-area">
@@ -138,6 +160,11 @@
 <script>
 import navbar from '@/components/navbar'
 // import bt from '@/components/bt'
+import config from '@/config'
+import {
+  showSuccess,
+  showLoading
+} from '@/utils/showToast'
 
 export default {
   data () {
@@ -150,9 +177,17 @@ export default {
       position: {},
       birthdate: '',
       graduationtime:'',
-      region1: ["天津市", "天津市", "全部"],
+      region1: [],
       region2: [],
-      customItem: '全部'
+      customItem: '全部',
+      focusType:'',
+      fileName:'*点击上传附件',
+      filePath:'',
+      tempFilePaths:'',
+      fileType:'upload',
+      uploadsrc:'/static/icon/Fileupload.png',
+      docsrc:'/static/icon/doc.png',
+      pdfsrc:'/static/icon/pdf.png'
     }
   },
   components: {
@@ -169,6 +204,92 @@ export default {
     // console.log(this.position);
   },
   methods: {
+    chooseFile: function () {
+      var that = this
+      mpvue.chooseMessageFile({
+        count: 1,
+        type: 'file',
+        success(res) {
+          // console.log('res',res);
+          
+          if (res.tempFiles[0]) {
+            that.fileName = res.tempFiles[0].name
+            that.filePath = res.tempFiles[0].path
+            const tempFilePaths = res.tempFiles[0].path
+            var thatat =that
+            mpvue.uploadFile({
+              url: config.host + '/Wx/uploadifyUser', //仅为示例，非真实的接口地址
+              filePath: tempFilePaths,
+              name: 'file',
+              formData: {
+                'user': 'test'
+              },
+              success (res){
+                console.log('fileres', res);
+                const data = res.data
+                //do something
+                console.log('filedata', data);
+                // 判断文件格式
+                if (data.indexOf('.pdf') !== -1) {
+                  thatat.fileType = 'pdf'
+                } else {
+                  if (data.indexOf('.doc') !== -1) {
+                    thatat.fileType = 'doc'
+                  } else {
+                    thatat.fileType = 'upload'
+                  }
+                }
+
+                thatat.tempFilePaths = JSON.parse(data)
+                showSuccess('上传成功')
+                
+              }
+            })
+          } else {
+            showLoading('文件未下载,重新选择')
+          }
+        }
+      })
+      console.log('this.filename', this.filename);
+      console.log('this.webFileName', this.tempFilePaths);
+    },
+    uploadFile(){
+      console.log('this.fileName',this.fileName);
+      console.log('this.filePath',this.filePath);
+      console.log('this.webFileName', typeof(this.tempFilePaths));
+      console.log('this.webFileName', this.tempFilePaths.filename);
+      console.log('this.fileType', this.fileType);
+
+      var that = this
+      // mpvue.request({
+      //   url: config.host + '/Wx/uploadifyUser', // 数据传到的地址
+      //   data: {
+      //     'name': e.mp.detail.value.name,
+      //     'sex': this.sexChoose,
+      //   }, // 传入的数据
+      //   method: 'POST',
+      //   header: {// 设置请求的 header
+      //     'content-type': 'application/x-www-form-urlencoded' // 这是传输方式为post的写法 ； 如果是get 则是'Content-Type': 'application/json'
+      //   },
+      //   success: function (res) {
+      //     console.log('上传', res)
+      //     that.webFileName = res.filename
+      //   }
+      // })
+      // 
+      // 
+      // 
+
+      // 
+
+    },
+    changeFocus: function (type) {
+      console.log('Focus-name',type);
+      this.focusType = type      
+    },
+    npFocus: function () {
+      this.focusType = ''
+    },
     // itemPick: function (e, value) {
     //   console.log( region2+ 'd选择改变，携带值为', e.mp.detail.value)
     //   this.value = e.mp.detail.value
@@ -176,10 +297,14 @@ export default {
     graTimePick: function (e) {
       console.log('birthPick发送选择改变，携带值为', e.mp.detail.value)
       this.graduationtime = e.mp.detail.value
+      console.log(this.graduationtime);
+      
     },   
     birthPick: function (e) {
       console.log('birthPick发送选择改变，携带值为', e.mp.detail.value)
       this.birthdate = e.mp.detail.value
+      console.log(this.birthdate);
+
     },   
     region1Pick: function (e) {
       console.log('picker1发送选择改变，携带值为', e.mp.detail.value)
@@ -190,9 +315,12 @@ export default {
       this.region2 = e.mp.detail.value
     },
     formSubmit: function (e) {
+
+      console.log('form' ,e);
+      
       if (e.mp.detail.value.idcard.length==18) {
         mpvue.request({
-          url: 'https://hr.test.getkin.cn/Wx/ResumeAdd', // 数据传到的地址
+          url: config.host + '/Wx/ResumeAdd', // 数据传到的地址
           data: {
             'name': e.mp.detail.value.name,
             'sex': this.sexChoose,
@@ -211,6 +339,7 @@ export default {
             'wechat': e.mp.detail.value.wechat,
             'qq': e.mp.detail.value.qq,
             'intro': e.mp.detail.value.intro,
+            'sources': this.tempFilePaths.filename,
             'wxuser': this.openid,
             'owner': this.owner
           }, // 传入的数据
@@ -298,16 +427,57 @@ page{
 }
 .section{
   display: flex;
-  align-items:center;
-  height: 100rpx;
+  flex-direction: column;
+  justify-items: flex-start;
+  justify-content: space-around;
+  height: 130rpx;
   margin: 10rpx 30rpx;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   border-radius: 5rpx;
 }
 .section__title{
+  display: flex;
   width: 200rpx;
+  font-weight: bold;
   /* background-color: rgb(167, 167, 253); */
 }
+.section input,picker{
+  display: flex;
+  align-items: center;
+  border-radius: 5rpx;
+  height: 50rpx;
+  padding-left: 10rpx;
+}
+.secintor{
+  display: flex;
+  flex-direction: column;
+  justify-items: flex-start;
+  justify-content: space-around;
+  height: 400rpx;
+  margin: 10rpx 30rpx;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5rpx;
+}
+.intro{
+  border-radius: 5rpx;
+  width: 90%;
+  padding-left: 10rpx;
+  padding-top: 10rpx;
+  height: 330rpx;
+}
+picker{
+  border:1px solid #8f8f8f;
+}
+picker div{
+  color: #8f8f8f;
+}
+.inp{
+  border:1px solid #8f8f8f;
+}
+.inpfocus{
+  border:1px solid #4184ff;
+}
+
 .radio-group{
   display:flex;
   flex-direction: row;
@@ -330,5 +500,37 @@ page{
  justify-content: center;
  border-radius: 40rpx;
  box-shadow: rgba(214, 48, 48, 0.418) 10rpx 10rpx 50rpx 1rpx ;
+}
+.wenjian{
+  /* color: white; */
+  display: flex;
+
+  align-items: center;
+  width: 600rpx;
+  height: 300rpx;
+  background-color: #0fbaf90c;
+  border-radius: 30rpx;
+  padding-left: 20rpx;
+}
+.wenjian img{
+  width: 150rpx;
+  height: 150rpx;
+}
+.uplaoadbt{
+  color: white;
+  width: 300rpx;
+  height: 75rpx;
+  border-radius: 30rpx;
+  background-color: #0fbcf9;  
+}
+.uploadremind{
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx;
+  width: 430rpx;
+}
+.remindmsg{
+  color: #cecece;
+  font-size: 12px;
 }
 </style>
