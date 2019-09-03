@@ -118,6 +118,7 @@ export default {
   },
   async onLoad () {
     //
+    this.owner = mpvue.getStorageSync('ownerId')
     const webState = await wx.request({
       url: config.host + '/Wx/GetWebState?hans=9527',  
     })
@@ -144,6 +145,20 @@ export default {
       this.openid = code2session.openid
       mpvue.setStorageSync('openid', code2session.openid)
       this.session_key = code2session.session_key
+      // 查找数据库中的 owner
+      const owner = await wx.request({
+        url: config.host + '/Wx/getWxOwner',
+        data: {
+          'openid': this.openid,
+        },
+        method: 'get'
+      })
+      if (owner) {
+        this.owner = code2session.owner
+        mpvue.setStorageSync('ownerId', owner)
+        console.log('OWNER', owner)
+      }
+
     }
     // 查看用户信息 缓存
     let user = mpvue.getStorageSync('userInfo')
@@ -166,6 +181,7 @@ export default {
           data: {
             'openid': this.openid,
             'session_key': this.session_key,
+            'owner': this.owner,
             'useravatarurl':this.userInfo.avatarUrl,
             'usernickname':this.userInfo.nickName,
             'usercity':this.userInfo.city,
