@@ -95,7 +95,7 @@ export default {
       
   　　// 设置菜单中的转发按钮触发转发事件时的转发内容
   　　var shareObj = {
-  　　　　title: "刘彤邀请你投递简历刘彤邀请你投递简刘彤邀请你投递简刘彤邀请你投递简",        // 默认是小程序的名称(可以写slogan等)
+  　　　　title: "畅校园邀请你投递简历！",        // 默认是小程序的名称(可以写slogan等)
   　　　　path: "pages/index/intoJob/main?ownerId=" + "78" +"&positonId=" + that.position.id,        // 默认是当前页面，必须是以‘/’开头的完整路径
   　　　　imageUrl: '',     //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
   　　　　success: function(res){
@@ -132,15 +132,16 @@ export default {
     if (options.positonId) {
       this.ownerId = options.ownerId
       this.positionId = options.positionId
-
+      console.log('1', positionId);
     } else {
       this.ownerId = mpvue.getStorageSync('ownerId')
       // 传入职位相关信息
       this.position = this.$store.state.selectedJob
       this.positionId = this.position.id
-
+      console.log('2', positionId);
     }
     // 根据 positionId 获取 position 详细数据
+    var that = this
     this.$httpWX.get({
       url: '/GetPositionById',
       data:{
@@ -150,10 +151,12 @@ export default {
         'Content-type': 'application/json' // 默认值
       }
     }).then(res => {
-      this.position = res
-      console.log('职位详情', this.position)
+      that.position = res
+      console.log('a职位详情', that.position)
+      console.log('i职位详情', this.position)
     })
-
+    console.log('this.position',this.position);
+    
     // 
     console.log('ownerId', this.ownerId);
     console.log('position', this.position);
