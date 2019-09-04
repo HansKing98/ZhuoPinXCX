@@ -101,10 +101,24 @@ export default {
     console.log('webState', this.webState);
 
     this.ownerId = mpvue.getStorageSync('ownerId')
+    console.log('t.ownerId',this.ownerId);
     // 查看图片是否存在
-    const QRcode = await wx.request({
-      url: config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png',  
-    })
+    // 这一步在 iphone 端报错了
+    // 这一步在 iphone 端报错了
+    // const QRcode = await wx.request({
+    //   url: config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png',  
+    // })
+    // 这一步在 iphone 端报错了
+    // 这一步在 iphone 端报错了
+
+    // bug 修复
+    const QRcode = config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
+
+
+
+    console.log('QRcode',QRcode);
+    console.log('QRcode.l',QRcode.length);
+    
     // QRcode.length < 300 返回的不是小程序码
     if (QRcode.length < 300) {
       // 服务器无此小程序码 下面生成
@@ -135,8 +149,12 @@ export default {
       console.log('小程序码调用成功');
     }else{
       // 小程序码已存在 下面调用
+      // 暂时不用这里 在上一步直接生成
       this.url= config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
-      console.log('小程序码调取成功');
+      console.log('小程序码调用。。。');
+      console.log('t.ownerId', this.ownerId);
+      console.log('小程序码url', this.url);
+      
     }
   
     this.$httpWX.post({
@@ -200,12 +218,6 @@ img{
   border-radius:0 0 200rpx 200rpx;
   padding-bottom: 50rpx;
   color: white;
-}
-.inviteNumber{
-
-}
-.inviteDetail{
-
 }
 .bottom{
   display: flex;
