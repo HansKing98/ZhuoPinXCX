@@ -1,14 +1,13 @@
 <template>
   <div>
+    <navbar title='畅校园' :btL=false></navbar>
     <div v-if="webState==250">
-      <navbar title='畅校园校历' :btL=false></navbar>
       <swiper :images='images'></swiper>
       <div class="xiaoli">
         <img src="http://hr.test.getkin.cn/Uploads/images/xl/xiaoli2018-1-0.jpg" alt="">
       </div>
     </div>
     <div v-else class="show">
-      <navbar title='畅校园' :btL=false></navbar>
       <swiper :images='images'></swiper>
       <div class="jobs">
         <div class="job" v-for="(item, index) in positions" :key="index" @click="goNav_intojob($event)" @tap='tap(item)'>
