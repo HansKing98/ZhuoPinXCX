@@ -59,7 +59,8 @@ import { delay } from 'q';
 export default {
   data () {
     return {
-      position: {}
+      position: {},
+
     }
   },
   components: {
@@ -86,10 +87,98 @@ export default {
       }
     }
   },
-  async onLoad () {
-    // console.log('121', this.$store.state.selectedJob); // ok
-    this.position = this.$store.state.selectedJob
+  // 页面分享配置
+  onShareAppMessage(options) {
+  　　var that = this;
+      console.log(that.owner);
+      console.log(that.position.id);
+      
+  　　// 设置菜单中的转发按钮触发转发事件时的转发内容
+  　　var shareObj = {
+  　　　　title: "刘彤邀请你投递简历刘彤邀请你投递简刘彤邀请你投递简刘彤邀请你投递简",        // 默认是小程序的名称(可以写slogan等)
+  　　　　path: "pages/index/intoJob/main?ownerId=" + "78" +"&positonId=" + that.position.id,        // 默认是当前页面，必须是以‘/’开头的完整路径
+  　　　　imageUrl: '',     //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
+  　　　　success: function(res){
+  　　　　　　// 转发成功之后的回调
+  　　　　　　if(res.errMsg == 'shareAppMessage:ok'){
+  　　　　　　}
+  　　　　},
+  　　　　fail: function(){
+  　　　　　　// 转发失败之后的回调
+  　　　　　　if(res.errMsg == 'shareAppMessage:fail cancel'){
+  　　　　　　　　// 用户取消转发
+  　　　　　　}else if(res.errMsg == 'shareAppMessage:fail'){
+  　　　　　　　　// 转发失败，其中 detail message 为详细失败信息
+  　　　　　　}
+  　　　　},
+  　　　　complete (){
+  　　　　　　// 转发结束之后的回调（转发成不成功都会执行）
+  　　　　}
+  　　}
+  　　// 来自页面内的按钮的转发
+  　　if( options.from == 'button' ){
+        // console.log( options )
+        // var eData = options.target.dataset;
+        // console.log( eData.name );     // shareBtn
+        // 此处可以修改 shareObj 中的内容
+        // shareObj.path = '/pages/btnname/btnname?btn_name='+eData.name;
+  　　}
+  　　// 返回shareObj
+  　　return shareObj;
+  },
+  async onLoad (options) {
+
     // console.log(this.position)
+    if (options.positonId) {
+      this.ownerId = options.ownerId
+      this.positionId = options.positionId
+
+    } else {
+      this.ownerId = mpvue.getStorageSync('ownerId')
+      // 传入职位相关信息
+      this.position = this.$store.state.selectedJob
+      this.positionId = this.position.id
+
+    }
+    // 根据 positionId 获取 position 详细数据
+    this.$httpWX.get({
+      url: '/GetPositionById',
+      data:{
+        id: this.positionId
+      },
+      header: {
+        'Content-type': 'application/json' // 默认值
+      }
+    }).then(res => {
+      this.position = res
+      console.log('职位详情', this.position)
+    })
+
+    // 
+    console.log('ownerId', this.ownerId);
+    console.log('position', this.position);
+    console.log('positionId', this.positionId);
+
+    // 获取邀请人姓名
+    this.$httpWX.post({
+      url: '/GetName',
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      data: {
+        owner: this.ownerId
+      }
+    }).then(res => {
+      // let detail = res
+      // let detailMatch = detail.match(/\{[^\}]+\}/)[0]
+      // let detailMatchJSON = JSON.parse(detailMatch)
+      // this.invDatahans = detailMatchJSON
+      // console.log('rea', res)
+      this.invDatahans = res
+      console.log('invDatahans', this.invDatahans)
+    })
+    console.log('invDatahans',invDatahans);
+    
 
   },
   created () {
