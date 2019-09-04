@@ -28,7 +28,7 @@
         </div>
         <p>下方进行邀请人id修改</p>
         <div class="changhOwner">
-          <input class="ownerInput" type="123" :value="ownerId" @input="ownerChangeTem($event)">
+          <input class="ownerInput" type="123" :value="ownerId" :placeholder="ownerId" @input="ownerChangeTem($event)">
           <button class="ownerbt" @click="ownerChange">确定</button>
         </div>
       </div>
@@ -77,12 +77,21 @@ export default {
           })
     },
     ownerChangeTem(e){
-      console.log(e.mp.detail.value);
-      this.temownerId = e.mp.detail.value
+        console.log('键入', e.mp.detail.value);
+        this.temownerId = e.mp.detail.value
+        console.log('temownerId', this.temownerId);
     },
     ownerChange(){
-      this.ownerId = this.temownerId
-      mpvue.setStorageSync('ownerId', this.temownerId)
+      if (this.temownerId) {
+        this.ownerId = this.temownerId
+        console.log('tem t.ownerId', this.ownerId);
+        mpvue.setStorageSync('ownerId', this.ownerId)
+
+      } else {
+        console.log('no tem t.ownerId', this.ownerId);
+        mpvue.setStorageSync('ownerId', this.ownerId)
+
+      }
       let page = getCurrentPages().pop()
       page.onLoad()
     }
