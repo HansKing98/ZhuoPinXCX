@@ -139,7 +139,7 @@
               </div>
             </div>
             <div class="remindmsg">*重复上传将进行附件覆盖</div>
-            <button @click="uploadFile" class="uplaoadbt">上传按钮</button> 
+            <!-- <button @click="uploadFile" class="uplaoadbt">上传按钮</button>  -->
         </div>
 
         <div class="secintor"> 

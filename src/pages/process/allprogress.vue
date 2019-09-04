@@ -9,7 +9,7 @@
     </div>
     <div v-else class="orders">
       <div class="order" v-for="(i, idx) in orders" :key="idx">
-        <div class="ordernum">档案时间：{{i.addtime}}</div>
+        <div class="ordernum">投递时间：{{i.addtime}}</div>
         <div class="detail">
           <div class="intro">
             <h1>{{i.name}}</h1>

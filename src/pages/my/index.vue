@@ -3,16 +3,21 @@
     <navbar title='我的' :btL=false></navbar>
 
     <div class="top">
-            <div class="user">
-                <button class="avatar"  @tap='tapEvent' id="icon">
-                  <open-data type="userAvatarUrl" ></open-data>
-                </button>
-                <div class="name" v-if="userInfo">
-                  <open-data type="userNickName" ></open-data>
-                </div>
-                <div v-else>
-                  <button class="loginBt" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="getUserInfo1">获取权限</button>
-                </div>
+            <!-- userInfo 存在 -->
+            <div class="user" v-if="userInfo">
+              <button class="avatar"  @tap='tapEvent' id="icon">
+                <open-data type="userAvatarUrl" ></open-data>
+              </button>
+              <div class="name" >
+                <open-data type="userNickName" ></open-data>
+              </div>
+            </div>
+            <!-- else -->
+            <div class="user" v-else>
+              <button class="avatar">
+                <open-data></open-data>
+              </button>
+              <button class="loginBt" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="getUserInfo1">获取权限</button>
             </div>
             <div class="top_bo"></div>
     </div>

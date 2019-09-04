@@ -1,15 +1,13 @@
 <template>
   <div>
-    <navbar title='职位详情'></navbar>
+    <navbar title='职位详情' :btL=false></navbar>
 
     <div class="pos_detail">
       <div class="position">{{position.positionname}}</div>
       <div class="salary">{{position.salary}}</div>
       <div class="place_time">
-        <div class="place">天津市/滨海新区/天河科技园</div>
-        <div class="sendtime">5分钟前</div>
+        <!-- <div class="place">地点：{{position.position}}</div> 职位地点 -->
       </div>
-      <div></div>
     </div>
 
     <div class="company_area">
@@ -17,8 +15,7 @@
         <img :src="position.url" alt="" mode='aspectFill'>
         <div class="com_detail">
           <div class="com_name">{{position.customername}}</div>
-          <div>20-99人|国营</div>
-          <div>钻井/石油/技术/互联网</div>
+          <div>{{position.jobtype}}</div>
         </div>
       </div>
       <div class="com_position">
@@ -32,12 +29,19 @@
         <div>职位描述</div>
       </div>
       <div class="pos_xiangqing"> 
+        <p>id：{{position.id}}</p>
         <p>职位：{{position.positionname}}</p>
+        <p>客户：{{position.customername}}</p>
+        <p>工作性质：{{position.jobtype}}</p>
+        <p>工作地址：{{position.position}}</p>
+        <p>最低学历：{{position.education}}</p> 
+        <p>工作年限/经验{{position.jobexperience}}</p> 
+        <p>所需技能：{{position.ability}}</p>
         <p>薪资：{{position.salary}}</p>
         <p>需要人数：{{position.people}}</p>
-        <p></p> 
         <p>暂未填写其他详细信息</p> 
         <p>详情请电话联系</p> 
+        <p>详情：{{position.detail}}</p>
       </div>
     </div>
 
@@ -60,6 +64,8 @@ export default {
   data () {
     return {
       position: {},
+      ownerId:'',
+      positionId: ''
 
     }
   },
@@ -89,18 +95,20 @@ export default {
   },
   // 页面分享配置
   onShareAppMessage(options) {
-  　　var that = this;
-      console.log(that.owner);
-      console.log(that.position.id);
+      console.log('ownerId',this.ownerId);
+      console.log('position.id',this.position.id);
+      console.log('positionId',this.positionId);
       
   　　// 设置菜单中的转发按钮触发转发事件时的转发内容
   　　var shareObj = {
-  　　　　title: "畅校园邀请你投递简历！",        // 默认是小程序的名称(可以写slogan等)
-  　　　　path: "pages/index/intoJob/main?ownerId=" + "78" +"&positonId=" + that.position.id,        // 默认是当前页面，必须是以‘/’开头的完整路径
-  　　　　imageUrl: '',     //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
+  　　　　title: this.invDatahans.name + "邀请你投递简历！",        // 默认是小程序的名称(可以写slogan等)
+  　　　　path: "pages/index/intoJob/main?ownerId=" + this.ownerId +"&positionId=" + this.positionId,        // 默认是当前页面，必须是以‘/’开头的完整路径
+  　　　　imageUrl: "",     //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
   　　　　success: function(res){
   　　　　　　// 转发成功之后的回调
   　　　　　　if(res.errMsg == 'shareAppMessage:ok'){
+              console.log();
+              
   　　　　　　}
   　　　　},
   　　　　fail: function(){
@@ -127,18 +135,18 @@ export default {
   　　return shareObj;
   },
   async onLoad (options) {
-
-    // console.log(this.position)
-    if (options.positonId) {
+    console.log('onLoad-options',options)                // ok
+    if (options.positionId) {
       this.ownerId = options.ownerId
       this.positionId = options.positionId
-      console.log('1', positionId);
     } else {
       this.ownerId = mpvue.getStorageSync('ownerId')
       // 传入职位相关信息
-      this.position = this.$store.state.selectedJob
+      if (this.$store.state.selectedJob) {
+        this.position = this.$store.state.selectedJob
+      }
       this.positionId = this.position.id
-      console.log('2', positionId);
+      console.log('2', this.positionId);
     }
     // 根据 positionId 获取 position 详细数据
     var that = this
@@ -152,8 +160,7 @@ export default {
       }
     }).then(res => {
       that.position = res
-      console.log('a职位详情', that.position)
-      console.log('i职位详情', this.position)
+      this.position = res
     })
     console.log('this.position',this.position);
     
@@ -183,6 +190,13 @@ export default {
     console.log('invDatahans',invDatahans);
     
 
+  },
+  // mounted 调试参数使用
+  mounted () {
+    console.log('mounted');
+    console.log('ownerId', this.ownerId);
+    console.log('position', this.position);
+    console.log('positionId', this.positionId);
   },
   created () {
 

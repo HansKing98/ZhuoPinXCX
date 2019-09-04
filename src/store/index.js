@@ -27,17 +27,17 @@ export default new Vuex.Store({
     selectedGoods: null,
     selectedType: null,
     selectedJob: {
-      customername: '渤海石油平台',
-      id: '62',
-      owner: '1',
-      people: '3',
-      positionname: '泥浆工程师',
-      salary: '12k-17k',
-      state: '0',
-      url: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2327677210,43854317&fm=26&gp=0.jpg'
+      // customername: '渤海石油平台',
+      // id: '62',
+      // owner: '1',
+      // people: '3',
+      // positionname: '泥浆工程师',
+      // salary: '12k-17k',
+      // state: '0',
+      // url: 'https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2327677210,43854317&fm=26&gp=0.jpg'
     },
-    selectedOwnerId:1,
-    selectedPosId:0,
+    selectedOwnerId: 1,
+    selectedPosId: 0
   },
   mutations: {
     // tabChange (state, idx) {

@@ -43,7 +43,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 8,
 			"list": [
 				{
 					"id": -1,
@@ -102,11 +102,11 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 8,
 					"name": "pages/index/intoJob/main",
 					"pathName": "pages/index/intoJob/main",
-					"query": "",
-					"scene": null
+					"query": "ownerId=78&positionId=88",
+					"scene": 1001
 				}
 			]
 		}
