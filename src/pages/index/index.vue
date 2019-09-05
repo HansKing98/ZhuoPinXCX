@@ -44,6 +44,14 @@ import wx from '@/utils/wx'
 import config from '@/config'
 
 export default {
+  async created () {
+    const webState = await wx.request({
+      url: config.host + '/Wx/GetWebState?hans=9527',  
+    })
+    this.webState = webState
+    mpvue.setStorageSync('webState', webState)
+    console.log('webState', this.webState);
+  },
   data () {
     return {
       webState : '',
@@ -71,14 +79,6 @@ export default {
 
       this.$store.commit('jobChange', e)
     }
-  },
-  async created () {
-    const webState = await wx.request({
-      url: config.host + '/Wx/GetWebState?hans=9527',  
-    })
-    this.webState = webState
-    mpvue.setStorageSync('webState', webState)
-    console.log('webState', this.webState);
   },
   async onLoad () {
     //

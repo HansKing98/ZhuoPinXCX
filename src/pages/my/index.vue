@@ -60,7 +60,7 @@
         </div>
       </div>
 
-      <div class="orders">
+      <div class="orders" v-if="ifadmin">
         <div class="Titel">辅助功能</div>
         <div class="Line"></div>
         <div class="Btns">
@@ -114,14 +114,21 @@ export default {
       openid: '',
       session_key: '',
       userInfo: {},
-      webState:'250'
+      webState:'250',
+      ifadmin: 0
     }
   },
 
   components: {
     navbar
   },
-  async onLoad () {
+  async onLoad (optins) {
+    //此时onLoad 接收了一个参数  刷新页面也要传空参数 
+    if (optins.scene==='200') {
+      console.log('eeee', optins);
+      this.ifadmin = 1
+    }
+    
     this.webState = mpvue.getStorageSync('webState')
     this.owner = mpvue.getStorageSync('ownerId')
     console.log('this.owner :',this.owner);
@@ -165,6 +172,20 @@ export default {
         }
       }
     }
+      // 
+      // 获取 ifadmin
+      const ifadmin = await wx.request({
+        url: config.host + '/Wx/GetAdmin',
+        data: {
+          'openid': this.openid,
+        },
+        method: 'get'
+      })
+      this.ifadmin = ifadmin
+      console.log('ifadmin',ifadmin);
+      
+      // 
+      // 
     // 查看用户信息 缓存
     let user = mpvue.getStorageSync('userInfo')
     this.userInfo = user
@@ -185,6 +206,7 @@ export default {
           url: config.host + '/Wx/Savelogin',
           data: {
             'openid': this.openid,
+            'ifadmin': this.ifadmin,
             'session_key': this.session_key,
             'owner': this.owner,
             'useravatarurl':this.userInfo.avatarUrl,
@@ -214,7 +236,7 @@ export default {
         mpvue.setStorageSync('userInfo', '')
         console.log('已清除授权')
         let page = getCurrentPages().pop()
-        page.onLoad()
+        page.onLoad('')
       }
     }
   },
@@ -238,7 +260,7 @@ export default {
         
         let page = getCurrentPages().pop()
         // page.onShow()
-        page.onLoad()
+        page.onLoad('')
       } else {
         // 用户按了拒绝按钮
         console.log('用户按了拒绝按钮')
