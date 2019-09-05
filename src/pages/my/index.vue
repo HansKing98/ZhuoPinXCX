@@ -97,8 +97,8 @@ export default {
         { text: 'offer', url: '/static/images/my/mswc.png' }
       ],
       mores: [
-        { text: '线上简历', url: '/static/images/my/xianshang.png' },
-        { text: '简历附件', url: '/static/images/my/fujian.png' },
+        // { text: '线上简历', url: '/static/images/my/xianshang.png' },
+        // { text: '简历附件', url: '/static/images/my/fujian.png' ,nav: '/pages/resume/main'},
         // { text: '客服', url: '/static/images/my/kefu.png' },
         { text: '邀请人', url: '/static/images/my/yaoqingren.png', nav: '/pages/invite/main'}
       ],
@@ -267,7 +267,7 @@ export default {
       }
     },
     nav_to (item) {
-      if (item.text === '邀请人' || item.text === '邀请码') {
+      if (item.text === '邀请人' || item.text === '邀请码' ) {
         mpvue.navigateTo({ url: item.nav })
       } else {
         // mpvue.navigateTo({ url: item.nav })

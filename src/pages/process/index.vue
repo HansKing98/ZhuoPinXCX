@@ -101,7 +101,7 @@ export default {
 
 <style lang="wxss">
 page{
-  background-color: #0fbaf91e;
+  background-color: #f3f3f3;
   color: #202020;
   font-size: 18px;
 }

@@ -12,8 +12,8 @@
         <div class="ordernum">投递时间：{{i.addtime}}</div>
         <div class="detail">
           <div class="intro">
-            <h1>{{i.name}}</h1>
-            <p>{{i.intro}}</p>
+            <h1 @click="goNav_job(i.positionid)">查看职位详情</h1>
+            <p class="intros"> 介绍：{{i.intro}}</p>
           </div>
           <div class="status">
             <div v-if="i.status<5"><div class="statu bt1">已投递</div></div>
@@ -31,6 +31,8 @@ import bt from '@/components/bt'
 import emptyCard from '@/components/empty-card'
 import net from '@/utils/request'
 import com from '@/utils/common'
+import wx from '@/utils/wx'
+
 export default {
   props: {
     orders: Array,
@@ -68,7 +70,25 @@ export default {
     navbar, bt, emptyCard
   },
   methods: {
+    async goNav_job (PositionId) {
+      // 获取 setting
+      const setting = await wx.getSetting()
+        console.log(setting);
+      // 是否 授权
+      if (setting.authSetting['scope.userInfo']) {
+        mpvue.navigateTo({ url: '/pages/index/intoJob/main?positionId=' + PositionId})
+      }else{
+        com.tos('您还没有登录，跳转到 我的 页面进行授权')
+        
+        setTimeout(() => {
+          console.log('停留了1s')
+          mpvue.switchTab({
+            url: '/pages/my/main',   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+          })
+        }, 1500)
 
+      }
+    }
   }
 }
 </script>
@@ -118,12 +138,18 @@ export default {
 }
 .intro h1{
   font-size: 16px;
-  color: #3a3a3a;
-  font-weight: bold;
-  margin: 10rpx 20rpx;
+  color: #0abde3;
+  /* font-weight: bold; */
+  margin: 10rpx 0;
 }
 .intro p{
-  margin-left: 40rpx;
+  /* margin-left: 0rpx; */
+  display: -webkit-box ;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp:3; 
 }
 .detail .status{
   width: 20%;

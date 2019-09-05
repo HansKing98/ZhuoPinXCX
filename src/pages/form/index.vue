@@ -30,6 +30,28 @@
           </radio-group>
         </div>
 
+        <div class="secintor"> 
+            <div class="section__title">上传简历附件</div>
+            <div class="wenjian" @click="chooseFile">
+              <div v-if="fileType === 'upload'">
+                <img :src="uploadsrc" alt="">
+              </div>
+              <div v-else-if="fileType === 'doc'">
+                <img :src="docsrc" alt="">
+              </div>
+              <div v-else>
+                <img :src="pdfsrc" alt="">
+              </div>
+              <div class="uploadremind">
+                <div v-if="fileType === 'upload'">请先到微信将要上传的附件</div>
+                <div v-if="fileType === 'upload'">分享到文件传输助手</div>
+                <div style="color:#ff7675">{{fileName}}</div>
+              </div>
+            </div>
+            <div class="remindmsg">*重复上传将进行附件覆盖</div>
+            <!-- <button @click="uploadFile" class="uplaoadbt">上传按钮</button>  -->
+        </div>
+
         <div class="section"> 
           <div class="section__title"> <a style="color:red">*</a> 民族</div>
           <input :class="focusType=='nation'?'inpfocus':'inp'" @focus='changeFocus("nation")' @blur='npFocus' name="nation" />
@@ -120,27 +142,7 @@
           <input :class="focusType=='qq'?'inpfocus':'inp'" @focus='changeFocus("qq")' @blur='npFocus' name="qq" />
         </div>
 
-        <div class="secintor"> 
-            <div class="section__title">上传简历附件</div>
-            <div class="wenjian" @click="chooseFile">
-              <div v-if="fileType === 'upload'">
-                <img :src="uploadsrc" alt="">
-              </div>
-              <div v-else-if="fileType === 'doc'">
-                <img :src="docsrc" alt="">
-              </div>
-              <div v-else>
-                <img :src="pdfsrc" alt="">
-              </div>
-              <div class="uploadremind">
-                <div v-if="fileType === 'upload'">请先到微信将要上传的附件</div>
-                <div v-if="fileType === 'upload'">分享到文件传输助手</div>
-                <div style="color:#ff7675">{{fileName}}</div>
-              </div>
-            </div>
-            <div class="remindmsg">*重复上传将进行附件覆盖</div>
-            <!-- <button @click="uploadFile" class="uplaoadbt">上传按钮</button>  -->
-        </div>
+
 
         <div class="secintor"> 
           <div class="section__title"><a style="color:red">*</a>个人介绍</div>
