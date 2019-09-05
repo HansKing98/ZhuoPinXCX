@@ -23,13 +23,21 @@
     </div>
     <div class="middle" v-if="webState==250">
       <div class="orders">
-        <div class="Titel">辅助功能</div>
+        <div class="Titel">联系我们</div>
         <div class="Line"></div>
         <div class="Btns">
-          <div class="Btn" v-for="(item, index) in assist" :key="index" @click="nav_to(item)">
+          <div class="Btn" v-for="(item, index) in mores" :key="index" @click="nav_to(item)" open-type="contact">
             <img class="more" :src="item.url" alt="">
             <text>{{item.text}}</text>
           </div>
+          <button class="zaixainkefu" open-type="contact">
+            <img src="/static/images/my/kefu.png" alt="">
+            <div>客服</div>
+          </button>
+          <button class="zaixainkefu" @tap="open">
+            <img src="/static/images/my/telphone.png" alt="">
+            <div>电话</div>
+          </button>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@
     <div v-if="webState==250">
       <swiper :images='images'></swiper>
       <div class="xiaoli">
-        <img src="http://hr.test.getkin.cn/Uploads/images/xl/xiaoli2018-1-0.jpg" alt="">
+        <img src="http://hr.test.getkin.cn/Uploads/images/xl/xiaoli2018-2-0.jpg" alt="">
       </div>
     </div>
     <div v-else class="show">
