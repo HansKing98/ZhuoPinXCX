@@ -77,6 +77,7 @@ export default {
       url: config.host + '/Wx/GetWebState?hans=9527',  
     })
     this.webState = webState
+    mpvue.setStorageSync('webState', webState)
     console.log('webState', this.webState);
   },
   async onLoad () {

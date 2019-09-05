@@ -122,14 +122,9 @@ export default {
     navbar
   },
   async onLoad () {
-    //
+    this.webState = mpvue.getStorageSync('webState')
     this.owner = mpvue.getStorageSync('ownerId')
-    const webState = await wx.request({
-      url: config.host + '/Wx/GetWebState?hans=9527',  
-    })
-    this.webState = webState
-    console.log('webState', this.webState);
-    //
+    console.log('this.owner :',this.owner);
     // 检查 openid
     this.openid = mpvue.getStorageSync('openid')
     console.log('openid:',this.openid)
@@ -159,11 +154,16 @@ export default {
         method: 'get'
       })
       if (owner) {
-        this.owner = code2session.owner
+        this.owner = owner
         mpvue.setStorageSync('ownerId', owner)
-        console.log('OWNER', owner)
+        console.log('查到OWNER', owner)
+      }else{
+        if (!this.owner) {
+          console.log('无owner');
+          this.owner = 2 // owner2 为无邀请人 直接进入
+          mpvue.setStorageSync('ownerId', this.owner)
+        }
       }
-
     }
     // 查看用户信息 缓存
     let user = mpvue.getStorageSync('userInfo')
