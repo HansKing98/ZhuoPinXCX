@@ -57,6 +57,10 @@
             <img src="/static/images/my/kefu.png" alt="">
             <div>客服</div>
           </button>
+          <button class="zaixainkefu" @tap="open">
+            <img src="/static/images/my/telphone.png" alt="">
+            <div>电话</div>
+          </button>
         </div>
       </div>
 
@@ -114,8 +118,9 @@ export default {
       openid: '',
       session_key: '',
       userInfo: {},
-      webState:'250',
-      ifadmin: 0
+      webState: '250',
+      ifadmin: 0,
+      telphone:''
     }
   },
 
@@ -123,19 +128,23 @@ export default {
     navbar
   },
   async onLoad (optins) {
-    //此时onLoad 接收了一个参数  刷新页面也要传空参数 
-    if (optins.scene==='200') {
-      console.log('eeee', optins);
+    const telphone = await wx.request({
+      url: config.host + '/Wx/getTelphone?id=1'
+    })
+    this.telphone = telphone
+    // 此时onLoad 接收了一个参数  刷新页面也要传空参数
+    if (optins.scene === '200') {
+      console.log('eeee', optins)
       this.ifadmin = 1
     }
-    
+
     this.webState = mpvue.getStorageSync('webState')
     this.owner = mpvue.getStorageSync('ownerId')
-    console.log('this.owner :',this.owner);
+    console.log('this.owner :', this.owner)
     // 检查 openid
     this.openid = mpvue.getStorageSync('openid')
-    console.log('openid:',this.openid)
-    if ( !this.openid ) {
+    console.log('openid:', this.openid)
+    if (!this.openid) {
       const login = await wx.login()
       this.code = login.code
       const code2session = await wx.request({
@@ -148,7 +157,7 @@ export default {
         },
         method: 'get'
       })
-      console.log('openid2', code2session.openid);
+      console.log('openid2', code2session.openid)
       this.openid = code2session.openid
       mpvue.setStorageSync('openid', code2session.openid)
       this.session_key = code2session.session_key
@@ -156,7 +165,7 @@ export default {
       const owner = await wx.request({
         url: config.host + '/Wx/getWxOwner',
         data: {
-          'openid': this.openid,
+          'openid': this.openid
         },
         method: 'get'
       })
@@ -164,32 +173,32 @@ export default {
         this.owner = owner
         mpvue.setStorageSync('ownerId', owner)
         console.log('查到OWNER', owner)
-      }else{
+      } else {
         if (!this.owner) {
-          console.log('无owner');
+          console.log('无owner')
           this.owner = 2 // owner2 为无邀请人 直接进入
           mpvue.setStorageSync('ownerId', this.owner)
         }
       }
     }
-      // 
-      // 获取 ifadmin
-      const ifadmin = await wx.request({
-        url: config.host + '/Wx/GetAdmin',
-        data: {
-          'openid': this.openid,
-        },
-        method: 'get'
-      })
-      this.ifadmin = ifadmin
-      console.log('ifadmin',ifadmin);
-      
-      // 
-      // 
+    //
+    // 获取 ifadmin
+    const ifadmin = await wx.request({
+      url: config.host + '/Wx/GetAdmin',
+      data: {
+        'openid': this.openid
+      },
+      method: 'get'
+    })
+    this.ifadmin = ifadmin
+    console.log('ifadmin', ifadmin)
+
+    //
+    //
     // 查看用户信息 缓存
     let user = mpvue.getStorageSync('userInfo')
     this.userInfo = user
-    console.log('this.userInfo:',this.userInfo)
+    console.log('this.userInfo:', this.userInfo)
     if (!user) {
       // 获取 setting
       const setting = await wx.getSetting()
@@ -197,7 +206,7 @@ export default {
       if (setting.authSetting['scope.userInfo']) {
         const getUserInfo = await wx.getUserInfo()
         console.log(getUserInfo.userInfo)
-        // 缓存 userInfo     
+        // 缓存 userInfo
         mpvue.setStorageSync('userInfo', getUserInfo.userInfo)
         this.userInfo = getUserInfo.userInfo
         console.log('用户已经授权过')
@@ -209,19 +218,18 @@ export default {
             'ifadmin': this.ifadmin,
             'session_key': this.session_key,
             'owner': this.owner,
-            'useravatarurl':this.userInfo.avatarUrl,
-            'usernickname':this.userInfo.nickName,
-            'usercity':this.userInfo.city,
-            'usercountry':this.userInfo.country,
-            'usergender':this.userInfo.gender,
-            'userprovince':this.userInfo.province
+            'useravatarurl': this.userInfo.avatarUrl,
+            'usernickname': this.userInfo.nickName,
+            'usercity': this.userInfo.city,
+            'usercountry': this.userInfo.country,
+            'usergender': this.userInfo.gender,
+            'userprovince': this.userInfo.province
           },
           method: 'get'
         })
         console.log('loginState', loginState)
         showSuccess('登录成功')
-        console.log(5);
-
+        console.log(5)
       } else {
         console.log('用户还未授权过')
         showLoading('未授权登录', 500)
@@ -231,8 +239,8 @@ export default {
       const setting = await wx.getSetting()
       // 是否 授权
       if (setting.authSetting['scope.userInfo']) {
-      console.log('已登录')
-      }else{
+        console.log('已登录')
+      } else {
         mpvue.setStorageSync('userInfo', '')
         console.log('已清除授权')
         let page = getCurrentPages().pop()
@@ -241,6 +249,28 @@ export default {
     }
   },
   methods: {
+    open() {
+      var that = this
+      mpvue.showActionSheet({
+        itemList: [this.telphone],
+        success: function (res) {
+          console.log(res) //当点击telphone就相当于点击了
+          var thatat = that
+          mpvue.makePhoneCall({
+            phoneNumber: thatat.telphone, //此号码并非真实电话号码，仅用于测试  
+            success: function () {
+              console.log("拨打电话成功！")
+            },
+            fail: function () {
+              console.log("拨打电话失败！")
+            }
+          })
+          if (!res.cancel) {
+            console.log(res.tapIndex)//console出了下标
+          }
+        }
+      })
+    },
     getUserInfo1 () {
       console.log('click事件首先触发')
       // 判断小程序的API，回调，参数，组件等是否在当前版本可用。  为false 提醒用户升级微信版本
@@ -256,8 +286,8 @@ export default {
         // 用户按了允许授权按钮
         console.log('用户按了允许授权按钮')
         // 刷新页面
-        // console.log(getCurrentPages()) 
-        
+        // console.log(getCurrentPages())
+
         let page = getCurrentPages().pop()
         // page.onShow()
         page.onLoad('')
@@ -267,30 +297,30 @@ export default {
       }
     },
     nav_to (item) {
-      if (item.text === '邀请人' || item.text === '邀请码' ) {
+      if (item.text === '邀请人' || item.text === '邀请码') {
         mpvue.navigateTo({ url: item.nav })
       } else {
         // mpvue.navigateTo({ url: item.nav })
         com.tos('相关功能暂时不可用') // showToast
       }
     },
-    async nav_to_process(){
+    async nav_to_process () {
       // 获取 setting
       const setting = await wx.getSetting()
-      console.log(setting);
+      console.log(setting)
       // 是否 授权
       if (setting.authSetting['scope.userInfo']) {
         this.$store.commit('processTypeChange', 0)
-        mpvue.navigateTo({ url: '/pages/process/main'  })
-      }else{
+        mpvue.navigateTo({ url: '/pages/process/main' })
+      } else {
         com.tos('您还没有登录，点击上方按钮进行授权')
       }
-      console.log('跳转到进程');
+      console.log('跳转到进程')
     },
     async tap (i) {
       // 获取 setting
       const setting = await wx.getSetting()
-      console.log(setting);
+      console.log(setting)
       // 是否 授权
       if (setting.authSetting['scope.userInfo']) {
         let url = '/pages/process/main'
@@ -308,10 +338,9 @@ export default {
             mpvue.navigateTo({ url })
             break
         }
-      }else{
+      } else {
         com.tos('您还没有登录，点击上方按钮进行授权')
       }
-
     }
   }
 }

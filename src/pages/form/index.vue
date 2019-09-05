@@ -58,7 +58,7 @@
         </div>
 
         <div class="section"> 
-          <div class="section__title">出生日期</div>
+          <div class="section__title"><a style="color:red">*</a>出生日期</div>
           <picker class="auth-pick-tip" mode="date" :value="birthdate" @change="birthPick">
             <div v-if="!birthdate.length">请选择生日</div>
             <view>
@@ -103,7 +103,7 @@
         </div>
 
         <div class="section"> 
-              <div class="section__title">居住地</div>
+              <div class="section__title"><a style="color:red">*</a>居住地</div>
               <picker class="auth-pick-tip" mode="region" :value="region1" :custom-item="customItem" @change="region1Pick">
                 <div v-if="!region1.length">请选择区域</div>
                 <view v-else>
@@ -128,7 +128,7 @@
         </div>
 
         <div class="section"> 
-          <div class="section__title">邮箱</div>
+          <div class="section__title"><a style="color:red">*</a>邮箱</div>
           <input :class="focusType=='email'?'inpfocus':'inp'" @focus='changeFocus("email")' @blur='npFocus' name="email" :value="formCache.email"/>
         </div>
 
@@ -163,6 +163,7 @@
 import navbar from '@/components/navbar'
 // import bt from '@/components/bt'
 import config from '@/config'
+import WxValidate from '@/utils/WxValidate.js'
 import {
   showSuccess,
   showLoading
@@ -178,68 +179,153 @@ export default {
       sexChoose: '',
       position: {},
       birthdate: '',
-      graduationtime:'',
+      graduationtime: '',
       region1: [],
       region2: [],
       customItem: '全部',
-      focusType:'',
-      fileName:'*点击上传附件',
-      filePath:'',
-      tempFilePaths:'',
-      fileType:'upload',
-      uploadsrc:'/static/icon/Fileupload.png',
-      docsrc:'/static/icon/doc.png',
-      pdfsrc:'/static/icon/pdf.png',
-      formCache:{}
+      focusType: '',
+      fileName: '*点击上传附件',
+      filePath: '',
+      tempFilePaths: '',
+      fileType: 'upload',
+      uploadsrc: '/static/icon/Fileupload.png',
+      docsrc: '/static/icon/doc.png',
+      pdfsrc: '/static/icon/pdf.png',
+      formCache: {}
     }
   },
   components: {
     navbar
   },
   onLoad () {
+    this.initValidate()
     // console.log('121', this.$store.state.selectedJob); // ok
     this.position = this.$store.state.selectedJob
     this.openid = mpvue.getStorageSync('openid')
-    console.log('openid', this.openid);
+    console.log('openid', this.openid)
     this.owner = mpvue.getStorageSync('ownerId')
-    console.log('owner', this.owner);
-    this.positionId =mpvue.getStorageSync('positionId')
-    console.log('positionId', this.positionId);
+    console.log('owner', this.owner)
+    this.positionId = mpvue.getStorageSync('positionId')
+    console.log('positionId', this.positionId)
     this.formCache = mpvue.getStorageSync('formCache')
-    console.log('formcache', this.formCache);
+    console.log('formcache', this.formCache)
     // 表单读取缓存数据
-    this.birthdate = this.formCache.birthdate
-    this.graduationtime = this.formCache.graduationtime
-    this.region1 = this.formCache.liveplace
-    this.region2 = this.formCache.birthplace
-    // console.log(this.position);
+    if (this.formCache) {
+      this.birthdate = this.formCache.birthdate
+      this.graduationtime = this.formCache.graduationtime
+      this.region1 = this.formCache.liveplace
+      this.region2 = this.formCache.birthplace
+    }
+    console.log(this.position)
   },
   methods: {
+    //报错 
+    showModal(error) {
+      wx.showModal({
+        content: error.msg,
+        showCancel: false,
+      })
+    },
+    //验证函数
+    initValidate(e) {
+      console.log('eeee',e);
+      
+      const rules = {
+        name: {
+          required: true,
+          minlength: 2
+        },
+        idcard: {
+          idcard: true,
+          minlength: 18
+        },
+        school: {
+          required: true,
+          minlength: 2
+        },
+        education:{
+          required: true,
+          minlength: 2
+        },
+        // 开始没写
+        englishlevel: {
+          required: true,
+          minlength: 2
+        },
+        phone: {
+          tel: true,
+          minlength: 11
+        },
+        email: {
+          email: true,
+          minlength: 2
+        },
+        intro: {
+          required: true,
+          minlength: 15
+        }
+      }
+
+      const messages = {
+        name: {
+          required: '请填写姓名',
+          minlength:'请输入正确的名字'
+        },
+        school: {
+          required: '请填写毕业院校',
+          minlength:'请输入正确的学校名字'
+        },
+        education:{
+          required: '请填写最高学历',
+          minlength:'请输入正确的最高学历'
+        },
+        major: {
+          required: '请填写专业名称',
+          minlength:'请输入正确的专业名称'
+        },
+        englishlevel: {
+          required: '请填写英语水平',
+          minlength:'请输入正确的英语水平等级'
+        },
+        phone: {
+          minlength: '请输入11位的手机号'
+        },
+        email: {
+          minlength: '请输入有效的电子邮件地址'
+        },
+        intro: {
+          required: '请填写自我介绍',
+          minlength:'请输入至少15字的自我介绍'
+        },
+
+      }
+      this.WxValidate = new WxValidate(rules, messages)
+    },
     chooseFile: function () {
       var that = this
       mpvue.chooseMessageFile({
         count: 1,
         type: 'file',
-        success(res) {
+        success (res) {
           // console.log('res',res);
-          
+
           if (res.tempFiles[0]) {
             that.fileName = res.tempFiles[0].name
             that.filePath = res.tempFiles[0].path
             const tempFilePaths = res.tempFiles[0].path
-            var thatat =that
+            var thatat = that
             mpvue.uploadFile({
-              url: config.host + '/Wx/uploadifyUser', //仅为示例，非真实的接口地址
+              url: config.host + '/Wx/uploadifyUser', // 仅为示例，非真实的接口地址
               filePath: tempFilePaths,
               name: 'file',
               formData: {
                 'user': 'test'
               },
-              success (res){
-                console.log('fileres', res);
+              success (res) {
+                console.log('fileres', res)
                 const data = res.data
-                //do something
-                console.log('filedata', data);
+                // do something
+                console.log('filedata', data)
                 // 判断文件格式
                 if (data.indexOf('.pdf') !== -1) {
                   thatat.fileType = 'pdf'
@@ -253,7 +339,6 @@ export default {
 
                 thatat.tempFilePaths = JSON.parse(data)
                 showSuccess('上传成功')
-                
               }
             })
           } else {
@@ -261,15 +346,16 @@ export default {
           }
         }
       })
-      console.log('this.filename', this.filename);
-      console.log('this.webFileName', this.tempFilePaths);
+      console.log('this.filename', this.filename)
+      console.log('this.webFileName', this.tempFilePaths)
     },
-    uploadFile(){
-      console.log('this.fileName',this.fileName);
-      console.log('this.filePath',this.filePath);
-      console.log('this.webFileName', typeof(this.tempFilePaths));
-      console.log('this.webFileName', this.tempFilePaths.filename);
-      console.log('this.fileType', this.fileType);
+    uploadFile () {
+      // 调试按钮使用
+      console.log('this.fileName', this.fileName)
+      console.log('this.filePath', this.filePath)
+      console.log('this.webFileName', typeof (this.tempFilePaths))
+      console.log('this.webFileName', this.tempFilePaths.filename)
+      console.log('this.fileType', this.fileType)
 
       var that = this
       // mpvue.request({
@@ -287,16 +373,15 @@ export default {
       //     that.webFileName = res.filename
       //   }
       // })
-      // 
-      // 
-      // 
+      //
+      //
+      //
 
-      // 
-
+      //
     },
     changeFocus: function (type) {
-      console.log('Focus-name',type);
-      this.focusType = type      
+      console.log('Focus-name', type)
+      this.focusType = type
     },
     npFocus: function () {
       this.focusType = ''
@@ -304,57 +389,66 @@ export default {
     // itemPick: function (e, value) {
     //   console.log( region2+ 'd选择改变，携带值为', e.mp.detail.value)
     //   this.value = e.mp.detail.value
-    // },   
+    // },
     graTimePick: function (e) {
       console.log('birthPick发送选择改变，携带值为', e.mp.detail.value)
       this.graduationtime = e.mp.detail.value
-      console.log(this.graduationtime);
-      
-    },   
+      console.log(this.graduationtime)
+    },
     birthPick: function (e) {
       console.log('birthPick发送选择改变，携带值为', e.mp.detail.value)
       this.birthdate = e.mp.detail.value
-      console.log(this.birthdate);
-
-    },   
+      console.log(this.birthdate)
+    },
     region1Pick: function (e) {
       console.log('picker1发送选择改变，携带值为', e.mp.detail.value)
       this.region1 = e.mp.detail.value
-    },    
+    },
     region2Pick: function (e) {
       console.log('picker2发送选择改变，携带值为', e.mp.detail.value)
       this.region2 = e.mp.detail.value
     },
     formSubmit: function (e) {
+      console.log('form', e)
+      // 设置缓存
+      this.formCache ={
+        'name': e.mp.detail.value.name,
+        'sex': this.sexChoose,
+        'birthdate': this.birthdate,
+        'nation': e.mp.detail.value.nation,
+        'idcard': e.mp.detail.value.idcard,
+        'school': e.mp.detail.value.school,
+        'education': e.mp.detail.value.education,
+        'major': e.mp.detail.value.major,
+        'graduationtime': this.graduationtime,
+        'englishlevel': e.mp.detail.value.englishlevel,
+        'liveplace': this.region1,
+        'birthplace': this.region2,
+        'email': e.mp.detail.value.email,
+        'phone': e.mp.detail.value.phone,
+        'wechat': e.mp.detail.value.wechat,
+        'qq': e.mp.detail.value.qq,
+        'intro': e.mp.detail.value.intro,
+        'sources': this.tempFilePaths.filename,
+        'wxuser': this.openid,
+        'owner': this.owner,
+        'positionId': this.positionId
+      }
+      mpvue.setStorageSync('formCache', this.formCache)
+      // 设置缓存
+      const params = e.mp.detail.value
+      if (!this.WxValidate.checkForm(params)) {
+        const error = this.WxValidate.errorList[0]
+        this.showModal(error)
+        return false
+      }
 
-      console.log('form' ,e);
-      
-      if (e.mp.detail.value.idcard.length==18) {
+      // 
+      // if (e.mp.detail.value.idcard.length == 18) {
+        var that =this
         mpvue.request({
           url: config.host + '/Wx/ResumeAdd', // 数据传到的地址
-          data: {
-            'name': e.mp.detail.value.name,
-            'sex': this.sexChoose,
-            'birthdate': this.birthdate,
-            'nation': e.mp.detail.value.nation,
-            'idcard': e.mp.detail.value.idcard,
-            'school': e.mp.detail.value.school,
-            'education': e.mp.detail.value.education,
-            'major': e.mp.detail.value.major,
-            'graduationtime': this.graduationtime,
-            'englishlevel': e.mp.detail.value.englishlevel,
-            'liveplace': this.region1,
-            'birthplace': this.region2,
-            'email': e.mp.detail.value.email,
-            'phone': e.mp.detail.value.phone,
-            'wechat': e.mp.detail.value.wechat,
-            'qq': e.mp.detail.value.qq,
-            'intro': e.mp.detail.value.intro,
-            'sources': this.tempFilePaths.filename,
-            'wxuser': this.openid,
-            'owner': this.owner,
-            'positionId': this.positionId
-          }, // 传入的数据
+          data: that.formCache, // 传入的数据
           method: 'POST',
           header: {// 设置请求的 header
             'content-type': 'application/x-www-form-urlencoded' // 这是传输方式为post的写法 ； 如果是get 则是'Content-Type': 'application/json'
@@ -379,12 +473,12 @@ export default {
             })
           }
         })
-      } else {
-          mpvue.showToast({
-            title: '请输入完整身份证好吗',
-            icon: 'loading'
-          })
-      }
+      // } else {
+      //   mpvue.showToast({
+      //     title: '请输入完整身份证好吗',
+      //     icon: 'loading'
+      //   })
+      // }
     },
     radioChange: function (e) {
       console.log('e', e)

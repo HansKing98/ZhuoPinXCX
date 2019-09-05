@@ -61,13 +61,13 @@ import navbar from '@/components/navbar'
 import bt from '@/components/bt'
 import com from '@/utils/common'
 import wx from '@/utils/wx'
-import { delay } from 'q';
+import { delay } from 'q'
 
 export default {
   data () {
     return {
       position: {},
-      ownerId:'',
+      ownerId: '',
       positionId: ''
 
     }
@@ -79,67 +79,65 @@ export default {
     async goNav_job (e) {
       // 获取 setting
       const setting = await wx.getSetting()
-        console.log(setting);
+      console.log(setting)
       // 是否 授权
       if (setting.authSetting['scope.userInfo']) {
         mpvue.navigateTo({ url: '/pages/form/main' })
-      }else{
+      } else {
         com.tos('您还没有登录，跳转到 我的 页面进行授权')
-        
+
         setTimeout(() => {
           console.log('停留了1s')
           mpvue.switchTab({
-            url: '/pages/my/main',   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            url: '/pages/my/main' // 注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
           })
         }, 1500)
-
       }
     }
   },
   // 页面分享配置
-  onShareAppMessage(options) {
-      console.log('invDatahans',this.invDatahans);
-      console.log('ownerId',this.ownerId);
-      console.log('position.id',this.position.id);
-      console.log('positionId',this.positionId);
-      
-  　　// 设置菜单中的转发按钮触发转发事件时的转发内容
-  　　var shareObj = {
-  　　　　title: this.invDatahans.name + "邀请你投递简历！",        // 默认是小程序的名称(可以写slogan等)
-  　　　　path: "pages/index/intoJob/main?ownerId=" + this.ownerId +"&positionId=" + this.positionId,        // 默认是当前页面，必须是以‘/’开头的完整路径
-  　　　　imageUrl: "",     //自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
-  　　　　success: function(res){
-  　　　　　　// 转发成功之后的回调
-  　　　　　　if(res.errMsg == 'shareAppMessage:ok'){
-              console.log();
-              
-  　　　　　　}
-  　　　　},
-  　　　　fail: function(){
-  　　　　　　// 转发失败之后的回调
-  　　　　　　if(res.errMsg == 'shareAppMessage:fail cancel'){
-  　　　　　　　　// 用户取消转发
-  　　　　　　}else if(res.errMsg == 'shareAppMessage:fail'){
-  　　　　　　　　// 转发失败，其中 detail message 为详细失败信息
-  　　　　　　}
-  　　　　},
-  　　　　complete (){
-  　　　　　　// 转发结束之后的回调（转发成不成功都会执行）
-  　　　　}
-  　　}
-  　　// 来自页面内的按钮的转发
-  　　if( options.from == 'button' ){
-        // console.log( options )
-        // var eData = options.target.dataset;
-        // console.log( eData.name );     // shareBtn
-        // 此处可以修改 shareObj 中的内容
-        // shareObj.path = '/pages/btnname/btnname?btn_name='+eData.name;
-  　　}
-  　　// 返回shareObj
-  　　return shareObj;
+  onShareAppMessage (options) {
+    console.log('invDatahans', this.invDatahans)
+    console.log('ownerId', this.ownerId)
+    console.log('position.id', this.position.id)
+    console.log('positionId', this.positionId)
+
+    // 设置菜单中的转发按钮触发转发事件时的转发内容
+    var shareObj = {
+      title: this.invDatahans.name + '邀请你投递简历！', // 默认是小程序的名称(可以写slogan等)
+      path: 'pages/index/intoJob/main?ownerId=' + this.ownerId + '&positionId=' + this.positionId, // 默认是当前页面，必须是以‘/’开头的完整路径
+      imageUrl: '', // 自定义图片路径，可以是本地文件路径、代码包文件路径或者网络图片路径，支持PNG及JPG，不传入 imageUrl 则使用默认截图。显示图片长宽比是 5:4
+      success: function (res) {
+        // 转发成功之后的回调
+        if (res.errMsg == 'shareAppMessage:ok') {
+          console.log()
+        }
+      },
+      fail: function () {
+        // 转发失败之后的回调
+        if (res.errMsg == 'shareAppMessage:fail cancel') {
+          // 用户取消转发
+        } else if (res.errMsg == 'shareAppMessage:fail') {
+          // 转发失败，其中 detail message 为详细失败信息
+        }
+      },
+      complete () {
+        // 转发结束之后的回调（转发成不成功都会执行）
+      }
+    }
+    // 来自页面内的按钮的转发
+    if (options.from == 'button') {
+      // console.log( options )
+      // var eData = options.target.dataset;
+      // console.log( eData.name );     // shareBtn
+      // 此处可以修改 shareObj 中的内容
+      // shareObj.path = '/pages/btnname/btnname?btn_name='+eData.name;
+    }
+    // 返回shareObj
+    return shareObj
   },
   async onLoad (options) {
-    console.log('onLoad-options',options)                // ok
+    console.log('onLoad-options', options) // ok
     if (options.positionId) {
       this.ownerId = options.ownerId
       this.positionId = options.positionId
@@ -150,7 +148,7 @@ export default {
         this.position = this.$store.state.selectedJob
       }
       this.positionId = this.position.id
-      console.log('2', this.positionId);
+      console.log('2', this.positionId)
     }
 
     mpvue.setStorageSync('positionId', this.positionId)
@@ -158,7 +156,7 @@ export default {
     var that = this
     this.$httpWX.get({
       url: '/GetPositionById',
-      data:{
+      data: {
         id: this.positionId
       },
       header: {
@@ -186,7 +184,7 @@ export default {
       // console.log('rea', res)
       this.invDatahans = res
     })
-    console.log('invDatahans:',invDatahans);
+    console.log('invDatahans:', invDatahans)
   },
   created () {
 

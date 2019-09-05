@@ -44,7 +44,7 @@ export default {
       ],
       list0: [],
       list1: [],
-      list2: [],
+      list2: []
 
     }
   },
@@ -54,8 +54,7 @@ export default {
   methods: {
     tabChange: function (e) {
       this.typeIdx = e.target.id
-      console.log(this.typeIdx);
-      
+      console.log(this.typeIdx)
     },
     swiperChange: function (e) {
       e.target.current === this.typeIdx || (this.typeIdx = e.target.current)
@@ -66,18 +65,18 @@ export default {
   },
   async onLoad () {
     this.openid = mpvue.getStorageSync('openid')
-    // this.ProStatus = '' 
+    // this.ProStatus = ''
     for (let i = 0; i < this.types.length; i++) {
       switch (i) {
         case 1:
           this.ProStatus = 5
-          break;
+          break
         case 2:
           this.ProStatus = 7
-          break;
+          break
         default:
           this.ProStatus = 0
-          break;
+          break
       }
       const process = await wx.request({
         url: config.host + '/Wx/GetProcess',
@@ -87,11 +86,10 @@ export default {
         },
         method: 'get'
       })
-      console.log('process' + i, process);
+      console.log('process' + i, process)
       this['list' + i] = process
-      console.log('list' + i,  this['list' + i]);
+      console.log('list' + i, this['list' + i])
     }
-
   },
   created () {
 

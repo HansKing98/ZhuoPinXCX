@@ -35,9 +35,9 @@ export default {
         name: '未获取',
         statu: '获取失败'
       }],
-      owner : 0,
-      randomNumber:'0',
-      randomHead:'/static/images/head/head-'+ 0 +'.png'
+      owner: 0,
+      randomNumber: '0',
+      randomHead: '/static/images/head/head-' + 0 + '.png'
     }
   },
   components: {
@@ -48,21 +48,20 @@ export default {
       mpvue.switchTab({ url: '/pages/index/main' })
     // },
     // inviteErr () {
-
     }
   },
   onLoad (e) {
-    console.log('e', e);
-    if (e.owner||e.scene) {
-      console.log('传进来owner值了');
+    console.log('e', e)
+    if (e.owner || e.scene) {
+      console.log('传进来owner值了')
       if (e.owner) {
         this.ownerId = e.owner
       } else {
         this.ownerId = e.scene
       }
-    }else{
-      console.log('没传owner');
-       this.ownerId = mpvue.getStorageSync('ownerId')
+    } else {
+      console.log('没传owner')
+      this.ownerId = mpvue.getStorageSync('ownerId')
     }
     mpvue.setStorageSync('ownerId', this.ownerId)
 
@@ -88,22 +87,22 @@ export default {
 
     // var hanskkk = this.ownerId
     // console.log('hanskkk', typeof(hanskkk))
-    
-      switch ( String( parseInt(this.ownerId) % 4 ) ) {
-        case '0':
-          this.randomNumber = '0'
-          break
-        case '1':
-          this.randomNumber = '1'
-          break
-        case '2':
-          this.randomNumber = '2'
-          break
-        case '3':
-          this.randomNumber = '3'
-          break
-      }
-      this.randomHead =  '/static/images/head/head-'+ this.randomNumber +'.png'
+
+    switch (String(parseInt(this.ownerId) % 4)) {
+      case '0':
+        this.randomNumber = '0'
+        break
+      case '1':
+        this.randomNumber = '1'
+        break
+      case '2':
+        this.randomNumber = '2'
+        break
+      case '3':
+        this.randomNumber = '3'
+        break
+    }
+    this.randomHead = '/static/images/head/head-' + this.randomNumber + '.png'
   },
   created () {
 

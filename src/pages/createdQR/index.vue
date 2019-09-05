@@ -51,46 +51,43 @@ export default {
       posId: null,
       ownerId: null,
       position: {},
-      owner:'',
-
+      owner: '',
 
       appid: config.appid,
       secret: config.secret,
-      access_token:'',
-      webState:''
+      access_token: '',
+      webState: ''
     }
   },
   components: {
     navbar, bt
   },
   methods: {
-    saveImg(e){
-        let url = e.currentTarget.dataset.url;
-        wx.saveImageToPhotosAlbum({
-            filePath:url,
-            success(res) { 
-              console.log(res);
-            },
-            fail(res){
-              console.log(res);
-            }
-          })
+    saveImg (e) {
+      let url = e.currentTarget.dataset.url
+      wx.saveImageToPhotosAlbum({
+        filePath: url,
+        success (res) {
+          console.log(res)
+        },
+        fail (res) {
+          console.log(res)
+        }
+      })
     },
-    ownerChangeTem(e){
-        console.log('键入', e.mp.detail.value);
-        this.temownerId = e.mp.detail.value
-        console.log('temownerId', this.temownerId);
+    ownerChangeTem (e) {
+      console.log('键入', e.mp.detail.value)
+      this.temownerId = e.mp.detail.value
+      console.log('temownerId', this.temownerId)
     },
-    ownerChange(){
+    ownerChange () {
       if (this.temownerId) {
         this.ownerId = this.temownerId
-        console.log('tem t.ownerId', this.ownerId);
+        console.log('tem t.ownerId', this.ownerId)
         mpvue.setStorageSync('ownerId', this.ownerId)
-
       } else {
-        console.log('no tem t.ownerId', this.ownerId);
+        console.log('no tem t.ownerId', this.ownerId)
         mpvue.setStorageSync('ownerId', this.ownerId)
-
       }
       let page = getCurrentPages().pop()
       page.onLoad()
@@ -98,36 +95,34 @@ export default {
   },
   async created () {
     this.ownerId = mpvue.getStorageSync('ownerId')
-    console.log('ownerId',ownerId);
-    this.url= config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
+    console.log('ownerId', ownerId)
+    this.url = config.host + '/Uploads/images/QR/owner' + this.ownerId + '.png'
   },
   async onLoad (e) {
-    this.url= config.host + '/Uploads/images/QR/owner1.png'
+    this.url = config.host + '/Uploads/images/QR/owner1.png'
     const webState = await wx.request({
-      url: config.host + '/Wx/GetWebState?hans=9527',  
+      url: config.host + '/Wx/GetWebState?hans=9527'
     })
     this.webState = webState
-    console.log('webState', this.webState);
+    console.log('webState', this.webState)
 
     this.ownerId = mpvue.getStorageSync('ownerId')
-    console.log('t.ownerId',this.ownerId);
+    console.log('t.ownerId', this.ownerId)
     // 查看图片是否存在
     // 这一步在 iphone 端报错了
     // 这一步在 iphone 端报错了
     // const QRcode = await wx.request({
-    //   url: config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png',  
+    //   url: config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png',
     // })
     // 这一步在 iphone 端报错了
     // 这一步在 iphone 端报错了
 
     // bug 修复
-    const QRcode = config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
+    const QRcode = config.host + '/Uploads/images/QR/owner' + this.ownerId + '.png'
 
+    console.log('QRcode', QRcode)
+    console.log('QRcode.l', QRcode.length)
 
-
-    console.log('QRcode',QRcode);
-    console.log('QRcode.l',QRcode.length);
-    
     // QRcode.length < 300 返回的不是小程序码
     if (QRcode.length < 300) {
       // 服务器无此小程序码 下面生成
@@ -136,46 +131,45 @@ export default {
         url: config.host + '/Wx/getAccessToken',
         data: {
           'appid': this.appid,
-          'secret': this.secret,
+          'secret': this.secret
         },
         method: 'get'
       })
       this.access_token = getAccessToken.access_token
-      console.log('TOKEN : ', this.access_token);
-      //get QRcode
+      console.log('TOKEN : ', this.access_token)
+      // get QRcode
       const getQRcode = await wx.request({
-        url: config.host + '/Wx/getUnlimitedT',  
-        data: { 
+        url: config.host + '/Wx/getUnlimitedT',
+        data: {
           'access_token': getAccessToken.access_token,
           'scene': this.ownerId,
-          'page': 'pages/invite/main',
+          'page': 'pages/invite/main'
         },
         method: 'get'
       })
-      console.log('QRcode : ', getQRcode);
-      console.log('小程序码储存成功');
-      this.url= config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
-      console.log('小程序码调用成功');
-    }else{
+      console.log('QRcode : ', getQRcode)
+      console.log('小程序码储存成功')
+      this.url = config.host + '/Uploads/images/QR/owner' + this.ownerId + '.png'
+      console.log('小程序码调用成功')
+    } else {
       // 小程序码已存在 下面调用
       // 暂时不用这里 在上一步直接生成
-      this.url= config.host + '/Uploads/images/QR/owner'+ this.ownerId +'.png'
-      console.log('小程序码调用。。。');
-      console.log('t.ownerId', this.ownerId);
-      console.log('小程序码url', this.url);
-      
+      this.url = config.host + '/Uploads/images/QR/owner' + this.ownerId + '.png'
+      console.log('小程序码调用。。。')
+      console.log('t.ownerId', this.ownerId)
+      console.log('小程序码url', this.url)
     }
-  
+
     this.$httpWX.post({
       url: '/GetPosById',
       header: {
         'Content-type': 'application/json' // 默认值
       },
       data: {
-        id : this.posId
+        id: this.posId
       }
     }).then(res => {
-      console.log(res);
+      console.log(res)
       this.position = res
       console.log('职位信息', this.positions)
     })
@@ -196,7 +190,6 @@ export default {
       }
       console.log('owner', this.owner)
     })
-
   }
 }
 </script>

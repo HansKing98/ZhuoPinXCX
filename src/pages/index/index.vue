@@ -46,15 +46,15 @@ import config from '@/config'
 export default {
   async created () {
     const webState = await wx.request({
-      url: config.host + '/Wx/GetWebState?hans=9527',  
+      url: config.host + '/Wx/GetWebState?hans=9527'
     })
     this.webState = webState
     mpvue.setStorageSync('webState', webState)
-    console.log('webState', this.webState);
+    console.log('webState', this.webState)
   },
   data () {
     return {
-      webState : '',
+      webState: '',
       images: [
         { url: '/static/images/banner/banner1.jpg' },
         { url: '/static/images/banner/banner2.jpg' }

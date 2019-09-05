@@ -40,30 +40,30 @@ export default {
   },
   data () {
     return {
-      bianhao:'246786525678xx96',
-      orders:[{
-        bianhao:'21333213832162783',
-        zhuangtai:'已投递'
+      bianhao: '246786525678xx96',
+      orders: [{
+        bianhao: '21333213832162783',
+        zhuangtai: '已投递'
       }, {
-        bianhao:'21333213832162788',
-        zhuangtai:'已投递'
+        bianhao: '21333213832162788',
+        zhuangtai: '已投递'
       }, {
-        bianhao:'21333213832162789',
-        zhuangtai:'已经录取'
+        bianhao: '21333213832162789',
+        zhuangtai: '已经录取'
       }, {
-        bianhao:'21333213832162798',
-        zhuangtai:'已投递'
+        bianhao: '21333213832162798',
+        zhuangtai: '已投递'
       }, {
-        bianhao:'21333213832162798',
-        zhuangtai:'已投递'
+        bianhao: '21333213832162798',
+        zhuangtai: '已投递'
       }, {
-        bianhao:'21333213832162798',
-        zhuangtai:'已投递'
+        bianhao: '21333213832162798',
+        zhuangtai: '已投递'
       }, {
-        bianhao:'21333213832162798',
-        zhuangtai:'已投递'
+        bianhao: '21333213832162798',
+        zhuangtai: '已投递'
       }],
-      orders:[]
+      orders: []
     }
   },
   components: {
@@ -73,20 +73,19 @@ export default {
     async goNav_job (PositionId) {
       // 获取 setting
       const setting = await wx.getSetting()
-        console.log(setting);
+      console.log(setting)
       // 是否 授权
       if (setting.authSetting['scope.userInfo']) {
         mpvue.navigateTo({ url: '/pages/index/intoJob/main?positionId=' + PositionId})
-      }else{
+      } else {
         com.tos('您还没有登录，跳转到 我的 页面进行授权')
-        
+
         setTimeout(() => {
           console.log('停留了1s')
           mpvue.switchTab({
-            url: '/pages/my/main',   //注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
+            url: '/pages/my/main' // 注意switchTab只能跳转到带有tab的页面，不能跳转到不带tab的页面
           })
         }, 1500)
-
       }
     }
   }

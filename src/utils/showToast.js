@@ -1,7 +1,7 @@
 // showToast工具库函数
 
 export function showSuccess (text, duration) {
-  if ( duration ) {
+  if (duration) {
     var dur = duration
   } else {
     var dur = 1500
@@ -14,7 +14,7 @@ export function showSuccess (text, duration) {
 }
 
 export function showLoading (text, duration) {
-  if ( duration ) {
+  if (duration) {
     var dur = duration
   } else {
     var dur = 1500
