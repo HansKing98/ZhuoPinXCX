@@ -7,18 +7,18 @@
         <div class="position">{{position.positionname}}</div>
         <div class="salary">{{position.salary}}</div>
         <div class="place_time">
-          <div class="place">天津市/滨海新区/国家超级计算中心</div>
+          <div class="place">{{position.position}}</div>
           <div class="sendtime">5分钟前</div>
         </div>
         <div></div>
       </div>
 
-      <form @submit.prevent="formSubmit">
+      <form @submit.prevent="formSubmit" >
       <!-- <form bindsubmit="formSubmit">  -->
 
         <div class="section"> 
           <div class="section__title"> <a style="color:red">*</a> 姓名</div>
-          <input :class="focusType=='name'?'inpfocus':'inp'" @focus='changeFocus("name")' @blur='npFocus' name="name" />
+          <input :class="focusType=='name'?'inpfocus':'inp'" @focus='changeFocus("name")' @blur='npFocus' name="name" :value="formCache.name"/>
         </div>
 
         <div class="section" >
@@ -54,7 +54,7 @@
 
         <div class="section"> 
           <div class="section__title"> <a style="color:red">*</a> 民族</div>
-          <input :class="focusType=='nation'?'inpfocus':'inp'" @focus='changeFocus("nation")' @blur='npFocus' name="nation" />
+          <input :class="focusType=='nation'?'inpfocus':'inp'" @focus='changeFocus("nation")' @blur='npFocus' name="nation" :value="formCache.nation"/>
         </div>
 
         <div class="section"> 
@@ -69,22 +69,22 @@
 
         <div class="section"> 
           <div class="section__title"><a style="color:red">*</a>身份证号码</div>
-          <input :class="focusType=='idcard'?'inpfocus':'inp'" @focus='changeFocus("idcard")' @blur='npFocus' name="idcard" type="idcard" />
+          <input :class="focusType=='idcard'?'inpfocus':'inp'" @focus='changeFocus("idcard")' @blur='npFocus' name="idcard" type="idcard" :value="formCache.idcard"/>
         </div>
 
         <div class="section"> 
           <div class="section__title"><a style="color:red">*</a>毕业院校</div>
-          <input :class="focusType=='school'?'inpfocus':'inp'" @focus='changeFocus("school")' @blur='npFocus' name="school" />
+          <input :class="focusType=='school'?'inpfocus':'inp'" @focus='changeFocus("school")' @blur='npFocus' name="school" :value="formCache.school"/>
         </div>
 
         <div class="section"> 
           <div class="section__title"><a style="color:red">*</a>最高学历</div>
-          <input :class="focusType=='education'?'inpfocus':'inp'" @focus='changeFocus("education")' @blur='npFocus' name="education" />
+          <input :class="focusType=='education'?'inpfocus':'inp'" @focus='changeFocus("education")' @blur='npFocus' name="education" :value="formCache.education"/>
         </div>
 
         <div class="section"> 
           <div class="section__title"><a style="color:red">*</a>专业</div>
-          <input :class="focusType=='major'?'inpfocus':'inp'" @focus='changeFocus("major")' @blur='npFocus' name="major" />
+          <input :class="focusType=='major'?'inpfocus':'inp'" @focus='changeFocus("major")' @blur='npFocus' name="major" :value="formCache.major"/>
         </div>
 
         <div class="section"> 
@@ -99,7 +99,7 @@
 
         <div class="section"> 
           <div class="section__title"><a style="color:red">*</a>英语水平</div>
-          <input :class="focusType=='englishlevel'?'inpfocus':'inp'" @focus='changeFocus("englishlevel")' @blur='npFocus' name="englishlevel" />
+          <input :class="focusType=='englishlevel'?'inpfocus':'inp'" @focus='changeFocus("englishlevel")' @blur='npFocus' name="englishlevel" :value="formCache.englishlevel"/>
         </div>
 
         <div class="section"> 
@@ -124,29 +124,29 @@
 
         <div class="section"> 
           <div class="section__title"><a style="color:red">*</a>手机号码</div>
-          <input :class="focusType=='phone'?'inpfocus':'inp'" @focus='changeFocus("phone")' @blur='npFocus' name="phone" type="number" />
+          <input :class="focusType=='phone'?'inpfocus':'inp'" @focus='changeFocus("phone")' @blur='npFocus' name="phone" type="number" :value="formCache.phone"/>
         </div>
 
         <div class="section"> 
           <div class="section__title">邮箱</div>
-          <input :class="focusType=='email'?'inpfocus':'inp'" @focus='changeFocus("email")' @blur='npFocus' name="email" />
+          <input :class="focusType=='email'?'inpfocus':'inp'" @focus='changeFocus("email")' @blur='npFocus' name="email" :value="formCache.email"/>
         </div>
 
-        <!-- <div class="section"> 
+        <div class="section"> 
           <div class="section__title">微信号</div>
-          <input :class="focusType=='wechat'?'inpfocus':'inp'" @focus='changeFocus("wechat")' @blur='npFocus' name="wechat" />
-        </div> -->
+          <input :class="focusType=='wechat'?'inpfocus':'inp'" @focus='changeFocus("wechat")' @blur='npFocus' name="wechat" :value="formCache.wechat"/>
+        </div>
 
         <div class="section"> 
           <div class="section__title">QQ号</div>
-          <input :class="focusType=='qq'?'inpfocus':'inp'" @focus='changeFocus("qq")' @blur='npFocus' name="qq" />
+          <input :class="focusType=='qq'?'inpfocus':'inp'" @focus='changeFocus("qq")' @blur='npFocus' name="qq" :value="formCache.qq"/>
         </div>
 
 
 
         <div class="secintor"> 
           <div class="section__title"><a style="color:red">*</a>个人介绍</div>
-          <textarea class="intro" :class="focusType=='intro'?'inpfocus':'inp'" @focus='changeFocus("intro")' @blur='npFocus' name="intro" maxlength=-1 />
+          <textarea class="intro" :class="focusType=='intro'?'inpfocus':'inp'" @focus='changeFocus("intro")' @blur='npFocus' name="intro" maxlength=-1 :value="formCache.intro"/>
         </div>
 
         <div class="btn-area">
@@ -189,7 +189,8 @@ export default {
       fileType:'upload',
       uploadsrc:'/static/icon/Fileupload.png',
       docsrc:'/static/icon/doc.png',
-      pdfsrc:'/static/icon/pdf.png'
+      pdfsrc:'/static/icon/pdf.png',
+      formCache:{}
     }
   },
   components: {
@@ -204,7 +205,13 @@ export default {
     console.log('owner', this.owner);
     this.positionId =mpvue.getStorageSync('positionId')
     console.log('positionId', this.positionId);
-    
+    this.formCache = mpvue.getStorageSync('formCache')
+    console.log('formcache', this.formCache);
+    // 表单读取缓存数据
+    this.birthdate = this.formCache.birthdate
+    this.graduationtime = this.formCache.graduationtime
+    this.region1 = this.formCache.liveplace
+    this.region2 = this.formCache.birthplace
     // console.log(this.position);
   },
   methods: {
