@@ -10,19 +10,24 @@
     <div v-else class="show">
       <swiper :images='images'></swiper>
       <div class="jobs">
-        <div class="job" v-for="(item, index) in positions" :key="index" @click="goNav_intojob($event)" @tap='tap(item)'>
-          <img :src="item.url" alt="" mode='aspectFill'>
-          <div class="detail">
-            <div class="company">{{item.customername}}</div>
-            <div class="position">{{item.positionname}}</div>
-            <div class="salary_people">
-              <div class="salary">
-                薪资:<text>{{item.salary}}</text> 
+        <div class="" v-for="(item, index) in positions" :key="index" @click="goNav_intojob($event)" @tap='tap(item)'>
+              <img v-if="item.state === '0'" class="overdue" src="/static/icon/overdue.png" alt="已停止">
+              <div v-else class="overdue"></div>
+          <div class="job">
+              <img :src="item.url" alt="" mode='aspectFill'>
+              <div class="detail">
+                  <div class="firstline">
+                      <div :class="item.state==='1'?'position':'position_ov'">{{item.positionname}}</div>
+                      <div :class="item.state==='1'?'salary':'salary_ov'">{{item.salary}}</div>
+                  </div>
+                  <div class="seceondline">{{item.position}}</div>
+                  <div class="thirdline">
+                    <div>{{item.education}}</div>
+                    <div>{{item.jobexperience}}</div>
+                    <div>{{item.ability}}</div>                
+                  </div>
+                  <div class="company">{{item.customername}}</div>
               </div>
-              <div class="people">
-                人数:<text>{{item.people}}</text>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -128,13 +133,14 @@ page{
   height: 100hv;
 }
 .job{
+  /* margin-top: -150rpx; */
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 94%;
   height: 270rpx;
   background-color: white;
-  margin: 10rpx 0;
+  margin: -150rpx 0 10rpx 10rpx;
   border-radius: 30rpx;
   padding: 0 10rpx;
   /* border: 1px solid #74b9ff; */
@@ -156,26 +162,55 @@ img{
   height: 230rpx;
   padding: 10rpx;
 }
-.company{
-  width: 50%;
+.firstline{
+  display: flex;
+  justify-content: space-between;
+}
+.seceondline{
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #6e6e6e;
+}
+.thirdline{
+  width: 65%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #6e6e6e;
+}
+.position {
+  font-size: 18px;
   color: #0984e3;
   border-bottom: 2px solid #74b9ff;
   /* background-color: #d7ffff; */
 }
-/* .position{
-  background-color: #75ffff;
-} */
-.salary_people{
-  /* background-color: #d9ffff; */
-  display:flex;
-  justify-content: space-between;
+.position_ov {
+  font-size: 18px;
+  color: #bbbbbb;
+  border-bottom: 2px solid #bbbbbb;
+  /* background-color: #d7ffff; */
+}
+.salary{
+  color: #ff4d4d;
+  font-size: 15px;
+  font-weight: bold;
+}
+.salary_ov{
+  color: #bbbbbb;
+  font-size: 15px;
+  font-weight: bold;
+}
+.company{
   font-size: 13px;
+  color: #6e6e6e;
 }
-.people{
-  margin-right: 30rpx;
-}
-.salary_people text{
-  color: #FF4666;
-  font-size: 12px;
+.overdue{
+  margin: 0 100rpx 0 500rpx;
+  position: relative;
+  width: 160rpx;
+  height: 160rpx;
+  /* float: right; */
+  z-index: 1;
 }
 </style>

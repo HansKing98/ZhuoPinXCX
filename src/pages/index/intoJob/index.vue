@@ -1,25 +1,29 @@
 <template>
   <div>
-    <navbar title='职位详情' :btL=false></navbar>
-
+    <navbar title='畅校园' :btL=false></navbar>
     <div class="pos_detail">
-      <div class="position">{{position.positionname}}</div>
-      <div class="salary">{{position.salary}}</div>
-      <div class="place_time">
-        <!-- <div class="place">地点：{{position.position}}</div> 职位地点 -->
+      <div class="fistline">
+        <div class="position">{{position.positionname}}</div>
+        <div class="salary">{{position.salary}}</div>
       </div>
-    </div>
-
-    <div class="company_area">
-      <div class="company">
-        <img :src="position.url" alt="" mode='aspectFill'>
-        <div class="com_detail">
-          <div class="com_name">{{position.customername}}</div>
-          <div>{{position.jobtype}}</div>
+      <div class="secondline">
+        <div class="sec_left">
+          <div>{{position.customername}}</div>
+          <div class="three">
+            <div class="biaoshi"><img src="/static/images/intoJob/time.png" alt=""><text>{{position.jobexperience}}</text></div>
+            <div class="biaoshi"><img src="/static/images/intoJob/education.png" alt=""><text>{{position.education}}</text></div>
+            <div class="biaoshi"><img src="/static/images/intoJob/jobtype.png" alt=""><text>{{position.jobtype}}</text></div>
+          </div>
+        </div>
+        <div class="sec_right">
+          <img :src="position.url" alt="" mode='aspectFill'>
         </div>
       </div>
-      <div class="com_position">
-          地址：天津市天津市滨海新区天河科技园5号楼-5601室-10卓聘网络科技有限公司
+
+      <div class="place_time"></div>
+      <div class="place">
+        <img src="/static/images/intoJob/position.png" alt="" mode='aspectFill'>
+        <div>{{position.position}}</div>
       </div>
     </div>
 
@@ -27,26 +31,25 @@
       <div class="pos_title">
         <img src="/static/images/intoJob/pos_title.png" alt="">
         <div>职位描述</div>
+        <div class="Line"></div>
       </div>
       <div class="pos_xiangqing"> 
-        <p>id：{{position.id}}</p>
-        <p>职位：{{position.positionname}}</p>
-        <p>客户：{{position.customername}}</p>
+        <!-- <p>id：{{position.id}}</p> -->
+        <!-- <p>职位：{{position.positionname}}</p> -->
+        <!-- <p>客户：{{position.customername}}</p> -->
         <p>工作性质：{{position.jobtype}}</p>
-        <p>工作地址：{{position.position}}</p>
+        <!-- <p>工作地址：{{position.position}}</p> -->
         <p>最低学历：{{position.education}}</p> 
-        <p>工作年限/经验{{position.jobexperience}}</p> 
+        <p>工作年限/经验:{{position.jobexperience}}</p> 
         <p>所需技能：{{position.ability}}</p>
         <p>薪资：{{position.salary}}</p>
         <p>需要人数：{{position.people}}</p>
-        <p>暂未填写其他详细信息</p> 
-        <p>详情请电话联系</p> 
-        <p>详情：{{position.detail}}</p>
+        <text>详情：{{position.detail}}</text>
       </div>
     </div>
 
     <footer>
-      <button open-type='share' class="share">分享</button>
+      <button open-type='share' class="share"><img src="/static/images/intoJob/share.png" alt=""></button>
       <button class="send" @click="goNav_job($event)">投递简历</button>
     </footer>
 
@@ -95,6 +98,7 @@ export default {
   },
   // 页面分享配置
   onShareAppMessage(options) {
+      console.log('invDatahans',this.invDatahans);
       console.log('ownerId',this.ownerId);
       console.log('position.id',this.position.id);
       console.log('positionId',this.positionId);
@@ -148,6 +152,8 @@ export default {
       this.positionId = this.position.id
       console.log('2', this.positionId);
     }
+
+    mpvue.setStorageSync('positionId', this.positionId)
     // 根据 positionId 获取 position 详细数据
     var that = this
     this.$httpWX.get({
@@ -162,13 +168,6 @@ export default {
       that.position = res
       this.position = res
     })
-    console.log('this.position',this.position);
-    
-    // 
-    console.log('ownerId', this.ownerId);
-    console.log('position', this.position);
-    console.log('positionId', this.positionId);
-
     // 获取邀请人姓名
     this.$httpWX.post({
       url: '/GetName',
@@ -176,7 +175,8 @@ export default {
         'content-type': 'application/x-www-form-urlencoded' // 默认值
       },
       data: {
-        owner: this.ownerId
+        owner: 78
+        // owner: this.ownerId
       }
     }).then(res => {
       // let detail = res
@@ -185,18 +185,8 @@ export default {
       // this.invDatahans = detailMatchJSON
       // console.log('rea', res)
       this.invDatahans = res
-      console.log('invDatahans', this.invDatahans)
     })
-    console.log('invDatahans',invDatahans);
-    
-
-  },
-  // mounted 调试参数使用
-  mounted () {
-    console.log('mounted');
-    console.log('ownerId', this.ownerId);
-    console.log('position', this.position);
-    console.log('positionId', this.positionId);
+    console.log('invDatahans:',invDatahans);
   },
   created () {
 
@@ -206,7 +196,7 @@ export default {
 
 <style lang="wxss">
 page{
-  background-color: #c3e1ff;
+  background-color: #f5f5f5;
   color: #202020;
   font-size: 18px;
 }
@@ -217,12 +207,38 @@ page{
   background-color: white;
   padding: 30rpx;
   margin-bottom: 10rpx;
-
-    /* position: fixed;
-    height: 50px;
-    left: 0;
-    right: 0;
-    top: 150rpx; */
+}
+.fistline{
+  display: flex;
+  justify-content: space-between;
+}
+.secondline{
+  display: flex;
+  justify-content: space-between;
+  color: #6e6e6e;
+}
+.sec_left{
+  font-size: 14px;
+  margin-top: 40rpx;
+}
+.three{
+  margin: 10rpx 0;
+  display: flex;
+  align-items: center;
+}
+.biaoshi {
+  display: flex;
+  align-items: center;
+  margin: 5rpx 20rpx 5rpx 0; 
+}
+.three img{
+  width: 40rpx;
+  height: 40rpx;
+}
+.sec_right img{
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 10rpx;
 }
 .pos_detail .position{
   font-weight:bold;
@@ -230,55 +246,31 @@ page{
 }
 .salary{
   font-weight: 500;
-  color: #ff7675;
-  font-size: 14px;
-  line-height: 3em;
+  color: #ff4d4d;
+  font-size: 18px;
+  /* line-height: 3em; */
 }
 .place_time{
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #74b9ff;
+  border-bottom: 1px solid #e6e6e6;
   font-size: 14px;
   line-height: 2em;
 }
+.place{
+  display: flex;
+  align-items: center;
+  margin-top: 30rpx;
+  color: #505050;
+  font-size: 15px;
+}
+.place img{
+  margin-right: 20rpx;
+  width: 50rpx;
+  height: 50rpx;
+}
 
 /*  */
-.company_area{
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  margin-bottom: 10rpx;
-}
-.company{
-  display: flex;
-  height: 160rpx;
-  padding: 10rpx 30rpx;
-  border-bottom: 1px solid #74b9ff;
-}
-.company img{
-  width: 160rpx;
-  height: 160rpx;
-  border-radius: 20rpx;
-}
-.com_detail{
-  margin: 10rpx 40rpx;
-  display: flex;
-  flex-direction: column;
-  justify-content:space-between;
-  font-size: 12px;
-  color: #636e72;
-}
-.com_name{
-  font-size: 16px;
-  font-weight: 600;
-  color: #202020;
-}
-.com_position{
-  padding: 30rpx;
-  font-size: 14px;
-}
-
-
 
 .pos_describe{
   display: flex;
@@ -286,19 +278,26 @@ page{
   font-size: 12px;
   font-weight:bold;
   background-color: white;
-  padding: 20rpx;
+  padding: 30rpx;
+  color: #585858;
 }
 .pos_title{
   padding-bottom: 10rpx;
-  flex-direction: row;
+  /* flex-direction: row; */
+  justify-content: space-around;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #74b9ff;
+  font-size: 16px;
+  /* border-bottom: 1px solid #74b9ff; */
 }
 .pos_title img{
-  width: 40rpx;
-  height: 40rpx;
-  margin-right: 14rpx;
+  width: 50rpx;
+  height: 50rpx;
+}
+.Line{
+  width: 70%;
+  height: 2rpx;
+  background-color: #e7e7e7;
 }
 .pos_xiangqing{
   font-size: 14px;
@@ -321,15 +320,20 @@ footer {
   box-shadow: darkgrey 10px 10px 30px 5px ;
 }
 .share{
- background-color: #0984e3;
+ /* background-color: #0984e3; */
  width: 140rpx;
  height: 80rpx;
  color: white; 
+ flex-direction: column;
  display: flex;
  align-items: center;
  justify-content: center;
  border-radius: 40rpx;
- box-shadow: rgba(9, 133, 227, 0.459) 10rpx 10rpx 50rpx 1rpx ;
+ box-shadow: rgba(214, 214, 214, 0.459) 10rpx 10rpx 50rpx 1rpx ;
+}
+.share img{
+  width: 70rpx;
+  height: 70rpx;
 }
 .send{
  background-color: #d63031;

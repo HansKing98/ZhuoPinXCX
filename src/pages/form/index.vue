@@ -200,6 +200,8 @@ export default {
     console.log('openid', this.openid);
     this.owner = mpvue.getStorageSync('ownerId')
     console.log('owner', this.owner);
+    this.positionId =mpvue.getStorageSync('positionId')
+    console.log('positionId', this.positionId);
     
     // console.log(this.position);
   },
@@ -341,7 +343,8 @@ export default {
             'intro': e.mp.detail.value.intro,
             'sources': this.tempFilePaths.filename,
             'wxuser': this.openid,
-            'owner': this.owner
+            'owner': this.owner,
+            'positionId': this.positionId
           }, // 传入的数据
           method: 'POST',
           header: {// 设置请求的 header
